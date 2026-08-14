@@ -1,0 +1,23 @@
+{
+  "name": "@suluu/registry",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --import tsx src/check.ts",
+    "generate": "node --import tsx src/generate.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage",
+    "test:install": "node --import tsx test/install-smoke.ts"
+  },
+  "dependencies": {
+    "shadcn": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@vitest/coverage-v8": "latest",
+    "tsx": "latest",
+    "typescript": "^6.0.0",
+    "vitest": "latest"
+  }
+}

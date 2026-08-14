@@ -1,0 +1,75 @@
+{
+  "name": "suluu",
+  "version": "0.1.0",
+  "description": "Minimal animated React components for polished product interfaces.",
+  "homepage": "https://suluu.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suluu-dev/suluu.git"
+  },
+  "bugs": {
+    "url": "https://github.com/suluu-dev/suluu/issues"
+  },
+  "keywords": [
+    "react",
+    "animation",
+    "components",
+    "shadcn",
+    "tailwindcss"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./notify-morph": {
+      "types": "./dist/notify-morph.d.ts",
+      "import": "./dist/notify-morph.js"
+    },
+    "./styles.css": {
+      "types": "./dist/styles.css.d.ts",
+      "default": "./dist/styles.css"
+    }
+  },
+  "peerDependencies": {
+    "motion": ">=13.0.0 <14.0.0",
+    "react": ">=19.0.0 <20.0.0",
+    "react-dom": ">=19.0.0 <20.0.0"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage",
+    "test:install": "node --import tsx test/package-install.ts"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/core": "latest",
+    "@testing-library/dom": "latest",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitest/coverage-v8": "latest",
+    "jsdom": "latest",
+    "motion": "^13.1.0",
+    "publint": "latest",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tsdown": "latest",
+    "tsx": "latest",
+    "typescript": "^6.0.0",
+    "vitest": "latest",
+    "vitest-axe": "latest"
+  }
+}

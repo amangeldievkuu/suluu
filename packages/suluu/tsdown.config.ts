@@ -1,0 +1,34 @@
+import { defineConfig } from "tsdown";
+
+export default defineConfig({
+  attw: {
+    excludeEntrypoints: ["styles.css"],
+    level: "error",
+    profile: "esm-only",
+  },
+  clean: true,
+  copy: {
+    from: "src/styles.css*",
+    to: "dist",
+  },
+  deps: {
+    neverBundle: true,
+  },
+  dts: {
+    sourcemap: true,
+  },
+  entry: {
+    index: "src/index.ts",
+    "notify-morph": "src/notify-morph/index.ts",
+  },
+  format: "esm",
+  minify: false,
+  outDir: "dist",
+  platform: "browser",
+  publint: {
+    level: "error",
+  },
+  sourcemap: true,
+  target: ["chrome111", "firefox111", "safari16.4"],
+  treeshake: true,
+});
