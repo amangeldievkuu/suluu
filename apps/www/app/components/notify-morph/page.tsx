@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
 
 import { CodeBlock } from "@/components/code-block";
-import { CopyCommand } from "@/components/copy-command";
+import { NotifyMorphDemo } from "@/components/demos/notify-morph-demo";
+import { ComponentPreview } from "@/components/docs/component-preview";
+import {
+  CssVariablesTable,
+  type CssVariableRow,
+} from "@/components/docs/css-variables-table";
+import { DocsPageHeader } from "@/components/docs/docs-page-header";
+import { DEFAULT_TOC_ITEMS } from "@/components/docs/docs-toc-items";
+import { InstallSection } from "@/components/docs/install-section";
+import { PropsTable, type PropRow } from "@/components/docs/props-table";
 import { DocsToc } from "@/components/docs-toc";
-import { NotifyDemo } from "@/components/notify-demo";
+import { requireEntry } from "@/lib/catalog";
+
+const entry = requireEntry("notify-morph");
 
 export const metadata: Metadata = {
-  title: "NotifyMorph",
-  description:
-    "An accessible email notification form that morphs from a compact bell CTA.",
+  title: entry.name,
+  description: entry.summary,
 };
 
-const registryCommand =
-  "npx shadcn@latest add https://suluu.dev/r/notify-morph.json";
-const npmCommand = "pnpm add suluu motion";
-const tocItems = [
-  { id: "installation", label: "Installation" },
-  { id: "usage", label: "Usage" },
-  { id: "props", label: "Props" },
-  { id: "theming", label: "Theming" },
-  { id: "accessibility", label: "Accessibility" },
-] as const;
 const registryUsage = `import { NotifyMorph } from "@/components/ui/notify-morph"
 
 export function Updates() {
@@ -41,7 +41,7 @@ export function Updates() {
   return <NotifyMorph onSubmit={(email) => subscribe(email)} />
 }`;
 
-const props = [
+const props: readonly PropRow[] = [
   ["label", "string", '"Notify Me"', "CTA text in both states."],
   ["placeholder", "string", '"Email"', "Email input placeholder."],
   ["className", "string", "—", "Class name applied to the form."],
@@ -87,9 +87,9 @@ const props = [
     "Confirmation lifetime in milliseconds.",
   ],
   ["onSubmit", "(email, event) => void", "—", "Runs only for a valid email."],
-] as const;
+];
 
-const variables = [
+const variables: readonly CssVariableRow[] = [
   ["--suluu-notify-background", "Container and input surface."],
   ["--suluu-notify-foreground", "Primary text and icon."],
   ["--suluu-notify-muted", "Placeholder text."],
@@ -103,61 +103,25 @@ const variables = [
   ["--suluu-notify-success-foreground", "Confirmation text."],
   ["--suluu-notify-success-border", "Confirmation glass edge."],
   ["--suluu-notify-success-shadow", "Confirmation depth and glow."],
-] as const;
+];
 
 export default function NotifyMorphPage() {
   return (
-    <main className="mx-auto max-w-6xl px-6 py-20 lg:px-8" id="content">
-      <div className="max-w-3xl">
-        <p className="text-sm font-medium text-[var(--site-muted)]">
-          Components / Form
-        </p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-          NotifyMorph
-        </h1>
-        <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--site-muted)]">
-          A compact bell CTA that fluidly opens into an email form, with native
-          validation and deliberate focus behavior built in.
-        </p>
-      </div>
+    <main className="py-20" id="content">
+      <DocsPageHeader slug="notify-morph">
+        A compact bell CTA that fluidly opens into an email form, with native
+        validation and deliberate focus behavior built in.
+      </DocsPageHeader>
 
-      <section aria-labelledby="preview-title" className="mt-16">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-sm font-medium" id="preview-title">
-            Preview
-          </h2>
-          <span className="text-xs text-[var(--site-muted)]">Interactive</span>
-        </div>
-        <div className="flex min-h-96 items-center justify-center rounded-3xl border bg-white p-8 dark:bg-[var(--site-background)]">
-          <NotifyDemo />
-        </div>
-      </section>
+      <ComponentPreview>
+        <NotifyMorphDemo />
+      </ComponentPreview>
 
       <div className="mt-20 grid gap-16 lg:grid-cols-[13rem_minmax(0,1fr)]">
-        <DocsToc items={tocItems} />
+        <DocsToc items={DEFAULT_TOC_ITEMS} />
 
         <article className="min-w-0 space-y-20">
-          <section className="scroll-mt-24" id="installation">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              Installation
-            </h2>
-            <h3 className="mt-8 text-sm font-medium">Registry — recommended</h3>
-            <p className="mt-2 text-sm leading-6 text-[var(--site-muted)]">
-              Copies the component into your configured shadcn UI directory and
-              installs Motion.
-            </p>
-            <div className="mt-4">
-              <CopyCommand command={registryCommand} />
-            </div>
-            <h3 className="mt-10 text-sm font-medium">npm package</h3>
-            <p className="mt-2 text-sm leading-6 text-[var(--site-muted)]">
-              For centralized upgrades, install the optional ESM package and
-              configure Tailwind source detection as shown below.
-            </p>
-            <div className="mt-4">
-              <CopyCommand command={npmCommand} />
-            </div>
-          </section>
+          <InstallSection slug="notify-morph" />
 
           <section className="scroll-mt-24" id="usage">
             <h2 className="text-2xl font-semibold tracking-tight">Usage</h2>
@@ -171,62 +135,12 @@ export default function NotifyMorphPage() {
             </div>
           </section>
 
-          <section className="scroll-mt-24" id="props">
-            <h2 className="text-2xl font-semibold tracking-tight">Props</h2>
-            <p className="mt-3 text-sm leading-6 text-[var(--site-muted)]">
-              NotifyMorph also accepts safe native form attributes and forwards
-              its ref to the form element.
-            </p>
-            <div className="mt-6 overflow-x-auto rounded-2xl border">
-              <table className="w-full min-w-[46rem] border-collapse text-left text-sm">
-                <thead className="bg-[var(--site-subtle)] text-xs text-[var(--site-muted)]">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">Prop</th>
-                    <th className="px-4 py-3 font-medium">Type</th>
-                    <th className="px-4 py-3 font-medium">Default</th>
-                    <th className="px-4 py-3 font-medium">Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {props.map(([name, type, defaultValue, description]) => (
-                    <tr className="border-t" key={name}>
-                      <td className="px-4 py-3 font-mono text-xs">{name}</td>
-                      <td className="px-4 py-3 font-mono text-xs text-[var(--site-muted)]">
-                        {type}
-                      </td>
-                      <td className="px-4 py-3 font-mono text-xs text-[var(--site-muted)]">
-                        {defaultValue}
-                      </td>
-                      <td className="px-4 py-3 text-[var(--site-muted)]">
-                        {description}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
+          <PropsTable rows={props}>
+            NotifyMorph also accepts safe native form attributes and forwards
+            its ref to the form element.
+          </PropsTable>
 
-          <section className="scroll-mt-24" id="theming">
-            <h2 className="text-2xl font-semibold tracking-tight">Theming</h2>
-            <p className="mt-3 text-sm leading-6 text-[var(--site-muted)]">
-              Override these variables in your light and dark theme scopes. The
-              registry installs the defaults automatically.
-            </p>
-            <div className="mt-6 overflow-hidden rounded-2xl border">
-              {variables.map(([name, description]) => (
-                <div
-                  className="grid gap-1 border-t px-4 py-3 first:border-t-0 sm:grid-cols-[17rem_1fr]"
-                  key={name}
-                >
-                  <code className="text-xs">{name}</code>
-                  <span className="text-sm text-[var(--site-muted)]">
-                    {description}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </section>
+          <CssVariablesTable rows={variables} />
 
           <section className="scroll-mt-24" id="accessibility">
             <h2 className="text-2xl font-semibold tracking-tight">

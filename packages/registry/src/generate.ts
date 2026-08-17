@@ -3,10 +3,9 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import {
-  createNotifyMorphRegistryItem,
-  NOTIFY_MORPH_OUTPUT,
-  NOTIFY_MORPH_SOURCE,
+  REGISTRY_ITEMS,
   serializeRegistryItem,
+  type RegistryItemDescriptor,
 } from "./registry-item";
 
 export const workspaceRoot = resolve(
@@ -14,13 +13,13 @@ export const workspaceRoot = resolve(
   "../../..",
 );
 
-export async function generateRegistry(): Promise<string> {
-  const sourcePath = resolve(workspaceRoot, NOTIFY_MORPH_SOURCE);
-  const outputPath = resolve(workspaceRoot, NOTIFY_MORPH_OUTPUT);
+export async function generateRegistryItem(
+  item: RegistryItemDescriptor,
+): Promise<string> {
+  const sourcePath = resolve(workspaceRoot, item.source);
+  const outputPath = resolve(workspaceRoot, item.output);
   const source = await readFile(sourcePath, "utf8");
-  const serialized = serializeRegistryItem(
-    createNotifyMorphRegistryItem(source),
-  );
+  const serialized = serializeRegistryItem(item.create(source));
 
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, serialized, "utf8");
@@ -28,11 +27,17 @@ export async function generateRegistry(): Promise<string> {
   return outputPath;
 }
 
+export async function generateRegistry(): Promise<string[]> {
+  return Promise.all(REGISTRY_ITEMS.map(generateRegistryItem));
+}
+
 const invokedPath = process.argv[1];
 if (
   invokedPath &&
   pathToFileURL(resolve(invokedPath)).href === import.meta.url
 ) {
-  const outputPath = await generateRegistry();
-  process.stdout.write(`Generated ${outputPath}\n`);
+  const outputPaths = await generateRegistry();
+  for (const outputPath of outputPaths) {
+    process.stdout.write(`Generated ${outputPath}\n`);
+  }
 }

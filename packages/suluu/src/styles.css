@@ -14,6 +14,13 @@
   --suluu-notify-success-border: oklch(1 0 0 / 72%);
   --suluu-notify-success-shadow:
     0 1px 1px oklch(0.2 0.02 260 / 5%), 0 10px 30px oklch(0.2 0.02 260 / 13%);
+  --suluu-magnet-background: oklch(0.19 0.012 260);
+  --suluu-magnet-foreground: oklch(0.98 0.003 260);
+  --suluu-magnet-hover: oklch(0.28 0.014 260);
+  --suluu-magnet-ring: oklch(0.55 0.16 255);
+  --suluu-magnet-offset: oklch(1 0 0);
+  --suluu-magnet-shadow:
+    0 2px 4px oklch(0.2 0.02 260 / 10%), 0 12px 28px oklch(0.2 0.02 260 / 14%);
 }
 
 .dark {
@@ -32,4 +39,11 @@
   --suluu-notify-success-border: oklch(1 0 0 / 13%);
   --suluu-notify-success-shadow:
     0 1px 1px oklch(0 0 0 / 18%), 0 12px 34px oklch(0 0 0 / 32%);
+  --suluu-magnet-background: oklch(0.97 0.004 260);
+  --suluu-magnet-foreground: oklch(0.16 0.01 260);
+  --suluu-magnet-hover: oklch(0.89 0.006 260);
+  --suluu-magnet-ring: oklch(0.7 0.13 255);
+  --suluu-magnet-offset: oklch(0.14 0.008 260);
+  --suluu-magnet-shadow:
+    0 2px 4px oklch(0 0 0 / 26%), 0 14px 34px oklch(0 0 0 / 34%);
 }

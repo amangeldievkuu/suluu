@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+import { SearchPalette } from "@/components/search-palette";
+import { SearchProvider } from "@/components/search-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -49,9 +51,12 @@ export default function RootLayout({
           >
             Skip to content
           </a>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
+          <SearchProvider>
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+            <SearchPalette />
+          </SearchProvider>
         </ThemeProvider>
       </body>
     </html>

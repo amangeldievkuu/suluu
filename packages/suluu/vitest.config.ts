@@ -3,7 +3,11 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     coverage: {
-      exclude: ["src/index.ts", "src/notify-morph/index.ts"],
+      exclude: [
+        "src/index.ts",
+        "src/magnet-pull/index.ts",
+        "src/notify-morph/index.ts",
+      ],
       include: ["src/**/*.tsx"],
       provider: "v8",
       reporter: ["text", "json-summary"],

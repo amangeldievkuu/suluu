@@ -19,6 +19,7 @@ export default defineConfig({
   },
   entry: {
     index: "src/index.ts",
+    "magnet-pull": "src/magnet-pull/index.ts",
     "notify-morph": "src/notify-morph/index.ts",
   },
   format: "esm",

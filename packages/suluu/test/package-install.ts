@@ -125,7 +125,12 @@ try {
       "utf8",
     ),
   ) as { exports?: Record<string, unknown>; sideEffects?: unknown };
-  const requiredExports = [".", "./notify-morph", "./styles.css"];
+  const requiredExports = [
+    ".",
+    "./magnet-pull",
+    "./notify-morph",
+    "./styles.css",
+  ];
   for (const exportPath of requiredExports) {
     if (!installedPackage.exports?.[exportPath]) {
       throw new Error(`Packed package is missing the ${exportPath} export.`);

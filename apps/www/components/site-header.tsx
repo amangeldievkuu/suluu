@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { SearchTrigger } from "./search-trigger";
 import { ThemeToggle } from "./theme-toggle";
 
 export function SiteHeader() {
@@ -16,6 +17,7 @@ export function SiteHeader() {
           >
             Components
           </Link>
+          <SearchTrigger />
           <a
             aria-label="GitHub repository"
             className="inline-flex size-9 items-center justify-center rounded-full text-[var(--site-muted)] transition-colors hover:bg-[var(--site-subtle)] hover:text-[var(--site-foreground)] focus-visible:outline-2 focus-visible:outline-offset-2"

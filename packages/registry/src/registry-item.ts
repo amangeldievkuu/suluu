@@ -1,10 +1,21 @@
 import { registryItemSchema } from "shadcn/schema";
 
-export const NOTIFY_MORPH_SOURCE =
-  "packages/suluu/src/notify-morph/notify-morph.tsx";
-export const NOTIFY_MORPH_OUTPUT = "apps/www/public/r/notify-morph.json";
+type RegistryItem = ReturnType<typeof registryItemSchema.parse>;
 
-export function createNotifyMorphRegistryItem(source: string) {
+export interface RegistryItemDescriptor {
+  /** Builds the validated registry item from the canonical component source. */
+  create: (source: string) => RegistryItem;
+  /** Named export the installed file is expected to declare. */
+  exportName: string;
+  /** Registry item name, which is also the served JSON filename. */
+  name: string;
+  /** Generated artifact path, relative to the workspace root. */
+  output: string;
+  /** Canonical component source path, relative to the workspace root. */
+  source: string;
+}
+
+export function createNotifyMorphRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
     name: "notify-morph",
@@ -67,6 +78,71 @@ export function createNotifyMorphRegistryItem(source: string) {
 
   return registryItemSchema.parse(item);
 }
+
+export function createMagnetPullRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "magnet-pull",
+    type: "registry:ui",
+    title: "MagnetPull",
+    description:
+      "A button that leans toward the cursor on a spring, with its label travelling further than its surface.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/magnet-pull/magnet-pull.tsx",
+        type: "registry:ui",
+        target: "@ui/magnet-pull.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-magnet-background": "oklch(0.19 0.012 260)",
+        "suluu-magnet-foreground": "oklch(0.98 0.003 260)",
+        "suluu-magnet-hover": "oklch(0.28 0.014 260)",
+        "suluu-magnet-ring": "oklch(0.55 0.16 255)",
+        "suluu-magnet-offset": "oklch(1 0 0)",
+        "suluu-magnet-shadow":
+          "0 2px 4px oklch(0.2 0.02 260 / 10%), 0 12px 28px oklch(0.2 0.02 260 / 14%)",
+      },
+      dark: {
+        "suluu-magnet-background": "oklch(0.97 0.004 260)",
+        "suluu-magnet-foreground": "oklch(0.16 0.01 260)",
+        "suluu-magnet-hover": "oklch(0.89 0.006 260)",
+        "suluu-magnet-ring": "oklch(0.7 0.13 255)",
+        "suluu-magnet-offset": "oklch(0.14 0.008 260)",
+        "suluu-magnet-shadow":
+          "0 2px 4px oklch(0 0 0 / 26%), 0 14px 34px oklch(0 0 0 / 34%)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. Magnetism is skipped for reduced motion and for devices without a fine hover-capable pointer.",
+    categories: ["buttons", "call-to-action", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
+export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
+  {
+    create: createMagnetPullRegistryItem,
+    exportName: "MagnetPull",
+    name: "magnet-pull",
+    output: "apps/www/public/r/magnet-pull.json",
+    source: "packages/suluu/src/magnet-pull/magnet-pull.tsx",
+  },
+  {
+    create: createNotifyMorphRegistryItem,
+    exportName: "NotifyMorph",
+    name: "notify-morph",
+    output: "apps/www/public/r/notify-morph.json",
+    source: "packages/suluu/src/notify-morph/notify-morph.tsx",
+  },
+];
 
 export function serializeRegistryItem(item: unknown): string {
   return `${JSON.stringify(item, null, 2)}\n`;

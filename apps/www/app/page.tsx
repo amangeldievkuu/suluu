@@ -1,10 +1,16 @@
 import Link from "next/link";
 
+import { COMPONENT_PREVIEWS } from "@/components/demos/previews";
 import { CopyCommand } from "@/components/copy-command";
-import { NotifyDemo } from "@/components/notify-demo";
+import {
+  componentHref,
+  FEATURED_SLUG,
+  registryCommand,
+  requireEntry,
+} from "@/lib/catalog";
 
-const registryCommand =
-  "npx shadcn@latest add https://suluu.dev/r/notify-morph.json";
+const featured = requireEntry(FEATURED_SLUG);
+const FeaturedDemo = COMPONENT_PREVIEWS[FEATURED_SLUG];
 
 export default function HomePage() {
   return (
@@ -25,9 +31,9 @@ export default function HomePage() {
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link
               className="rounded-full bg-[var(--site-foreground)] px-5 py-2.5 text-sm font-medium text-[var(--site-background)] transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2"
-              href="/components/notify-morph"
+              href={componentHref(featured.slug)}
             >
-              Explore NotifyMorph
+              Explore {featured.name}
             </Link>
             <Link
               className="rounded-full border px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--site-subtle)] focus-visible:outline-2 focus-visible:outline-offset-2"
@@ -43,7 +49,7 @@ export default function HomePage() {
             aria-hidden="true"
             className="absolute inset-0 [background-image:linear-gradient(to_right,var(--preview-grid)_1px,transparent_1px),linear-gradient(to_bottom,var(--preview-grid)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_88%_82%_at_center,black_35%,transparent_100%)] [background-size:56px_56px] [background-position:center] opacity-55"
           />
-          <NotifyDemo />
+          <FeaturedDemo />
         </div>
       </section>
 
@@ -62,7 +68,7 @@ export default function HomePage() {
               inspect, adapt, and keep.
             </p>
             <div className="mt-7">
-              <CopyCommand command={registryCommand} />
+              <CopyCommand command={registryCommand(featured.slug)} />
             </div>
           </div>
         </div>

@@ -2,23 +2,19 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { workspaceRoot } from "./generate";
-import {
-  createNotifyMorphRegistryItem,
-  NOTIFY_MORPH_OUTPUT,
-  NOTIFY_MORPH_SOURCE,
-  serializeRegistryItem,
-} from "./registry-item";
+import { REGISTRY_ITEMS, serializeRegistryItem } from "./registry-item";
 
-const [source, generated] = await Promise.all([
-  readFile(resolve(workspaceRoot, NOTIFY_MORPH_SOURCE), "utf8"),
-  readFile(resolve(workspaceRoot, NOTIFY_MORPH_OUTPUT), "utf8"),
-]);
-const expected = serializeRegistryItem(createNotifyMorphRegistryItem(source));
+for (const item of REGISTRY_ITEMS) {
+  const [source, generated] = await Promise.all([
+    readFile(resolve(workspaceRoot, item.source), "utf8"),
+    readFile(resolve(workspaceRoot, item.output), "utf8"),
+  ]);
 
-if (generated !== expected) {
-  throw new Error(
-    "Registry output is stale. Run `pnpm registry:generate` and commit the result.",
-  );
+  if (generated !== serializeRegistryItem(item.create(source))) {
+    throw new Error(
+      `Registry output for ${item.name} is stale. Run \`pnpm registry:generate\` and commit the result.`,
+    );
+  }
 }
 
 process.stdout.write("Registry output is current.\n");

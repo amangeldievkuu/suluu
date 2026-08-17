@@ -31,6 +31,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./magnet-pull": {
+      "types": "./dist/magnet-pull.d.ts",
+      "import": "./dist/magnet-pull.js"
+    },
     "./notify-morph": {
       "types": "./dist/notify-morph.d.ts",
       "import": "./dist/notify-morph.js"

@@ -6,36 +6,59 @@ import { describe, expect, it } from "vitest";
 
 import { generateRegistry, workspaceRoot } from "../src/generate";
 import {
-  createNotifyMorphRegistryItem,
-  NOTIFY_MORPH_OUTPUT,
-  NOTIFY_MORPH_SOURCE,
+  REGISTRY_ITEMS,
   serializeRegistryItem,
+  type RegistryItemDescriptor,
 } from "../src/registry-item";
 
-describe("NotifyMorph registry item", () => {
-  it("passes the public shadcn schema", async () => {
-    const source = await readFile(
-      resolve(workspaceRoot, NOTIFY_MORPH_SOURCE),
-      "utf8",
-    );
-    const item = createNotifyMorphRegistryItem(source);
+function readSource(item: RegistryItemDescriptor): Promise<string> {
+  return readFile(resolve(workspaceRoot, item.source), "utf8");
+}
 
-    expect(registryItemSchema.safeParse(item).success).toBe(true);
-    expect(item.type).toBe("registry:ui");
-    expect(item.dependencies).toEqual(["motion@^13.1.0"]);
-    const file = item.files?.[0];
-    expect(item.files).toHaveLength(1);
-    expect(file?.target).toBe("@ui/notify-morph.tsx");
+describe("registry catalog", () => {
+  it("keeps names and output paths unique", () => {
+    const names = REGISTRY_ITEMS.map((item) => item.name);
+    const outputs = REGISTRY_ITEMS.map((item) => item.output);
+
+    expect(new Set(names).size).toBe(names.length);
+    expect(new Set(outputs).size).toBe(outputs.length);
+  });
+
+  it("serves every component the package exports", () => {
+    expect(REGISTRY_ITEMS.map((item) => item.name)).toEqual([
+      "magnet-pull",
+      "notify-morph",
+    ]);
+  });
+});
+
+describe.each(REGISTRY_ITEMS)("$name registry item", (item) => {
+  it("passes the public shadcn schema", async () => {
+    const source = await readSource(item);
+    const registryItem = item.create(source);
+
+    expect(registryItemSchema.safeParse(registryItem).success).toBe(true);
+    expect(registryItem.type).toBe("registry:ui");
+    expect(registryItem.dependencies).toEqual(["motion@^13.1.0"]);
+    const file = registryItem.files?.[0];
+    expect(registryItem.files).toHaveLength(1);
+    expect(file?.target).toBe(`@ui/${item.name}.tsx`);
     expect(file?.content).toBe(source);
   });
 
+  it("themes light and dark from the same variable set", async () => {
+    const source = await readSource(item);
+    const { cssVars } = item.create(source);
+    const light = Object.keys(cssVars?.light ?? {});
+
+    expect(light.length).toBeGreaterThan(0);
+    expect(Object.keys(cssVars?.dark ?? {})).toEqual(light);
+  });
+
   it("serializes deterministically with a final newline", async () => {
-    const source = await readFile(
-      resolve(workspaceRoot, NOTIFY_MORPH_SOURCE),
-      "utf8",
-    );
-    const first = serializeRegistryItem(createNotifyMorphRegistryItem(source));
-    const second = serializeRegistryItem(createNotifyMorphRegistryItem(source));
+    const source = await readSource(item);
+    const first = serializeRegistryItem(item.create(source));
+    const second = serializeRegistryItem(item.create(source));
 
     expect(first).toBe(second);
     expect(first.endsWith("\n")).toBe(true);
@@ -44,12 +67,10 @@ describe("NotifyMorph registry item", () => {
   it("matches the checked-in generated artifact", async () => {
     await generateRegistry();
     const [source, generated] = await Promise.all([
-      readFile(resolve(workspaceRoot, NOTIFY_MORPH_SOURCE), "utf8"),
-      readFile(resolve(workspaceRoot, NOTIFY_MORPH_OUTPUT), "utf8"),
+      readSource(item),
+      readFile(resolve(workspaceRoot, item.output), "utf8"),
     ]);
 
-    expect(generated).toBe(
-      serializeRegistryItem(createNotifyMorphRegistryItem(source)),
-    );
+    expect(generated).toBe(serializeRegistryItem(item.create(source)));
   });
 });

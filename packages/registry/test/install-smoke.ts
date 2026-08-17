@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
 import { generateRegistry, workspaceRoot } from "../src/generate";
+import { REGISTRY_ITEMS } from "../src/registry-item";
 
 function run(command: string, args: string[], cwd: string): Promise<void> {
   return new Promise((resolvePromise, reject) => {
@@ -20,16 +21,24 @@ function run(command: string, args: string[], cwd: string): Promise<void> {
 const fixtureRoot = await mkdtemp(join(tmpdir(), "suluu-registry-"));
 
 try {
-  const registryPath = await generateRegistry();
-  const registryJson = await readFile(registryPath);
+  await generateRegistry();
+  const registryJson = new Map(
+    await Promise.all(
+      REGISTRY_ITEMS.map(async (item): Promise<[string, Buffer]> => [
+        `/${item.name}.json`,
+        await readFile(resolve(workspaceRoot, item.output)),
+      ]),
+    ),
+  );
   const server = createServer((request, response) => {
-    if (request.url !== "/notify-morph.json") {
+    const body = registryJson.get(request.url ?? "");
+    if (!body) {
       response.writeHead(404).end();
       return;
     }
 
     response.writeHead(200, { "content-type": "application/json" });
-    response.end(registryJson);
+    response.end(body);
   });
 
   await new Promise<void>((resolvePromise) =>
@@ -126,7 +135,10 @@ try {
         "exec",
         "shadcn",
         "add",
-        `http://127.0.0.1:${String(address.port)}/notify-morph.json`,
+        ...REGISTRY_ITEMS.map(
+          (item) =>
+            `http://127.0.0.1:${String(address.port)}/${item.name}.json`,
+        ),
         "--cwd",
         fixtureRoot,
         "--yes",
@@ -140,10 +152,15 @@ try {
     });
   }
 
-  const installedPath = join(fixtureRoot, "src/components/ui/notify-morph.tsx");
-  const installed = await readFile(installedPath, "utf8");
-  if (!installed.includes("export const NotifyMorph")) {
-    throw new Error("shadcn did not install the NotifyMorph source.");
+  for (const item of REGISTRY_ITEMS) {
+    const installedPath = join(
+      fixtureRoot,
+      `src/components/ui/${item.name}.tsx`,
+    );
+    const installed = await readFile(installedPath, "utf8");
+    if (!installed.includes(`export const ${item.exportName}`)) {
+      throw new Error(`shadcn did not install the ${item.exportName} source.`);
+    }
   }
 
   await run(

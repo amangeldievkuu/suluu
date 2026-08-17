@@ -3,9 +3,11 @@
   "compilerOptions": {
     "incremental": true,
     "plugins": [{ "name": "next" }],
+    "types": ["node", "vitest/globals", "@testing-library/jest-dom"],
     "paths": {
       "@/*": ["./*"],
       "suluu": ["../../packages/suluu/src/index.ts"],
+      "suluu/magnet-pull": ["../../packages/suluu/src/magnet-pull/index.ts"],
       "suluu/notify-morph": ["../../packages/suluu/src/notify-morph/index.ts"]
     }
   },

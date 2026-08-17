@@ -59,6 +59,17 @@ export default tseslint.config(
     },
   },
   {
+    files: ["apps/www/components/search-palette.tsx"],
+    rules: {
+      // The ARIA combobox pattern deliberately keeps options non-focusable and
+      // drives selection from the input via aria-activedescendant, and a
+      // <dialog> is its own backdrop. Both click handlers are conveniences on
+      // top of a keyboard-complete flow, which the palette tests cover.
+      "jsx-a11y/click-events-have-key-events": "off",
+      "jsx-a11y/no-noninteractive-element-interactions": "off",
+    },
+  },
+  {
     files: ["packages/suluu/src/notify-morph/notify-morph.tsx"],
     rules: {
       // Escape and blur are delegated at the semantic form boundary for focus management.
