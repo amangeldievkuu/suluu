@@ -38,10 +38,10 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="relative flex min-h-[26rem] items-center justify-center overflow-hidden rounded-[2rem] border bg-[var(--site-subtle)] p-8 sm:p-12">
+        <div className="relative flex min-h-[26rem] items-center justify-center overflow-hidden rounded-[2rem] border bg-white p-8 [--preview-grid:oklch(0.88_0.006_260)] sm:p-12 dark:bg-[oklch(0.12_0.008_260)] dark:[--preview-grid:oklch(0.25_0.012_260)]">
           <div
             aria-hidden="true"
-            className="absolute inset-0 [background-image:radial-gradient(var(--site-border)_1px,transparent_1px)] [background-size:20px_20px] opacity-35"
+            className="absolute inset-0 [background-image:linear-gradient(to_right,var(--preview-grid)_1px,transparent_1px),linear-gradient(to_bottom,var(--preview-grid)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_88%_82%_at_center,black_35%,transparent_100%)] [background-size:56px_56px] [background-position:center] opacity-55"
           />
           <NotifyDemo />
         </div>

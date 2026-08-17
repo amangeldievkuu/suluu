@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { CodeBlock } from "@/components/code-block";
 import { CopyCommand } from "@/components/copy-command";
+import { DocsToc } from "@/components/docs-toc";
 import { NotifyDemo } from "@/components/notify-demo";
 
 export const metadata: Metadata = {
@@ -13,12 +14,18 @@ export const metadata: Metadata = {
 const registryCommand =
   "npx shadcn@latest add https://suluu.dev/r/notify-morph.json";
 const npmCommand = "pnpm add suluu motion";
+const tocItems = [
+  { id: "installation", label: "Installation" },
+  { id: "usage", label: "Usage" },
+  { id: "props", label: "Props" },
+  { id: "theming", label: "Theming" },
+  { id: "accessibility", label: "Accessibility" },
+] as const;
 const registryUsage = `import { NotifyMorph } from "@/components/ui/notify-morph"
 
 export function Updates() {
   return (
     <NotifyMorph
-      label="Get updates"
       onSubmit={(email) => subscribe(email)}
     />
   )
@@ -35,13 +42,13 @@ export function Updates() {
 }`;
 
 const props = [
-  ["label", "string", '"Notify me"', "CTA text in both states."],
-  ["placeholder", "string", '"Email address"', "Email input placeholder."],
+  ["label", "string", '"Notify Me"', "CTA text in both states."],
+  ["placeholder", "string", '"Email"', "Email input placeholder."],
   ["className", "string", "—", "Class name applied to the form."],
   [
     "collapseOnBlur",
     "boolean",
-    "false",
+    "true",
     "Collapse when focus leaves the widget.",
   ],
   ["disabled", "boolean", "false", "Disable every interactive control."],
@@ -67,6 +74,18 @@ const props = [
     '"default"',
     "Animation character.",
   ],
+  [
+    "successMessage",
+    "(email) => string",
+    "Built in",
+    "Builds the liquid confirmation text.",
+  ],
+  [
+    "successDuration",
+    "number",
+    "3000",
+    "Confirmation lifetime in milliseconds.",
+  ],
   ["onSubmit", "(email, event) => void", "—", "Runs only for a valid email."],
 ] as const;
 
@@ -79,7 +98,11 @@ const variables = [
   ["--suluu-notify-accent", "Expanded submit button."],
   ["--suluu-notify-accent-foreground", "Submit button content."],
   ["--suluu-notify-ring", "Keyboard focus ring."],
-  ["--suluu-notify-shadow", "Container shadow."],
+  ["--suluu-notify-shadow", "Expanded action button shadow."],
+  ["--suluu-notify-success-background", "Liquid confirmation surface."],
+  ["--suluu-notify-success-foreground", "Confirmation text."],
+  ["--suluu-notify-success-border", "Confirmation glass edge."],
+  ["--suluu-notify-success-shadow", "Confirmation depth and glow."],
 ] as const;
 
 export default function NotifyMorphPage() {
@@ -105,49 +128,16 @@ export default function NotifyMorphPage() {
           </h2>
           <span className="text-xs text-[var(--site-muted)]">Interactive</span>
         </div>
-        <div className="flex min-h-96 items-center justify-center rounded-3xl border bg-[var(--site-subtle)] p-8">
+        <div className="flex min-h-96 items-center justify-center rounded-3xl border bg-white p-8 dark:bg-[var(--site-background)]">
           <NotifyDemo />
         </div>
       </section>
 
       <div className="mt-20 grid gap-16 lg:grid-cols-[13rem_minmax(0,1fr)]">
-        <nav aria-label="On this page" className="hidden lg:block">
-          <div className="sticky top-24 space-y-3 text-sm text-[var(--site-muted)]">
-            <a
-              className="block hover:text-[var(--site-foreground)]"
-              href="#installation"
-            >
-              Installation
-            </a>
-            <a
-              className="block hover:text-[var(--site-foreground)]"
-              href="#usage"
-            >
-              Usage
-            </a>
-            <a
-              className="block hover:text-[var(--site-foreground)]"
-              href="#props"
-            >
-              Props
-            </a>
-            <a
-              className="block hover:text-[var(--site-foreground)]"
-              href="#theming"
-            >
-              Theming
-            </a>
-            <a
-              className="block hover:text-[var(--site-foreground)]"
-              href="#accessibility"
-            >
-              Accessibility
-            </a>
-          </div>
-        </nav>
+        <DocsToc items={tocItems} />
 
         <article className="min-w-0 space-y-20">
-          <section id="installation">
+          <section className="scroll-mt-24" id="installation">
             <h2 className="text-2xl font-semibold tracking-tight">
               Installation
             </h2>
@@ -169,7 +159,7 @@ export default function NotifyMorphPage() {
             </div>
           </section>
 
-          <section id="usage">
+          <section className="scroll-mt-24" id="usage">
             <h2 className="text-2xl font-semibold tracking-tight">Usage</h2>
             <p className="mt-3 text-sm leading-6 text-[var(--site-muted)]">
               Submission is intentionally callback-only. Your application owns
@@ -181,7 +171,7 @@ export default function NotifyMorphPage() {
             </div>
           </section>
 
-          <section id="props">
+          <section className="scroll-mt-24" id="props">
             <h2 className="text-2xl font-semibold tracking-tight">Props</h2>
             <p className="mt-3 text-sm leading-6 text-[var(--site-muted)]">
               NotifyMorph also accepts safe native form attributes and forwards
@@ -217,7 +207,7 @@ export default function NotifyMorphPage() {
             </div>
           </section>
 
-          <section id="theming">
+          <section className="scroll-mt-24" id="theming">
             <h2 className="text-2xl font-semibold tracking-tight">Theming</h2>
             <p className="mt-3 text-sm leading-6 text-[var(--site-muted)]">
               Override these variables in your light and dark theme scopes. The
@@ -238,7 +228,7 @@ export default function NotifyMorphPage() {
             </div>
           </section>
 
-          <section id="accessibility">
+          <section className="scroll-mt-24" id="accessibility">
             <h2 className="text-2xl font-semibold tracking-tight">
               Accessibility
             </h2>

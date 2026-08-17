@@ -12,10 +12,10 @@ describe("NotifyMorph", () => {
     const onExpandedChange = vi.fn();
 
     render(<NotifyMorph onExpandedChange={onExpandedChange} />);
-    await user.click(screen.getByRole("button", { name: "Notify me" }));
+    await user.click(screen.getByRole("button", { name: "Notify Me" }));
 
     const input = await screen.findByRole("textbox", { name: "Email address" });
-    expect(input).toHaveFocus();
+    await waitFor(() => expect(input).toHaveFocus());
     expect(onExpandedChange).toHaveBeenCalledWith(true);
   });
 
@@ -23,14 +23,58 @@ describe("NotifyMorph", () => {
     const user = userEvent.setup();
 
     render(<NotifyMorph />);
-    const trigger = screen.getByRole("button", { name: "Notify me" });
+    const trigger = screen.getByRole("button", { name: "Notify Me" });
     trigger.focus();
     await user.keyboard("{Enter}");
     await user.keyboard("{Escape}");
 
     await waitFor(() => {
-      expect(screen.getByRole("button", { name: "Notify me" })).toHaveFocus();
+      expect(screen.getByRole("button", { name: "Notify Me" })).toHaveFocus();
     });
+  });
+
+  it("morphs one persistent action between the bell trigger and submit state", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<NotifyMorph />);
+    const action = screen.getByRole("button", { name: "Notify Me" });
+
+    expect(action).toHaveAttribute("type", "button");
+    expect(container.querySelector('[data-slot="notify-bell"]')).toBeVisible();
+
+    await user.click(action);
+
+    const input = await screen.findByRole("textbox", {
+      name: "Email address",
+    });
+    const submit = screen.getByRole("button", { name: "Notify Me" });
+    expect(submit).toBe(action);
+    expect(submit).toHaveAttribute("type", "submit");
+    expect(input).toHaveAttribute("placeholder", "Email");
+    await waitFor(() => {
+      expect(container.querySelector('[data-slot="notify-bell"]')).toBeNull();
+    });
+
+    await user.keyboard("{Escape}");
+
+    expect(screen.getByRole("button", { name: "Notify Me" })).toBe(action);
+    expect(action).toHaveAttribute("type", "button");
+    await waitFor(() => {
+      expect(
+        container.querySelector('[data-slot="notify-bell"]'),
+      ).toBeVisible();
+    });
+  });
+
+  it("restarts the bell animation when the collapsed button is hovered", () => {
+    const { container } = render(<NotifyMorph />);
+    const button = screen.getByRole("button", { name: "Notify Me" });
+    const firstBell = container.querySelector('[data-slot="notify-bell"]');
+
+    fireEvent.pointerEnter(button);
+
+    expect(container.querySelector('[data-slot="notify-bell"]')).not.toBe(
+      firstBell,
+    );
   });
 
   it("manages uncontrolled values and emits value changes", async () => {
@@ -64,7 +108,7 @@ describe("NotifyMorph", () => {
       />,
     );
 
-    await user.click(screen.getByRole("button", { name: "Notify me" }));
+    await user.click(screen.getByRole("button", { name: "Notify Me" }));
     expect(onExpandedChange).toHaveBeenCalledWith(true);
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
 
@@ -83,25 +127,79 @@ describe("NotifyMorph", () => {
     expect(input).toHaveValue("owner@suluu.dev");
   });
 
-  it("submits valid email without clearing or collapsing state", async () => {
+  it("submits a valid email, clears it, and collapses", async () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn();
+    const onValueChange = vi.fn();
+    const onExpandedChange = vi.fn();
 
     render(
       <NotifyMorph
         defaultExpanded
         defaultValue="hello@suluu.dev"
         label="Join waitlist"
+        onExpandedChange={onExpandedChange}
         onSubmit={onSubmit}
+        onValueChange={onValueChange}
       />,
     );
+    const input = screen.getByRole("textbox");
     await user.click(screen.getByRole("button", { name: "Join waitlist" }));
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit.mock.calls[0]?.[0]).toBe("hello@suluu.dev");
     expect(onSubmit.mock.calls[0]?.[1]).toBeInstanceOf(Object);
-    expect(screen.getByRole("textbox")).toHaveValue("hello@suluu.dev");
+    expect(onValueChange).toHaveBeenLastCalledWith("");
+    expect(onExpandedChange).toHaveBeenLastCalledWith(false);
+    expect(input).toHaveValue("");
+    await waitFor(() => expect(screen.queryByRole("textbox")).toBeNull());
     expect(screen.getByRole("button", { name: "Join waitlist" })).toBeVisible();
+  });
+
+  it("shows a liquid confirmation for three seconds", () => {
+    const setTimeoutSpy = vi.spyOn(window, "setTimeout");
+
+    try {
+      const { container } = render(
+        <NotifyMorph
+          defaultExpanded
+          defaultValue="hello@suluu.dev"
+          successDuration={3000}
+        />,
+      );
+      const form = container.querySelector("form");
+      if (!form) throw new Error("Expected NotifyMorph to render a form.");
+
+      fireEvent.submit(form);
+
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "You're on the list, hello@suluu.dev.",
+      );
+      expect(container.querySelector('[data-slot="notify-success"]')).toBe(
+        screen.getByRole("status").parentElement,
+      );
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 3000);
+    } finally {
+      setTimeoutSpy.mockRestore();
+    }
+  });
+
+  it("supports custom confirmation copy", () => {
+    const { container } = render(
+      <NotifyMorph
+        defaultExpanded
+        defaultValue="hello@suluu.dev"
+        successMessage={(email) => `Subscribed ${email}`}
+      />,
+    );
+    const form = container.querySelector("form");
+    if (!form) throw new Error("Expected NotifyMorph to render a form.");
+
+    fireEvent.submit(form);
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "Subscribed hello@suluu.dev",
+    );
   });
 
   it.each(["", "not-an-email", "hello@"])(
@@ -117,23 +215,19 @@ describe("NotifyMorph", () => {
           onSubmit={onSubmit}
         />,
       );
-      await user.click(screen.getByRole("button", { name: "Notify me" }));
+      await user.click(screen.getByRole("button", { name: "Notify Me" }));
 
       expect(onSubmit).not.toHaveBeenCalled();
     },
   );
 
-  it("collapses on outside blur only when requested", async () => {
+  it("collapses by default when the user clicks outside", async () => {
     const user = userEvent.setup();
     const onExpandedChange = vi.fn();
 
     render(
       <div>
-        <NotifyMorph
-          collapseOnBlur
-          defaultExpanded
-          onExpandedChange={onExpandedChange}
-        />
+        <NotifyMorph defaultExpanded onExpandedChange={onExpandedChange} />
         <button type="button">Outside</button>
       </div>,
     );
@@ -144,12 +238,12 @@ describe("NotifyMorph", () => {
     await waitFor(() => expect(screen.queryByRole("textbox")).toBeNull());
   });
 
-  it("does not collapse on blur by default", async () => {
+  it("supports opting out of outside-click collapse", async () => {
     const user = userEvent.setup();
 
     render(
       <div>
-        <NotifyMorph defaultExpanded />
+        <NotifyMorph collapseOnBlur={false} defaultExpanded />
         <button type="button">Outside</button>
       </div>,
     );
@@ -227,7 +321,7 @@ describe("NotifyMorph", () => {
     screen.getByRole("textbox").focus();
     await user.tab();
 
-    expect(screen.getByRole("button", { name: "Notify me" })).toHaveFocus();
+    expect(screen.getByRole("button", { name: "Notify Me" })).toHaveFocus();
     expect(onExpandedChange).not.toHaveBeenCalled();
   });
 
@@ -264,7 +358,7 @@ describe("NotifyMorph", () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
-  it("allows valid native submission without requiring a callback", () => {
+  it("allows valid native submission without requiring a callback", async () => {
     const { container } = render(
       <NotifyMorph defaultExpanded defaultValue="valid@suluu.dev" />,
     );
@@ -272,14 +366,14 @@ describe("NotifyMorph", () => {
     if (!form) throw new Error("Expected NotifyMorph to render a form.");
 
     expect(() => fireEvent.submit(form)).not.toThrow();
-    expect(screen.getByRole("textbox")).toHaveValue("valid@suluu.dev");
+    await waitFor(() => expect(screen.queryByRole("textbox")).toBeNull());
   });
 
   it("disables every interactive control", () => {
     render(<NotifyMorph defaultExpanded disabled />);
 
     expect(screen.getByRole("textbox")).toBeDisabled();
-    expect(screen.getByRole("button", { name: "Notify me" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Notify Me" })).toBeDisabled();
   });
 
   it.each(["subtle", "default", "expressive"] as const)(
@@ -313,8 +407,9 @@ describe("NotifyMorph", () => {
     );
 
     render(<NotifyMorph />);
-    await user.click(screen.getByRole("button", { name: "Notify me" }));
+    await user.click(screen.getByRole("button", { name: "Notify Me" }));
 
-    expect(await screen.findByRole("textbox")).toHaveFocus();
+    const input = await screen.findByRole("textbox");
+    await waitFor(() => expect(input).toHaveFocus());
   });
 });

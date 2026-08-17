@@ -41,6 +41,10 @@ export interface NotifyMorphProps extends Omit<
   onExpandedChange?: (expanded: boolean) => void;
   /** Controls the spring and bell-swing character. */
   motionIntensity?: MotionIntensity;
+  /** Builds the confirmation shown after a valid submission. */
+  successMessage?: (email: string) => string;
+  /** How long the confirmation remains visible, in milliseconds. */
+  successDuration?: number;
   /** Called only after the native required email input is valid. */
   onSubmit?: (email: string, event: SubmitEvent<HTMLFormElement>) => void;
 }
@@ -58,24 +62,28 @@ interface MotionPreset {
 
 const MOTION_PRESETS: Record<MotionIntensity, MotionPreset> = {
   subtle: {
-    spring: { type: "spring", stiffness: 520, damping: 42, mass: 0.58 },
-    swing: 6,
-    swingDuration: 0.38,
+    spring: { type: "spring", stiffness: 480, damping: 38, mass: 0.62 },
+    swing: 7,
+    swingDuration: 0.72,
   },
   default: {
-    spring: { type: "spring", stiffness: 430, damping: 32, mass: 0.68 },
-    swing: 10,
-    swingDuration: 0.5,
+    spring: { type: "spring", stiffness: 320, damping: 27, mass: 1.17 },
+    swing: 9,
+    swingDuration: 0.82,
   },
   expressive: {
-    spring: { type: "spring", stiffness: 350, damping: 24, mass: 0.82 },
-    swing: 15,
-    swingDuration: 0.64,
+    spring: { type: "spring", stiffness: 280, damping: 17, mass: 0.98 },
+    swing: 20,
+    swingDuration: 1.08,
   },
 };
 
 function joinClassNames(...values: (string | undefined)[]): string {
   return values.filter(Boolean).join(" ");
+}
+
+function defaultSuccessMessage(email: string): string {
+  return `You're on the list, ${email}.`;
 }
 
 interface BellIconProps {
@@ -88,26 +96,27 @@ function BellIcon({ duration, reducedMotion, swing }: BellIconProps) {
   return (
     <motion.svg
       aria-hidden="true"
-      className="size-4 shrink-0"
-      fill="none"
+      animate={reducedMotion ? "idle" : "ring"}
+      className="size-5 shrink-0 origin-top"
+      data-slot="notify-bell"
+      fill="currentColor"
       initial="idle"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.8"
       variants={{
         idle: { rotate: 0 },
-        swing: reducedMotion
+        ring: reducedMotion
           ? { rotate: 0 }
           : {
-              rotate: [0, -swing, swing * 0.72, swing * -0.4, 0],
-              transition: { duration, ease: "easeInOut" },
+              rotate: [0, -swing, swing, swing * -0.68, swing * 0.42, 0],
+              transition: {
+                delay: 0.2,
+                duration,
+                ease: "easeInOut",
+              },
             },
       }}
       viewBox="0 0 24 24"
     >
-      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
-      <path d="M10 21h4" />
+      <path d="M12 2a6 6 0 0 0-6 6v3.2c0 1.6-.55 3.15-1.57 4.39L3.2 17.1A1.16 1.16 0 0 0 4.1 19h15.8a1.16 1.16 0 0 0 .9-1.9l-1.23-1.51A6.94 6.94 0 0 1 18 11.2V8a6 6 0 0 0-6-6Zm-2.44 18.1A2.6 2.6 0 0 0 12 22a2.6 2.6 0 0 0 2.44-1.9H9.56Z" />
     </motion.svg>
   );
 }
@@ -118,19 +127,21 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
       className,
-      collapseOnBlur = false,
+      collapseOnBlur = true,
       defaultExpanded = false,
       defaultValue = "",
       disabled = false,
       expanded,
-      label = "Notify me",
+      label = "Notify Me",
       motionIntensity = "default",
       onBlur,
       onExpandedChange,
       onKeyDown,
       onSubmit,
       onValueChange,
-      placeholder = "Email address",
+      placeholder = "Email",
+      successDuration = 3000,
+      successMessage = defaultSuccessMessage,
       value,
       ...formProps
     },
@@ -139,12 +150,18 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
     const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
     const [uncontrolledExpanded, setUncontrolledExpanded] =
       useState(defaultExpanded);
+    const [bellAnimationKey, setBellAnimationKey] = useState(0);
+    const [confirmation, setConfirmation] = useState<{
+      id: number;
+      message: string;
+    } | null>(null);
     const inputId = useId();
     const formRef = useRef<HTMLFormElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const triggerRef = useRef<HTMLButtonElement | null>(null);
     const previousExpandedRef = useRef(false);
     const restoreFocusRef = useRef(false);
+    const confirmationIdRef = useRef(0);
     const prefersReducedMotion = useReducedMotion() ?? false;
 
     const isValueControlled = value !== undefined;
@@ -154,7 +171,7 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
       ? expanded
       : uncontrolledExpanded;
     const preset = MOTION_PRESETS[motionIntensity];
-    const layoutTransition = prefersReducedMotion
+    const morphTransition = prefersReducedMotion
       ? { duration: 0 }
       : preset.spring;
 
@@ -184,16 +201,26 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
 
     useEffect(() => {
       const wasExpanded = previousExpandedRef.current;
+      previousExpandedRef.current = currentExpanded;
 
       if (currentExpanded && !wasExpanded) {
-        inputRef.current?.focus();
+        const timeout = window.setTimeout(() => inputRef.current?.focus(), 40);
+        return () => window.clearTimeout(timeout);
       } else if (!currentExpanded && wasExpanded && restoreFocusRef.current) {
         triggerRef.current?.focus();
         restoreFocusRef.current = false;
       }
-
-      previousExpandedRef.current = currentExpanded;
     }, [currentExpanded]);
+
+    useEffect(() => {
+      if (!confirmation) return;
+
+      const timeout = window.setTimeout(
+        () => setConfirmation(null),
+        Math.max(0, successDuration),
+      );
+      return () => window.clearTimeout(timeout);
+    }, [confirmation, successDuration]);
 
     function handleKeyDown(event: KeyboardEvent<HTMLFormElement>) {
       onKeyDown?.(event);
@@ -214,6 +241,17 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
       }
 
       onSubmit?.(currentValue, event);
+      confirmationIdRef.current += 1;
+      setConfirmation({
+        id: confirmationIdRef.current,
+        message: successMessage(currentValue),
+      });
+
+      if (inputRef.current) inputRef.current.value = "";
+
+      if (!isValueControlled) setUncontrolledValue("");
+      onValueChange?.("");
+      requestExpanded(false);
     }
 
     return (
@@ -223,7 +261,10 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
           ariaLabel ?? (ariaLabelledBy ? undefined : `${label} subscription`)
         }
         aria-labelledby={ariaLabelledBy}
-        className={joinClassNames("inline-flex max-w-full", className)}
+        className={joinClassNames(
+          "relative isolate inline-flex max-w-full",
+          className,
+        )}
         onBlur={(event) => {
           onBlur?.(event);
           if (event.defaultPrevented || !collapseOnBlur || !currentExpanded) {
@@ -240,26 +281,44 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
         ref={setFormRef}
       >
         <motion.div
-          className="overflow-hidden rounded-full border border-[var(--suluu-notify-border)] bg-[var(--suluu-notify-background)] text-[var(--suluu-notify-foreground)] shadow-[var(--suluu-notify-shadow)]"
-          layout
-          transition={{ layout: layoutTransition }}
+          animate={{
+            padding: currentExpanded ? 4 : 0,
+            width: currentExpanded ? 352 : 152,
+          }}
+          className="relative flex h-12 max-w-[calc(100vw-2rem)] items-center justify-end overflow-hidden rounded-full bg-[var(--suluu-notify-background)] text-[var(--suluu-notify-foreground)]"
+          initial={false}
+          transition={{
+            padding: morphTransition,
+            width: morphTransition,
+          }}
         >
-          <AnimatePresence initial={false} mode="popLayout">
-            {currentExpanded ? (
+          <AnimatePresence initial={false}>
+            {currentExpanded && (
               <motion.div
-                animate={{ opacity: 1, x: 0 }}
-                className="flex h-11 w-[min(22rem,calc(100vw-2rem))] items-center gap-1 p-1"
-                exit={{ opacity: 0, x: prefersReducedMotion ? 0 : -8 }}
-                initial={{ opacity: 0, x: prefersReducedMotion ? 0 : 8 }}
-                key="expanded"
-                transition={layoutTransition}
+                animate={{ clipPath: "inset(0 0% 0 0)", opacity: 1 }}
+                className="flex h-full min-w-0 flex-1 items-center"
+                exit={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+                initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+                key="email-field"
+                transition={{
+                  clipPath: {
+                    delay: prefersReducedMotion ? 0 : 0.055,
+                    duration: prefersReducedMotion ? 0 : 0.34,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                  opacity: {
+                    delay: prefersReducedMotion ? 0 : 0.055,
+                    duration: prefersReducedMotion ? 0 : 0.19,
+                    ease: "easeInOut",
+                  },
+                }}
               >
                 <label className="sr-only" htmlFor={inputId}>
                   Email address
                 </label>
                 <input
                   autoComplete="email"
-                  className="h-9 min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-[var(--suluu-notify-muted)] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="h-full min-w-0 flex-1 bg-transparent px-[1.125rem] text-base font-medium outline-none placeholder:text-[var(--suluu-notify-muted)] disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={disabled}
                   id={inputId}
                   name="email"
@@ -274,48 +333,146 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
                   type="email"
                   value={currentValue}
                 />
-                <motion.button
-                  animate={prefersReducedMotion ? "idle" : "swing"}
-                  className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--suluu-notify-accent)] px-4 text-sm font-medium text-[var(--suluu-notify-accent-foreground)] transition-[filter] outline-none hover:brightness-95 focus-visible:ring-2 focus-visible:ring-[var(--suluu-notify-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--suluu-notify-background)] disabled:pointer-events-none disabled:opacity-50"
-                  disabled={disabled}
-                  initial="idle"
-                  type="submit"
-                  whileFocus={prefersReducedMotion ? "idle" : "swing"}
-                  whileHover={prefersReducedMotion ? "idle" : "swing"}
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <motion.button
+            animate={{
+              height: currentExpanded ? 40 : 48,
+              scale: currentExpanded && !prefersReducedMotion ? [0.9, 1] : 1,
+              width: currentExpanded ? 128 : 152,
+            }}
+            className={joinClassNames(
+              "inline-flex max-w-full shrink-0 items-center justify-center gap-2.5 overflow-hidden rounded-full text-base font-semibold whitespace-nowrap transition-[background-color,box-shadow,color,filter] outline-none focus-visible:ring-2 focus-visible:ring-[var(--suluu-notify-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--suluu-notify-background)] disabled:pointer-events-none disabled:opacity-50",
+              currentExpanded
+                ? "bg-[var(--suluu-notify-accent)] px-4 text-[var(--suluu-notify-accent-foreground)] shadow-[var(--suluu-notify-shadow)] hover:brightness-[0.98]"
+                : "bg-transparent px-4 hover:bg-[var(--suluu-notify-hover)]",
+            )}
+            disabled={disabled}
+            initial={false}
+            onClick={currentExpanded ? undefined : () => requestExpanded(true)}
+            onPointerEnter={() => {
+              if (!currentExpanded && !prefersReducedMotion) {
+                setBellAnimationKey((key) => key + 1);
+              }
+            }}
+            ref={triggerRef}
+            {...(currentExpanded || prefersReducedMotion
+              ? {}
+              : { whileTap: { scale: 0.965 } })}
+            transition={{
+              height: morphTransition,
+              scale: currentExpanded ? morphTransition : { duration: 0 },
+              width: morphTransition,
+            }}
+            type={currentExpanded ? "submit" : "button"}
+          >
+            <AnimatePresence initial={false}>
+              {!currentExpanded && (
+                <motion.span
+                  animate={{
+                    marginRight: 0,
+                    opacity: 1,
+                    rotate: 0,
+                    scale: 1,
+                    width: 20,
+                  }}
+                  className="inline-flex shrink-0 origin-top overflow-hidden"
+                  exit={{
+                    marginRight: -10,
+                    opacity: 0,
+                    rotate: prefersReducedMotion ? 0 : -26,
+                    scale: prefersReducedMotion ? 1 : 0.55,
+                    width: 0,
+                  }}
+                  initial={{
+                    marginRight: -10,
+                    opacity: 0,
+                    rotate: prefersReducedMotion ? 0 : -26,
+                    scale: prefersReducedMotion ? 1 : 0.55,
+                    width: 0,
+                  }}
+                  key="bell"
+                  transition={{
+                    marginRight: morphTransition,
+                    opacity: { duration: prefersReducedMotion ? 0 : 0.16 },
+                    rotate: { duration: prefersReducedMotion ? 0 : 0.3 },
+                    scale: { duration: prefersReducedMotion ? 0 : 0.3 },
+                    width: morphTransition,
+                  }}
                 >
                   <BellIcon
                     duration={preset.swingDuration}
+                    key={bellAnimationKey}
                     reducedMotion={prefersReducedMotion}
                     swing={preset.swing}
                   />
-                  <span>{label}</span>
-                </motion.button>
-              </motion.div>
-            ) : (
-              <motion.button
-                animate={{ opacity: 1, scale: 1 }}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium transition-colors outline-none hover:bg-[var(--suluu-notify-hover)] focus-visible:ring-2 focus-visible:ring-[var(--suluu-notify-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--suluu-notify-background)] disabled:pointer-events-none disabled:opacity-50"
-                disabled={disabled}
-                exit={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.96 }}
-                initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.96 }}
-                key="collapsed"
-                onClick={() => requestExpanded(true)}
-                ref={triggerRef}
-                transition={layoutTransition}
-                type="button"
-                whileFocus={prefersReducedMotion ? "idle" : "swing"}
-                whileHover={prefersReducedMotion ? "idle" : "swing"}
-              >
-                <BellIcon
-                  duration={preset.swingDuration}
-                  reducedMotion={prefersReducedMotion}
-                  swing={preset.swing}
-                />
-                <span>{label}</span>
-              </motion.button>
-            )}
-          </AnimatePresence>
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <span>{label}</span>
+          </motion.button>
         </motion.div>
+        <AnimatePresence initial={false}>
+          {confirmation ? (
+            <motion.div
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1, y: 8 }
+                  : {
+                      filter: "blur(0px)",
+                      opacity: 1,
+                      scaleX: 1,
+                      scaleY: 1,
+                      y: 10,
+                    }
+              }
+              className="pointer-events-none absolute top-full right-[4.75rem] z-20 origin-top translate-x-1/2"
+              data-slot="notify-success"
+              exit={
+                prefersReducedMotion
+                  ? { opacity: 0 }
+                  : {
+                      filter: "blur(2px)",
+                      opacity: 0,
+                      scaleX: 0.42,
+                      scaleY: 0.62,
+                      y: -26,
+                    }
+              }
+              initial={
+                prefersReducedMotion
+                  ? { opacity: 0, y: 8 }
+                  : {
+                      filter: "blur(3px)",
+                      opacity: 0,
+                      scaleX: 0.38,
+                      scaleY: 0.58,
+                      y: -28,
+                    }
+              }
+              key={confirmation.id}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0.15 }
+                  : {
+                      filter: { duration: 0.24 },
+                      opacity: { duration: 0.18 },
+                      scaleX: preset.spring,
+                      scaleY: preset.spring,
+                      y: preset.spring,
+                    }
+              }
+            >
+              <output
+                aria-live="polite"
+                className="relative block max-w-[calc(100vw-2rem)] overflow-hidden rounded-full border border-[var(--suluu-notify-success-border)] bg-[var(--suluu-notify-success-background)] px-4 py-2.5 text-center text-sm font-medium text-ellipsis whitespace-nowrap text-[var(--suluu-notify-success-foreground)] shadow-[var(--suluu-notify-success-shadow)] backdrop-blur-xl"
+              >
+                {confirmation.message}
+              </output>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </form>
     );
   },
