@@ -127,6 +127,64 @@ export function createMagnetPullRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createSwitchToggleRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "switch-toggle",
+    type: "registry:ui",
+    title: "SwitchToggle",
+    description:
+      "A tactile switch with a softly sprung thumb and a fluid minus-to-check icon morph.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/switch-toggle/switch-toggle.tsx",
+        type: "registry:ui",
+        target: "@ui/switch-toggle.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-switch-background": "oklch(0.88 0.007 260)",
+        "suluu-switch-background-checked": "oklch(0.58 0.19 255)",
+        "suluu-switch-thumb": "oklch(0.995 0.002 260)",
+        "suluu-switch-icon": "oklch(0.47 0.014 260)",
+        "suluu-switch-icon-checked": "oklch(0.5 0.18 255)",
+        "suluu-switch-ring": "oklch(0.55 0.16 255)",
+        "suluu-switch-offset": "oklch(1 0 0)",
+        "suluu-switch-shadow": "inset 0 1px 2px oklch(0.2 0.02 260 / 12%)",
+        "suluu-switch-shadow-checked":
+          "inset 0 1px 2px oklch(0.18 0.08 255 / 16%), 0 3px 10px oklch(0.5 0.18 255 / 18%)",
+        "suluu-switch-thumb-shadow":
+          "0 1px 2px oklch(0.16 0.02 260 / 14%), 0 3px 7px oklch(0.16 0.02 260 / 16%)",
+      },
+      dark: {
+        "suluu-switch-background": "oklch(0.31 0.012 260)",
+        "suluu-switch-background-checked": "oklch(0.7 0.15 255)",
+        "suluu-switch-thumb": "oklch(0.97 0.004 260)",
+        "suluu-switch-icon": "oklch(0.48 0.014 260)",
+        "suluu-switch-icon-checked": "oklch(0.5 0.18 255)",
+        "suluu-switch-ring": "oklch(0.7 0.13 255)",
+        "suluu-switch-offset": "oklch(0.14 0.008 260)",
+        "suluu-switch-shadow": "inset 0 1px 3px oklch(0 0 0 / 35%)",
+        "suluu-switch-shadow-checked":
+          "inset 0 1px 2px oklch(0.2 0.08 255 / 20%), 0 3px 12px oklch(0.64 0.15 255 / 22%)",
+        "suluu-switch-thumb-shadow":
+          "0 1px 2px oklch(0 0 0 / 28%), 0 4px 9px oklch(0 0 0 / 32%)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. Give every switch an accessible name with aria-label or aria-labelledby.",
+    categories: ["forms", "inputs", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
   {
     create: createMagnetPullRegistryItem,
@@ -141,6 +199,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "notify-morph",
     output: "apps/www/public/r/notify-morph.json",
     source: "packages/suluu/src/notify-morph/notify-morph.tsx",
+  },
+  {
+    create: createSwitchToggleRegistryItem,
+    exportName: "SwitchToggle",
+    name: "switch-toggle",
+    output: "apps/www/public/r/switch-toggle.json",
+    source: "packages/suluu/src/switch-toggle/switch-toggle.tsx",
   },
 ];
 

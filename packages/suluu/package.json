@@ -39,6 +39,10 @@
       "types": "./dist/notify-morph.d.ts",
       "import": "./dist/notify-morph.js"
     },
+    "./switch-toggle": {
+      "types": "./dist/switch-toggle.d.ts",
+      "import": "./dist/switch-toggle.js"
+    },
     "./styles.css": {
       "types": "./dist/styles.css.d.ts",
       "default": "./dist/styles.css"

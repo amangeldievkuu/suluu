@@ -4,6 +4,7 @@ import type { ComponentSlug } from "@/lib/catalog";
 
 import { MagnetPullDemo } from "./magnet-pull-demo";
 import { NotifyMorphDemo } from "./notify-morph-demo";
+import { SwitchToggleDemo } from "./switch-toggle-demo";
 import type { DemoProps } from "./types";
 
 /**
@@ -16,4 +17,5 @@ export const COMPONENT_PREVIEWS: Record<
 > = {
   "magnet-pull": MagnetPullDemo,
   "notify-morph": NotifyMorphDemo,
+  "switch-toggle": SwitchToggleDemo,
 };

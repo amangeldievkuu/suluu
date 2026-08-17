@@ -14,6 +14,7 @@ export default defineConfig({
       // library from source rather than from its unbuilt `dist` output.
       "suluu/magnet-pull": `${packageSrc}/magnet-pull/index.ts`,
       "suluu/notify-morph": `${packageSrc}/notify-morph/index.ts`,
+      "suluu/switch-toggle": `${packageSrc}/switch-toggle/index.ts`,
       suluu: `${packageSrc}/index.ts`,
       "@": appRoot,
     },

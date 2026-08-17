@@ -35,6 +35,14 @@ export const CATALOG = [
       "A compact bell CTA that fluidly opens into an accessible email form.",
     keywords: ["email", "subscribe", "newsletter", "bell", "input", "expand"],
   },
+  {
+    slug: "switch-toggle",
+    name: "SwitchToggle",
+    category: "Forms",
+    summary:
+      "A tactile switch with a softly sprung thumb and a fluid minus-to-check icon morph.",
+    keywords: ["toggle", "checked", "boolean", "setting", "drag", "control"],
+  },
 ] as const satisfies readonly CatalogEntry[];
 
 export type ComponentSlug = (typeof CATALOG)[number]["slug"];

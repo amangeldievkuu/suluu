@@ -28,6 +28,7 @@ describe("registry catalog", () => {
     expect(REGISTRY_ITEMS.map((item) => item.name)).toEqual([
       "magnet-pull",
       "notify-morph",
+      "switch-toggle",
     ]);
   });
 });

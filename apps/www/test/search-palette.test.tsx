@@ -122,10 +122,12 @@ describe("SearchPalette", () => {
     expect(first).toHaveAttribute("aria-selected", "true");
 
     await user.keyboard("{ArrowDown}");
-    expect(input).toHaveAttribute("aria-activedescendant", options[1]?.id);
+    for (const option of options.slice(1)) {
+      expect(input).toHaveAttribute("aria-activedescendant", option.id);
+      await user.keyboard("{ArrowDown}");
+    }
 
     // Wraps forward to the start, then backward to the end.
-    await user.keyboard("{ArrowDown}");
     expect(input).toHaveAttribute("aria-activedescendant", first?.id);
 
     await user.keyboard("{ArrowUp}");

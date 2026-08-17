@@ -8,3 +8,5 @@ export type {
   MotionIntensity,
   NotifyMorphProps,
 } from "./notify-morph/notify-morph";
+export { SwitchToggle } from "./switch-toggle/switch-toggle";
+export type { SwitchToggleProps } from "./switch-toggle/switch-toggle";

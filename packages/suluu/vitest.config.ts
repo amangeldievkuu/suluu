@@ -7,6 +7,7 @@ export default defineConfig({
         "src/index.ts",
         "src/magnet-pull/index.ts",
         "src/notify-morph/index.ts",
+        "src/switch-toggle/index.ts",
       ],
       include: ["src/**/*.tsx"],
       provider: "v8",

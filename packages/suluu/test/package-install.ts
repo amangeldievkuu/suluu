@@ -105,7 +105,7 @@ try {
   );
   await writeFile(
     join(fixtureRoot, "src/index.tsx"),
-    `import { NotifyMorph } from "suluu";\nimport type { NotifyMorphProps } from "suluu/notify-morph";\nimport "suluu/styles.css";\n\nconst props: NotifyMorphProps = { label: "Updates" };\nexport const example = <NotifyMorph {...props} />;\n`,
+    `import { NotifyMorph, SwitchToggle } from "suluu";\nimport type { NotifyMorphProps } from "suluu/notify-morph";\nimport type { SwitchToggleProps } from "suluu/switch-toggle";\nimport "suluu/styles.css";\n\nconst props: NotifyMorphProps = { label: "Updates" };\nconst switchProps: SwitchToggleProps = { "aria-label": "Animations" };\nexport const example = <NotifyMorph {...props} />;\nexport const toggle = <SwitchToggle {...switchProps} />;\n`,
   );
   await writeFile(
     join(fixtureRoot, "src/index.css"),
@@ -129,6 +129,7 @@ try {
     ".",
     "./magnet-pull",
     "./notify-morph",
+    "./switch-toggle",
     "./styles.css",
   ];
   for (const exportPath of requiredExports) {
