@@ -26,6 +26,7 @@ describe("registry catalog", () => {
 
   it("serves every component the package exports", () => {
     expect(REGISTRY_ITEMS.map((item) => item.name)).toEqual([
+      "counter-numbers",
       "magnet-pull",
       "notify-morph",
       "switch-toggle",
@@ -50,10 +51,14 @@ describe.each(REGISTRY_ITEMS)("$name registry item", (item) => {
   it("themes light and dark from the same variable set", async () => {
     const source = await readSource(item);
     const { cssVars } = item.create(source);
-    const light = Object.keys(cssVars?.light ?? {});
+    if (!cssVars) {
+      expect(item.name).toBe("counter-numbers");
+      return;
+    }
+    const light = Object.keys(cssVars.light ?? {});
 
     expect(light.length).toBeGreaterThan(0);
-    expect(Object.keys(cssVars?.dark ?? {})).toEqual(light);
+    expect(Object.keys(cssVars.dark ?? {})).toEqual(light);
   });
 
   it("serializes deterministically with a final newline", async () => {

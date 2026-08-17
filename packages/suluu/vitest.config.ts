@@ -5,6 +5,7 @@ export default defineConfig({
     coverage: {
       exclude: [
         "src/index.ts",
+        "src/counter-numbers/index.ts",
         "src/magnet-pull/index.ts",
         "src/notify-morph/index.ts",
         "src/switch-toggle/index.ts",

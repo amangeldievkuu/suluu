@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       // `pnpm validate` runs `test` before `build:package`, so resolve the
       // library from source rather than from its unbuilt `dist` output.
+      "suluu/counter-numbers": `${packageSrc}/counter-numbers/index.ts`,
       "suluu/magnet-pull": `${packageSrc}/magnet-pull/index.ts`,
       "suluu/notify-morph": `${packageSrc}/notify-morph/index.ts`,
       "suluu/switch-toggle": `${packageSrc}/switch-toggle/index.ts`,

@@ -15,6 +15,34 @@ export interface RegistryItemDescriptor {
   source: string;
 }
 
+export function createCounterNumbersRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "counter-numbers",
+    type: "registry:ui",
+    title: "CounterNumbers",
+    description:
+      "An Intl-aware numeric display whose changed digit places roll and settle on springs.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/counter-numbers/counter-numbers.tsx",
+        type: "registry:ui",
+        target: "@ui/counter-numbers.tsx",
+        content: source,
+      },
+    ],
+    docs: "The component requires Tailwind CSS. It inherits surrounding typography and color; pass aria-live only when value changes should be announced.",
+    categories: ["data display", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createNotifyMorphRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -186,6 +214,13 @@ export function createSwitchToggleRegistryItem(source: string): RegistryItem {
 }
 
 export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
+  {
+    create: createCounterNumbersRegistryItem,
+    exportName: "CounterNumbers",
+    name: "counter-numbers",
+    output: "apps/www/public/r/counter-numbers.json",
+    source: "packages/suluu/src/counter-numbers/counter-numbers.tsx",
+  },
   {
     create: createMagnetPullRegistryItem,
     exportName: "MagnetPull",

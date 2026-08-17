@@ -18,6 +18,7 @@ export default defineConfig({
     sourcemap: true,
   },
   entry: {
+    "counter-numbers": "src/counter-numbers/index.ts",
     index: "src/index.ts",
     "magnet-pull": "src/magnet-pull/index.ts",
     "notify-morph": "src/notify-morph/index.ts",

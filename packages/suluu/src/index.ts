@@ -1,3 +1,8 @@
+export { CounterNumbers } from "./counter-numbers/counter-numbers";
+export type {
+  CounterNumbersIntensity,
+  CounterNumbersProps,
+} from "./counter-numbers/counter-numbers";
 export { MagnetPull } from "./magnet-pull/magnet-pull";
 export type {
   MagnetIntensity,

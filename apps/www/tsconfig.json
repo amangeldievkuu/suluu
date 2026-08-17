@@ -7,6 +7,9 @@
     "paths": {
       "@/*": ["./*"],
       "suluu": ["../../packages/suluu/src/index.ts"],
+      "suluu/counter-numbers": [
+        "../../packages/suluu/src/counter-numbers/index.ts"
+      ],
       "suluu/magnet-pull": ["../../packages/suluu/src/magnet-pull/index.ts"],
       "suluu/notify-morph": ["../../packages/suluu/src/notify-morph/index.ts"]
     }

@@ -72,7 +72,11 @@ describe("groupByCategory", () => {
   it("groups in CATEGORIES order and omits empty groups", () => {
     const groups = groupByCategory();
 
-    expect(groups.map((group) => group.category)).toEqual(["Buttons", "Forms"]);
+    expect(groups.map((group) => group.category)).toEqual([
+      "Buttons",
+      "Forms",
+      "Data Display",
+    ]);
     for (const group of groups) {
       expect(group.entries.length).toBeGreaterThan(0);
       for (const entry of group.entries) {
@@ -132,6 +136,11 @@ describe("searchCatalog", () => {
     expect(searchCatalog("buttons").map((entry) => entry.slug)).toEqual([
       "magnet-pull",
     ]);
+  });
+
+  it("finds the numeric display by its category and keyword", () => {
+    expect(searchCatalog("data display")[0]?.slug).toBe("counter-numbers");
+    expect(searchCatalog("odometer")[0]?.slug).toBe("counter-numbers");
   });
 
   it("ranks a name hit above a summary-only hit", () => {

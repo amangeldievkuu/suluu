@@ -105,7 +105,7 @@ try {
   );
   await writeFile(
     join(fixtureRoot, "src/index.tsx"),
-    `import { NotifyMorph, SwitchToggle } from "suluu";\nimport type { NotifyMorphProps } from "suluu/notify-morph";\nimport type { SwitchToggleProps } from "suluu/switch-toggle";\nimport "suluu/styles.css";\n\nconst props: NotifyMorphProps = { label: "Updates" };\nconst switchProps: SwitchToggleProps = { "aria-label": "Animations" };\nexport const example = <NotifyMorph {...props} />;\nexport const toggle = <SwitchToggle {...switchProps} />;\n`,
+    `import { CounterNumbers, NotifyMorph, SwitchToggle } from "suluu";\nimport type { CounterNumbersProps } from "suluu/counter-numbers";\nimport type { NotifyMorphProps } from "suluu/notify-morph";\nimport type { SwitchToggleProps } from "suluu/switch-toggle";\nimport "suluu/styles.css";\n\nconst counterProps: CounterNumbersProps = { value: 1284 };\nconst props: NotifyMorphProps = { label: "Updates" };\nconst switchProps: SwitchToggleProps = { "aria-label": "Animations" };\nexport const counter = <CounterNumbers {...counterProps} />;\nexport const example = <NotifyMorph {...props} />;\nexport const toggle = <SwitchToggle {...switchProps} />;\n`,
   );
   await writeFile(
     join(fixtureRoot, "src/index.css"),
@@ -127,6 +127,7 @@ try {
   ) as { exports?: Record<string, unknown>; sideEffects?: unknown };
   const requiredExports = [
     ".",
+    "./counter-numbers",
     "./magnet-pull",
     "./notify-morph",
     "./switch-toggle",

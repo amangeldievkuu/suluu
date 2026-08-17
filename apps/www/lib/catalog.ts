@@ -2,7 +2,7 @@ export const SITE_URL = "https://suluu.dev";
 export const NPM_COMMAND = "pnpm add suluu motion";
 
 /** Display order of the sidebar and the index page groups. */
-export const CATEGORIES = ["Buttons", "Forms"] as const;
+export const CATEGORIES = ["Buttons", "Forms", "Data Display"] as const;
 
 export type Category = (typeof CATEGORIES)[number];
 
@@ -42,6 +42,21 @@ export const CATALOG = [
     summary:
       "A tactile switch with a softly sprung thumb and a fluid minus-to-check icon morph.",
     keywords: ["toggle", "checked", "boolean", "setting", "drag", "control"],
+  },
+  {
+    slug: "counter-numbers",
+    name: "CounterNumbers",
+    category: "Data Display",
+    summary:
+      "An Intl-aware number display whose changed digit places roll and settle on satisfying springs.",
+    keywords: [
+      "odometer",
+      "ticker",
+      "statistics",
+      "score",
+      "currency",
+      "numeric",
+    ],
   },
 ] as const satisfies readonly CatalogEntry[];
 
