@@ -11,7 +11,8 @@
         "../../packages/suluu/src/counter-numbers/index.ts"
       ],
       "suluu/magnet-pull": ["../../packages/suluu/src/magnet-pull/index.ts"],
-      "suluu/notify-morph": ["../../packages/suluu/src/notify-morph/index.ts"]
+      "suluu/notify-morph": ["../../packages/suluu/src/notify-morph/index.ts"],
+      "suluu/switch-toggle": ["../../packages/suluu/src/switch-toggle/index.ts"]
     }
   },
   "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
