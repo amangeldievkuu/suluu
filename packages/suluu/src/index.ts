@@ -13,5 +13,15 @@ export type {
   MotionIntensity,
   NotifyMorphProps,
 } from "./notify-morph/notify-morph";
+export { SearchMorph } from "./search-morph/search-morph";
+export type {
+  SearchMorphProps,
+  SearchMotionIntensity,
+} from "./search-morph/search-morph";
+export { SegmentedControl } from "./segmented-control/segmented-control";
+export type {
+  SegmentedControlOption,
+  SegmentedControlProps,
+} from "./segmented-control/segmented-control";
 export { SwitchToggle } from "./switch-toggle/switch-toggle";
 export type { SwitchToggleProps } from "./switch-toggle/switch-toggle";

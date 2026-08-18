@@ -105,7 +105,7 @@ try {
   );
   await writeFile(
     join(fixtureRoot, "src/index.tsx"),
-    `import { CounterNumbers, NotifyMorph, SwitchToggle } from "suluu";\nimport type { CounterNumbersProps } from "suluu/counter-numbers";\nimport type { NotifyMorphProps } from "suluu/notify-morph";\nimport type { SwitchToggleProps } from "suluu/switch-toggle";\nimport "suluu/styles.css";\n\nconst counterProps: CounterNumbersProps = { value: 1284 };\nconst props: NotifyMorphProps = { label: "Updates" };\nconst switchProps: SwitchToggleProps = { "aria-label": "Animations" };\nexport const counter = <CounterNumbers {...counterProps} />;\nexport const example = <NotifyMorph {...props} />;\nexport const toggle = <SwitchToggle {...switchProps} />;\n`,
+    `import { CounterNumbers, NotifyMorph, SearchMorph, SegmentedControl, SwitchToggle } from "suluu";\nimport type { CounterNumbersProps } from "suluu/counter-numbers";\nimport type { NotifyMorphProps } from "suluu/notify-morph";\nimport type { SearchMorphProps } from "suluu/search-morph";\nimport type { SegmentedControlProps } from "suluu/segmented-control";\nimport type { SwitchToggleProps } from "suluu/switch-toggle";\nimport "suluu/styles.css";\n\nconst counterProps: CounterNumbersProps = { value: 1284 };\nconst props: NotifyMorphProps = { label: "Updates" };\nconst searchProps: SearchMorphProps = { "aria-label": "Find" };\nconst segmentProps: SegmentedControlProps = { "aria-label": "Range", options: [{ value: "day", label: "Day" }] };\nconst switchProps: SwitchToggleProps = { "aria-label": "Animations" };\nexport const counter = <CounterNumbers {...counterProps} />;\nexport const example = <NotifyMorph {...props} />;\nexport const search = <SearchMorph {...searchProps} />;\nexport const segment = <SegmentedControl {...segmentProps} />;\nexport const toggle = <SwitchToggle {...switchProps} />;\n`,
   );
   await writeFile(
     join(fixtureRoot, "src/index.css"),
@@ -130,6 +130,8 @@ try {
     "./counter-numbers",
     "./magnet-pull",
     "./notify-morph",
+    "./search-morph",
+    "./segmented-control",
     "./switch-toggle",
     "./styles.css",
   ];

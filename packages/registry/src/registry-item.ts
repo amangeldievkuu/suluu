@@ -107,6 +107,58 @@ export function createNotifyMorphRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createSearchMorphRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "search-morph",
+    type: "registry:ui",
+    title: "SearchMorph",
+    description:
+      "A compact search pill that fluidly opens into an accessible search field.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/search-morph/search-morph.tsx",
+        type: "registry:ui",
+        target: "@ui/search-morph.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-search-background": "oklch(0.97 0.002 260)",
+        "suluu-search-foreground": "oklch(0.08 0.005 260)",
+        "suluu-search-muted": "oklch(0.69 0.008 260)",
+        "suluu-search-hover": "oklch(0.945 0.004 260)",
+        "suluu-search-accent": "oklch(0.998 0.001 260)",
+        "suluu-search-accent-foreground": "oklch(0.08 0.005 260)",
+        "suluu-search-ring": "oklch(0.55 0.16 255)",
+        "suluu-search-shadow":
+          "0 2px 3px oklch(0.2 0.02 260 / 7%), 0 8px 18px oklch(0.2 0.02 260 / 8%)",
+      },
+      dark: {
+        "suluu-search-background": "oklch(0.2 0.012 260)",
+        "suluu-search-foreground": "oklch(0.96 0.006 260)",
+        "suluu-search-muted": "oklch(0.64 0.014 260)",
+        "suluu-search-hover": "oklch(0.24 0.014 260)",
+        "suluu-search-accent": "oklch(0.29 0.015 260)",
+        "suluu-search-accent-foreground": "oklch(0.97 0.004 260)",
+        "suluu-search-ring": "oklch(0.7 0.13 255)",
+        "suluu-search-shadow":
+          "0 2px 3px oklch(0 0 0 / 22%), 0 10px 24px oklch(0 0 0 / 26%)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. Connect onSubmit to your search handler. The field does not render results.",
+    categories: ["forms", "inputs", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createMagnetPullRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -147,6 +199,60 @@ export function createMagnetPullRegistryItem(source: string): RegistryItem {
     },
     docs: "The component requires Tailwind CSS. Magnetism is skipped for reduced motion and for devices without a fine hover-capable pointer.",
     categories: ["buttons", "call-to-action", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
+export function createSegmentedControlRegistryItem(
+  source: string,
+): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "segmented-control",
+    type: "registry:ui",
+    title: "SegmentedControl",
+    description:
+      "A single-choice group whose soft pill slides under the selected option.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/segmented-control/segmented-control.tsx",
+        type: "registry:ui",
+        target: "@ui/segmented-control.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-segment-background": "oklch(0.945 0.004 260)",
+        "suluu-segment-foreground": "oklch(0.08 0.005 260)",
+        "suluu-segment-muted": "oklch(0.69 0.008 260)",
+        "suluu-segment-pill": "oklch(0.998 0.001 260)",
+        "suluu-segment-ring": "oklch(0.55 0.16 255)",
+        "suluu-segment-offset": "oklch(1 0 0)",
+        "suluu-segment-shadow": "inset 0 1px 2px oklch(0.2 0.02 260 / 8%)",
+        "suluu-segment-pill-shadow":
+          "0 1px 2px oklch(0.2 0.02 260 / 7%), 0 4px 12px oklch(0.2 0.02 260 / 8%)",
+      },
+      dark: {
+        "suluu-segment-background": "oklch(0.2 0.012 260)",
+        "suluu-segment-foreground": "oklch(0.96 0.006 260)",
+        "suluu-segment-muted": "oklch(0.64 0.014 260)",
+        "suluu-segment-pill": "oklch(0.29 0.015 260)",
+        "suluu-segment-ring": "oklch(0.7 0.13 255)",
+        "suluu-segment-offset": "oklch(0.14 0.008 260)",
+        "suluu-segment-shadow": "inset 0 1px 3px oklch(0 0 0 / 28%)",
+        "suluu-segment-pill-shadow":
+          "0 2px 3px oklch(0 0 0 / 22%), 0 8px 18px oklch(0 0 0 / 20%)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. Give every group an accessible name with aria-label or aria-labelledby.",
+    categories: ["forms", "inputs", "animated"],
     meta: {
       version: "0.1.0",
     },
@@ -234,6 +340,20 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "notify-morph",
     output: "apps/www/public/r/notify-morph.json",
     source: "packages/suluu/src/notify-morph/notify-morph.tsx",
+  },
+  {
+    create: createSearchMorphRegistryItem,
+    exportName: "SearchMorph",
+    name: "search-morph",
+    output: "apps/www/public/r/search-morph.json",
+    source: "packages/suluu/src/search-morph/search-morph.tsx",
+  },
+  {
+    create: createSegmentedControlRegistryItem,
+    exportName: "SegmentedControl",
+    name: "segmented-control",
+    output: "apps/www/public/r/segmented-control.json",
+    source: "packages/suluu/src/segmented-control/segmented-control.tsx",
   },
   {
     create: createSwitchToggleRegistryItem,

@@ -43,6 +43,14 @@
       "types": "./dist/notify-morph.d.ts",
       "import": "./dist/notify-morph.js"
     },
+    "./search-morph": {
+      "types": "./dist/search-morph.d.ts",
+      "import": "./dist/search-morph.js"
+    },
+    "./segmented-control": {
+      "types": "./dist/segmented-control.d.ts",
+      "import": "./dist/segmented-control.js"
+    },
     "./switch-toggle": {
       "types": "./dist/switch-toggle.d.ts",
       "import": "./dist/switch-toggle.js"

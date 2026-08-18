@@ -8,6 +8,8 @@ export default defineConfig({
         "src/counter-numbers/index.ts",
         "src/magnet-pull/index.ts",
         "src/notify-morph/index.ts",
+        "src/search-morph/index.ts",
+        "src/segmented-control/index.ts",
         "src/switch-toggle/index.ts",
       ],
       include: ["src/**/*.tsx"],

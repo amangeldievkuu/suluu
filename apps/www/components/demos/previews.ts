@@ -5,6 +5,8 @@ import type { ComponentSlug } from "@/lib/catalog";
 import { CounterNumbersDemo } from "./counter-numbers-demo";
 import { MagnetPullDemo } from "./magnet-pull-demo";
 import { NotifyMorphDemo } from "./notify-morph-demo";
+import { SearchMorphDemo } from "./search-morph-demo";
+import { SegmentedControlDemo } from "./segmented-control-demo";
 import { SwitchToggleDemo } from "./switch-toggle-demo";
 import type { DemoProps } from "./types";
 
@@ -19,5 +21,7 @@ export const COMPONENT_PREVIEWS: Record<
   "counter-numbers": CounterNumbersDemo,
   "magnet-pull": MagnetPullDemo,
   "notify-morph": NotifyMorphDemo,
+  "search-morph": SearchMorphDemo,
+  "segmented-control": SegmentedControlDemo,
   "switch-toggle": SwitchToggleDemo,
 };

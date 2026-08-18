@@ -36,12 +36,28 @@ export const CATALOG = [
     keywords: ["email", "subscribe", "newsletter", "bell", "input", "expand"],
   },
   {
+    slug: "search-morph",
+    name: "SearchMorph",
+    category: "Forms",
+    summary:
+      "A compact search pill that fluidly opens into an accessible search field.",
+    keywords: ["search", "find", "query", "expand", "morph", "input"],
+  },
+  {
     slug: "switch-toggle",
     name: "SwitchToggle",
     category: "Forms",
     summary:
       "A tactile switch with a softly sprung thumb and a fluid minus-to-check icon morph.",
     keywords: ["toggle", "checked", "boolean", "setting", "drag", "control"],
+  },
+  {
+    slug: "segmented-control",
+    name: "SegmentedControl",
+    category: "Forms",
+    summary:
+      "A single-choice group whose soft pill slides under the selected option.",
+    keywords: ["segmented", "tabs", "pill", "radio", "filter", "segment"],
   },
   {
     slug: "counter-numbers",

@@ -12,6 +12,10 @@
       ],
       "suluu/magnet-pull": ["../../packages/suluu/src/magnet-pull/index.ts"],
       "suluu/notify-morph": ["../../packages/suluu/src/notify-morph/index.ts"],
+      "suluu/search-morph": ["../../packages/suluu/src/search-morph/index.ts"],
+      "suluu/segmented-control": [
+        "../../packages/suluu/src/segmented-control/index.ts"
+      ],
       "suluu/switch-toggle": ["../../packages/suluu/src/switch-toggle/index.ts"]
     }
   },

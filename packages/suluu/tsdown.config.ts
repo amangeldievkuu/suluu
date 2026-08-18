@@ -22,6 +22,8 @@ export default defineConfig({
     index: "src/index.ts",
     "magnet-pull": "src/magnet-pull/index.ts",
     "notify-morph": "src/notify-morph/index.ts",
+    "search-morph": "src/search-morph/index.ts",
+    "segmented-control": "src/segmented-control/index.ts",
     "switch-toggle": "src/switch-toggle/index.ts",
   },
   format: "esm",

@@ -29,6 +29,8 @@ describe("registry catalog", () => {
       "counter-numbers",
       "magnet-pull",
       "notify-morph",
+      "search-morph",
+      "segmented-control",
       "switch-toggle",
     ]);
   });
