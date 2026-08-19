@@ -60,4 +60,5 @@ pnpm validate
 ```
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) before proposing changes. Suluu is
-available under the [MIT License](./LICENSE).
+available under the [MIT License](./LICENSE). Release notes are kept in the
+[changelog](./CHANGELOG.md).
