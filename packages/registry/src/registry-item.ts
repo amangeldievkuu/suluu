@@ -326,7 +326,7 @@ export function createSlideControlRegistryItem(source: string): RegistryItem {
     type: "registry:ui",
     title: "SlideControl",
     description:
-      "A range slider whose fill stays locked to the thumb, then both settle onto the value.",
+      "A range slider whose fill follows the thumb with a little mass, then both settle onto the value.",
     author: "Suluu contributors",
     dependencies: ["motion@^13.1.0"],
     files: [

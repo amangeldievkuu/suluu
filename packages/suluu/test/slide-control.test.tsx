@@ -37,7 +37,7 @@ function readWidth(element: HTMLElement): number {
 function fillAlignedToThumb(thumb: HTMLElement, fill: HTMLElement) {
   expect(readWidth(fill)).toBeCloseTo(
     readTransform(thumb, "translateX", 0) + SLIDE_THUMB_SIZE / 2,
-    1,
+    0,
   );
 }
 
@@ -198,6 +198,13 @@ describe("SLIDE_MOTION_PRESETS", () => {
       SLIDE_MOTION_PRESETS.expressive.thumb.stiffness,
     );
   });
+
+  it("gives the fill more mass and a slower spring than the thumb", () => {
+    for (const preset of Object.values(SLIDE_MOTION_PRESETS)) {
+      expect(preset.fill.mass).toBeGreaterThan(preset.thumb.mass);
+      expect(preset.fill.stiffness).toBeLessThan(preset.thumb.stiffness);
+    }
+  });
 });
 
 describe("SlideControl", () => {
@@ -212,6 +219,7 @@ describe("SlideControl", () => {
     expect(slider).toHaveAttribute("data-slot", "slide-control");
     expect(slider).toHaveAttribute("data-dragging", "false");
     expect(slider).toHaveAttribute("tabindex", "0");
+    expect(slider.className).toContain("data-[dragging=true]:ring-0");
     expect(
       container.querySelector('[data-slot="slide-control-track"]'),
     ).toBeVisible();
@@ -404,7 +412,7 @@ describe("SlideControl", () => {
     expect(onValueChange).toHaveBeenLastCalledWith(100);
   });
 
-  it("keeps the fill flush with the thumb while dragging left", async () => {
+  it("lets the fill trail the thumb with mass while dragging left", async () => {
     stubTrackGeometry();
     const { container } = render(
       <SlideControl aria-label="Volume" defaultValue={80} />,
@@ -437,7 +445,9 @@ describe("SlideControl", () => {
       expect(slider).toHaveAttribute("data-dragging", "true");
       expect(readTransform(thumb, "translateX", 0)).toBeLessThan(140);
     });
-    fillAlignedToThumb(thumb, fill);
+    expect(readWidth(fill)).toBeGreaterThan(
+      readTransform(thumb, "translateX", 0) + SLIDE_THUMB_SIZE / 2,
+    );
 
     fireEvent.pointerUp(slider, {
       button: 0,
@@ -445,6 +455,13 @@ describe("SlideControl", () => {
       isPrimary: true,
       pointerId: 5,
     });
+
+    await waitFor(
+      () => {
+        fillAlignedToThumb(thumb, fill);
+      },
+      { timeout: 2000 },
+    );
   });
 
   it("cancels an in-flight drag without leaving the thumb squashed", async () => {
@@ -595,7 +612,12 @@ describe("SlideControl", () => {
     const thumb = container.querySelector<HTMLElement>(
       '[data-slot="slide-control-thumb"]',
     );
-    if (!thumb) throw new Error("Expected the slider thumb to render.");
+    const fill = container.querySelector<HTMLElement>(
+      '[data-slot="slide-control-fill"]',
+    );
+    if (!thumb || !fill) {
+      throw new Error("Expected the slider thumb and fill to render.");
+    }
 
     slider.focus();
     await user.keyboard("{End}");
@@ -609,9 +631,10 @@ describe("SlideControl", () => {
     });
     await waitFor(() => {
       expect(slider).toHaveAttribute("data-dragging", "true");
+      expect(readTransform(thumb, "scaleX", 1)).toBeCloseTo(1, 2);
+      expect(readTransform(thumb, "scaleY", 1)).toBeCloseTo(1, 2);
+      fillAlignedToThumb(thumb, fill);
     });
-    expect(readTransform(thumb, "scaleX", 1)).toBeCloseTo(1, 2);
-    expect(readTransform(thumb, "scaleY", 1)).toBeCloseTo(1, 2);
 
     fireEvent.pointerUp(slider, {
       button: 0,

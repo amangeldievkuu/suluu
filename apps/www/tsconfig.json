@@ -17,6 +17,9 @@
       "suluu/segmented-control": [
         "../../packages/suluu/src/segmented-control/index.ts"
       ],
+      "suluu/slide-control": [
+        "../../packages/suluu/src/slide-control/index.ts"
+      ],
       "suluu/switch-toggle": ["../../packages/suluu/src/switch-toggle/index.ts"]
     }
   },

@@ -9,7 +9,7 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- SlideControl, a range slider whose fill stays locked to the thumb.
+- SlideControl, a range slider whose fill follows the thumb with a little mass.
 
 ## [0.1.0] - 2026-08-19
 

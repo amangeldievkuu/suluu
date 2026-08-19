@@ -93,7 +93,7 @@ const props: readonly PropRow[] = [
     "motionIntensity",
     '"subtle" | "default" | "expressive"',
     '"default"',
-    "Controls the thumb spring and squash.",
+    "Controls the thumb spring, fill follow, and squash.",
   ],
   ["className", "string", "—", "Class name applied to the slider."],
 ];
@@ -113,9 +113,9 @@ export default function SlideControlPage() {
   return (
     <main className="py-20" id="content">
       <DocsPageHeader slug="slide-control">
-        A tactile range control. The fill stays locked to the thumb so the value
-        never reads ahead of the handle. Nearby step ticks ease the thumb in; on
-        release the thumb settles onto the committed value.
+        A tactile range control. The thumb follows the pointer on a soft spring,
+        and the fill trails it by a little. On release both settle onto the
+        committed value.
       </DocsPageHeader>
 
       <ComponentPreview hint="Drag the thumb or click the track">
@@ -188,8 +188,8 @@ export default function SlideControlPage() {
               input path.
             </p>
             <p className="mt-4 text-sm leading-7 text-[var(--site-muted)]">
-              With reduced motion, dragging still works but the thumb settle and
-              squash become immediate.
+              With reduced motion, dragging still works but the thumb settle,
+              fill follow, and squash become immediate.
             </p>
           </section>
         </article>

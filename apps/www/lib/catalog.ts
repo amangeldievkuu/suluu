@@ -72,7 +72,7 @@ export const CATALOG = [
     name: "SlideControl",
     category: "Forms",
     summary:
-      "A range slider whose fill stays locked to the thumb, then both settle onto the value.",
+      "A range slider whose fill follows the thumb with a little mass, then both settle onto the value.",
     keywords: ["slider", "range", "volume", "price", "track", "thumb"],
   },
   {

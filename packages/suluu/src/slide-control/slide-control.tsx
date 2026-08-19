@@ -50,7 +50,7 @@ export interface SlideControlProps extends Omit<
   step?: number;
   /** Disables pointer and keyboard interaction. */
   disabled?: boolean;
-  /** Controls the thumb spring and squash character. */
+  /** Controls the thumb spring, fill follow, and squash character. */
   motionIntensity?: SlideControlIntensity;
   /** Inline styles merged onto the slider root. */
   style?: MotionStyle;
@@ -66,6 +66,8 @@ export interface SlideMotionPreset {
   squashX: number;
   squashY: number;
   thumb: SlideSpring;
+  /** Heavier than the thumb so the fill trails with a little mass. */
+  fill: SlideSpring;
 }
 
 export type SlideKeyAction =
@@ -84,16 +86,19 @@ export const SLIDE_MOTION_PRESETS: Record<
     squashX: 1.06,
     squashY: 0.96,
     thumb: { damping: 42, mass: 0.65, stiffness: 520 },
+    fill: { damping: 38, mass: 0.78, stiffness: 460 },
   },
   default: {
     squashX: 1.1,
     squashY: 0.92,
     thumb: { damping: 28, mass: 0.75, stiffness: 380 },
+    fill: { damping: 26, mass: 0.88, stiffness: 280 },
   },
   expressive: {
     squashX: 1.14,
     squashY: 0.88,
     thumb: { damping: 18, mass: 0.9, stiffness: 280 },
+    fill: { damping: 20, mass: 1.02, stiffness: 230 },
   },
 };
 
@@ -312,10 +317,11 @@ export const SlideControl = forwardRef<HTMLDivElement, SlideControlProps>(
     const squashXTarget = useMotionValue(1);
     const squashYTarget = useMotionValue(1);
     const thumbX = useSpring(thumbTarget, preset.thumb);
+    const fillX = useSpring(thumbX, preset.fill);
     const squashX = useSpring(squashXTarget, preset.thumb);
     const squashY = useSpring(squashYTarget, preset.thumb);
     const fillWidthPx = useTransform(
-      [thumbX, trackWidthMotion],
+      [fillX, trackWidthMotion],
       ([thumbPosition, width]) =>
         `${String(fillWidthFromThumbX(Number(thumbPosition), Number(width)))}px`,
     );
@@ -353,9 +359,10 @@ export const SlideControl = forwardRef<HTMLDivElement, SlideControlProps>(
 
         if (immediate) {
           thumbX.jump(x);
+          fillX.jump(x);
         }
       },
-      [max, min, thumbTarget, thumbX, trackWidth, trackWidthMotion],
+      [fillX, max, min, thumbTarget, thumbX, trackWidth, trackWidthMotion],
     );
 
     const setSquash = useCallback(
@@ -429,9 +436,7 @@ export const SlideControl = forwardRef<HTMLDivElement, SlideControlProps>(
         min,
         max,
       );
-      const visual = settle
-        ? snapToStep(raw, min, max, step)
-        : magnetizeValue(raw, min, max, step);
+      const visual = settle ? snapToStep(raw, min, max, step) : raw;
       const travel = Math.max(0, width - SLIDE_THUMB_SIZE);
       const ratio =
         max <= min ? 0 : (clampNumber(visual, min, max) - min) / (max - min);
@@ -439,8 +444,9 @@ export const SlideControl = forwardRef<HTMLDivElement, SlideControlProps>(
 
       trackWidthMotion.set(width);
       thumbTarget.set(x);
-      if (prefersReducedMotion || !settle) {
+      if (prefersReducedMotion) {
         thumbX.jump(x);
+        fillX.jump(x);
       }
 
       requestValue(raw);
@@ -458,7 +464,10 @@ export const SlideControl = forwardRef<HTMLDivElement, SlideControlProps>(
       }
 
       event.preventDefault();
-      event.currentTarget.focus({ preventScroll: true });
+      event.currentTarget.focus({
+        focusVisible: false,
+        preventScroll: true,
+      });
       if (typeof event.currentTarget.setPointerCapture === "function") {
         event.currentTarget.setPointerCapture(event.pointerId);
       }
@@ -512,11 +521,12 @@ export const SlideControl = forwardRef<HTMLDivElement, SlideControlProps>(
         aria-valuemin={min}
         aria-valuenow={currentValue}
         className={joinClassNames(
-          "relative flex h-8 w-56 touch-none items-center outline-none select-none",
+          "relative flex h-8 w-56 touch-none items-center outline-none select-none [-webkit-tap-highlight-color:transparent]",
           disabled
             ? "pointer-events-none cursor-not-allowed opacity-45"
             : "cursor-grab data-[dragging=true]:cursor-grabbing",
           "focus-visible:ring-2 focus-visible:ring-[var(--suluu-slide-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--suluu-slide-offset)]",
+          "data-[dragging=true]:ring-0 data-[dragging=true]:ring-offset-0",
           className,
         )}
         data-dragging={dragging ? "true" : "false"}
