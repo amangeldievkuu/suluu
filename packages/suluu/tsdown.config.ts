@@ -21,6 +21,7 @@ export default defineConfig({
     "counter-numbers": "src/counter-numbers/index.ts",
     index: "src/index.ts",
     "magnet-pull": "src/magnet-pull/index.ts",
+    "morph-button": "src/morph-button/index.ts",
     "notify-morph": "src/notify-morph/index.ts",
     "search-morph": "src/search-morph/index.ts",
     "segmented-control": "src/segmented-control/index.ts",

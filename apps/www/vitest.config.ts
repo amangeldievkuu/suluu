@@ -14,6 +14,7 @@ export default defineConfig({
       // library from source rather than from its unbuilt `dist` output.
       "suluu/counter-numbers": `${packageSrc}/counter-numbers/index.ts`,
       "suluu/magnet-pull": `${packageSrc}/magnet-pull/index.ts`,
+      "suluu/morph-button": `${packageSrc}/morph-button/index.ts`,
       "suluu/notify-morph": `${packageSrc}/notify-morph/index.ts`,
       "suluu/search-morph": `${packageSrc}/search-morph/index.ts`,
       "suluu/segmented-control": `${packageSrc}/segmented-control/index.ts`,

@@ -28,6 +28,7 @@ describe("registry catalog", () => {
     expect(REGISTRY_ITEMS.map((item) => item.name)).toEqual([
       "counter-numbers",
       "magnet-pull",
+      "morph-button",
       "notify-morph",
       "search-morph",
       "segmented-control",

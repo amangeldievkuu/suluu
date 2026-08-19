@@ -3,6 +3,7 @@ import { axe } from "vitest-axe";
 import { describe, expect, it } from "vitest";
 
 import { ComponentPreview } from "@/components/docs/component-preview";
+import { ContextExample } from "@/components/docs/context-example";
 import { CssVariablesTable } from "@/components/docs/css-variables-table";
 import { DocsPageHeader } from "@/components/docs/docs-page-header";
 import { DEFAULT_TOC_ITEMS } from "@/components/docs/docs-toc-items";
@@ -122,6 +123,22 @@ describe("ComponentPreview", () => {
     );
 
     expect(screen.getByText("Move your cursor")).toBeVisible();
+  });
+});
+
+describe("ContextExample", () => {
+  it("gives realistic examples a consistent heading and description", () => {
+    render(
+      <ContextExample description="A quiet product setting.">
+        <button type="button">Try it</button>
+      </ContextExample>,
+    );
+
+    expect(
+      screen.getByRole("heading", { level: 3, name: "In context" }),
+    ).toBeVisible();
+    expect(screen.getByText("A quiet product setting.")).toBeVisible();
+    expect(screen.getByRole("button", { name: "Try it" })).toBeVisible();
   });
 });
 

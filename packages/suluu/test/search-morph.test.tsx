@@ -7,7 +7,54 @@ import { describe, expect, it, vi } from "vitest";
 
 import { SearchMorph } from "../src/search-morph/search-morph";
 
+/**
+ * jsdom reports no layout, so the width tests stub what the component measures:
+ * the natural width of the label.
+ */
+function stubLabelMeasurement(slot: string, width: number) {
+  class TestResizeObserver {
+    disconnect() {
+      return undefined;
+    }
+    observe() {
+      return undefined;
+    }
+    unobserve() {
+      return undefined;
+    }
+  }
+
+  vi.stubGlobal("ResizeObserver", TestResizeObserver);
+  vi.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockImplementation(
+    function (this: HTMLElement) {
+      return this.dataset.slot === slot ? width : 0;
+    },
+  );
+}
+
 describe("SearchMorph", () => {
+  it("widens the pill for a label the default track cannot fit", async () => {
+    const user = userEvent.setup();
+    stubLabelMeasurement("search-morph-label", 180);
+
+    render(<SearchMorph label="Search every note" />);
+    const action = screen.getByRole("button", { name: "Search every note" });
+
+    // 180 label + 32 padding + 20 icon + 10 gap, instead of clipping at 152.
+    await waitFor(() => expect(action).toHaveStyle({ width: "242px" }), {
+      timeout: 3000,
+    });
+
+    await user.click(action);
+
+    // Expanded the icon is gone, so the submit button only carries the label.
+    await waitFor(() => expect(action).toHaveStyle({ width: "212px" }), {
+      timeout: 3000,
+    });
+
+    vi.unstubAllGlobals();
+  });
+
   it("starts collapsed and expands with focus on activation", async () => {
     const user = userEvent.setup();
     const onExpandedChange = vi.fn();

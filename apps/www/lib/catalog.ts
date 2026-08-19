@@ -28,11 +28,19 @@ export const CATALOG = [
     keywords: ["magnetic", "cursor", "hover", "cta", "attract", "parallax"],
   },
   {
+    slug: "morph-button",
+    name: "MorphButton",
+    category: "Buttons",
+    summary:
+      "A compact icon button that springs open into a labeled action on hover, focus, or application state.",
+    keywords: ["expand", "shape", "pill", "icon", "cta", "transition"],
+  },
+  {
     slug: "notify-morph",
     name: "NotifyMorph",
     category: "Forms",
     summary:
-      "A compact bell CTA that fluidly opens into an accessible email form.",
+      "A compact notification action that fluidly opens into an accessible email form.",
     keywords: ["email", "subscribe", "newsletter", "bell", "input", "expand"],
   },
   {
@@ -40,7 +48,7 @@ export const CATALOG = [
     name: "SearchMorph",
     category: "Forms",
     summary:
-      "A compact search pill that fluidly opens into an accessible search field.",
+      "A compact search action that fluidly opens into an accessible search field.",
     keywords: ["search", "find", "query", "expand", "morph", "input"],
   },
   {
@@ -48,7 +56,7 @@ export const CATALOG = [
     name: "SwitchToggle",
     category: "Forms",
     summary:
-      "A tactile switch with a softly sprung thumb and a fluid minus-to-check icon morph.",
+      "A spring switch with a tactile thumb and a fluid minus-to-check icon morph.",
     keywords: ["toggle", "checked", "boolean", "setting", "drag", "control"],
   },
   {
@@ -64,7 +72,7 @@ export const CATALOG = [
     name: "CounterNumbers",
     category: "Data Display",
     summary:
-      "An Intl-aware number display whose changed digit places roll and settle on satisfying springs.",
+      "A locale-aware rolling number whose changed digit places settle on satisfying springs.",
     keywords: [
       "odometer",
       "ticker",

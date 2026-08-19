@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
 import { CodeBlock } from "@/components/code-block";
+import { SearchMorphContextDemo } from "@/components/demos/context-demos";
 import { SearchMorphDemo } from "@/components/demos/search-morph-demo";
 import { ComponentPreview } from "@/components/docs/component-preview";
+import { ContextExample } from "@/components/docs/context-example";
 import {
   CssVariablesTable,
   type CssVariableRow,
@@ -130,9 +132,10 @@ export default function SearchMorphPage() {
   return (
     <main className="py-20" id="content">
       <DocsPageHeader slug="search-morph">
-        A compact search pill that fluidly opens into a field. Same paper
-        surface and spring as NotifyMorph, without a confirmation toast or a
-        results list — your application owns what happens with the query.
+        A compact search action that fluidly opens into a field. It shares the
+        notification form&apos;s paper surface and spring, without a
+        confirmation toast or results list — your application owns what happens
+        with the query.
       </DocsPageHeader>
 
       <ComponentPreview hint="Click Search, then type">
@@ -170,6 +173,9 @@ export default function SearchMorphPage() {
             <div className="mt-4">
               <CodeBlock code={pendingUsage} label="Pending" />
             </div>
+            <ContextExample description="The search action can sit quietly in a content header, then make room for a query when needed.">
+              <SearchMorphContextDemo />
+            </ContextExample>
           </section>
 
           <PropsTable rows={props}>

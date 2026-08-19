@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
 import { CodeBlock } from "@/components/code-block";
+import { SwitchToggleContextDemo } from "@/components/demos/context-demos";
 import { SwitchToggleDemo } from "@/components/demos/switch-toggle-demo";
 import { ComponentPreview } from "@/components/docs/component-preview";
+import { ContextExample } from "@/components/docs/context-example";
 import {
   CssVariablesTable,
   type CssVariableRow,
@@ -113,6 +115,9 @@ export default function SwitchTogglePage() {
             <div className="mt-4">
               <CodeBlock code={controlledUsage} label="Controlled" />
             </div>
+            <ContextExample description="Pair the spring switch with a persistent setting whose effect is immediate and reversible.">
+              <SwitchToggleContextDemo />
+            </ContextExample>
           </section>
 
           <PropsTable rows={props}>
@@ -134,7 +139,7 @@ export default function SwitchTogglePage() {
               Accessibility
             </h2>
             <p className="mt-3 text-sm leading-7 text-[var(--site-muted)]">
-              SwitchToggle is a native button with{" "}
+              The spring switch is a native button with{" "}
               <code className="text-xs">role=&quot;switch&quot;</code> and a
               live <code className="text-xs">aria-checked</code> state. Enter
               and Space work through native button behavior, focus remains on

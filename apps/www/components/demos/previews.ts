@@ -4,6 +4,7 @@ import type { ComponentSlug } from "@/lib/catalog";
 
 import { CounterNumbersDemo } from "./counter-numbers-demo";
 import { MagnetPullDemo } from "./magnet-pull-demo";
+import { MorphButtonDemo } from "./morph-button-demo";
 import { NotifyMorphDemo } from "./notify-morph-demo";
 import { SearchMorphDemo } from "./search-morph-demo";
 import { SegmentedControlDemo } from "./segmented-control-demo";
@@ -20,6 +21,7 @@ export const COMPONENT_PREVIEWS: Record<
 > = {
   "counter-numbers": CounterNumbersDemo,
   "magnet-pull": MagnetPullDemo,
+  "morph-button": MorphButtonDemo,
   "notify-morph": NotifyMorphDemo,
   "search-morph": SearchMorphDemo,
   "segmented-control": SegmentedControlDemo,

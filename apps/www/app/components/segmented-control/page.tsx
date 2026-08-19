@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
 import { CodeBlock } from "@/components/code-block";
+import { SegmentedControlContextDemo } from "@/components/demos/context-demos";
 import { SegmentedControlDemo } from "@/components/demos/segmented-control-demo";
 import { ComponentPreview } from "@/components/docs/component-preview";
+import { ContextExample } from "@/components/docs/context-example";
 import {
   CssVariablesTable,
   type CssVariableRow,
@@ -140,6 +142,9 @@ export default function SegmentedControlPage() {
             <div className="mt-4">
               <CodeBlock code={controlledUsage} label="Controlled" />
             </div>
+            <ContextExample description="A compact range selector keeps an analytics view legible while the moving pill preserves selection context.">
+              <SegmentedControlContextDemo />
+            </ContextExample>
           </section>
 
           <PropsTable rows={props}>
@@ -164,9 +169,9 @@ export default function SegmentedControlPage() {
               Accessibility
             </h2>
             <p className="mt-3 text-sm leading-7 text-[var(--site-muted)]">
-              SegmentedControl is a radiogroup of native buttons. Arrow keys,
-              Home, and End move the selection, only the selected option is in
-              the tab order, and disabled state blocks every input path.
+              The segmented control is a radiogroup of native buttons. Arrow
+              keys, Home, and End move the selection, only the selected option
+              is in the tab order, and disabled state blocks every input path.
             </p>
             <p className="mt-4 text-sm leading-7 text-[var(--site-muted)]">
               With reduced motion, the pill still marks the selected option but

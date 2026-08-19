@@ -7,6 +7,7 @@ export default defineConfig({
         "src/index.ts",
         "src/counter-numbers/index.ts",
         "src/magnet-pull/index.ts",
+        "src/morph-button/index.ts",
         "src/notify-morph/index.ts",
         "src/search-morph/index.ts",
         "src/segmented-control/index.ts",

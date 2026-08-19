@@ -11,6 +11,7 @@
         "../../packages/suluu/src/counter-numbers/index.ts"
       ],
       "suluu/magnet-pull": ["../../packages/suluu/src/magnet-pull/index.ts"],
+      "suluu/morph-button": ["../../packages/suluu/src/morph-button/index.ts"],
       "suluu/notify-morph": ["../../packages/suluu/src/notify-morph/index.ts"],
       "suluu/search-morph": ["../../packages/suluu/src/search-morph/index.ts"],
       "suluu/segmented-control": [

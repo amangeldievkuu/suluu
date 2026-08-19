@@ -74,6 +74,15 @@ describe("SearchPalette", () => {
     expect(getDialog().open).toBe(true);
   });
 
+  it("ignores synthetic keydown events that carry no key", () => {
+    renderPalette();
+
+    // Password managers and autofill dispatch bare keydown events with no key
+    // property at all, which used to crash the shortcut listener.
+    expect(() => window.dispatchEvent(new Event("keydown"))).not.toThrow();
+    expect(getDialog().open).toBe(false);
+  });
+
   it("lists every component when the query is empty", async () => {
     const user = userEvent.setup();
     renderPalette();

@@ -44,12 +44,22 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="relative flex min-h-[26rem] items-center justify-center overflow-hidden rounded-[2rem] border bg-white p-8 [--preview-grid:oklch(0.88_0.006_260)] sm:p-12 dark:bg-[oklch(0.12_0.008_260)] dark:[--preview-grid:oklch(0.25_0.012_260)]">
+        <div className="group relative flex min-h-[26rem] items-center justify-center overflow-hidden rounded-[2rem] border bg-white p-8 shadow-[inset_0_1px_0_oklch(1_0_0/0.75)] transition-[border-color,box-shadow] duration-300 [--preview-grid:oklch(0.88_0.006_260)] hover:border-[color-mix(in_oklch,var(--site-border),var(--site-foreground)_14%)] hover:shadow-[0_22px_64px_oklch(0.15_0.02_260/0.07),inset_0_1px_0_oklch(1_0_0/0.75)] motion-reduce:transition-none sm:p-12 dark:bg-[oklch(0.12_0.008_260)] dark:shadow-[inset_0_1px_0_oklch(1_0_0/0.04)] dark:[--preview-grid:oklch(0.25_0.012_260)] dark:hover:shadow-[0_24px_68px_oklch(0_0_0/0.25),inset_0_1px_0_oklch(1_0_0/0.04)]">
           <div
             aria-hidden="true"
             className="absolute inset-0 [background-image:linear-gradient(to_right,var(--preview-grid)_1px,transparent_1px),linear-gradient(to_bottom,var(--preview-grid)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_88%_82%_at_center,black_35%,transparent_100%)] [background-size:56px_56px] [background-position:center] opacity-55"
           />
-          <FeaturedDemo />
+          <div className="pointer-events-none absolute inset-x-6 top-6 z-10 flex items-start justify-between gap-4 sm:inset-x-8 sm:top-8">
+            <div>
+              <p className="mt-1 text-sm font-medium">{featured.name}</p>
+            </div>
+            <p className="hidden pt-0.5 text-xs text-[var(--site-muted)] sm:block">
+              Move your cursor near the button
+            </p>
+          </div>
+          <div className="relative z-10">
+            <FeaturedDemo />
+          </div>
         </div>
       </section>
 

@@ -21,12 +21,11 @@ export function SearchPalette() {
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
-      if (
-        event.key.toLowerCase() !== "k" ||
-        !(event.metaKey || event.ctrlKey)
-      ) {
-        return;
-      }
+      // Password managers, autofill, and extensions dispatch synthetic keydown
+      // events with no key at all, despite what the DOM types promise. Compare
+      // the value instead of calling a method on it so those cannot crash us.
+      if (event.key !== "k" && event.key !== "K") return;
+      if (!(event.metaKey || event.ctrlKey)) return;
 
       event.preventDefault();
       open();

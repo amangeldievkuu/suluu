@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
 import { CodeBlock } from "@/components/code-block";
+import { NotifyMorphContextDemo } from "@/components/demos/context-demos";
 import { NotifyMorphDemo } from "@/components/demos/notify-morph-demo";
 import { ComponentPreview } from "@/components/docs/component-preview";
+import { ContextExample } from "@/components/docs/context-example";
 import {
   CssVariablesTable,
   type CssVariableRow,
@@ -133,6 +135,9 @@ export default function NotifyMorphPage() {
               <CodeBlock code={registryUsage} label="Registry" />
               <CodeBlock code={npmUsage} label="npm" />
             </div>
+            <ContextExample description="The expanding form keeps a waitlist invitation compact until someone chooses to respond.">
+              <NotifyMorphContextDemo />
+            </ContextExample>
           </section>
 
           <PropsTable rows={props}>
@@ -151,6 +156,12 @@ export default function NotifyMorphPage() {
               focus to the email field, Escape collapses and restores focus,
               native email validation blocks invalid submissions, and reduced
               motion removes spatial animation.
+            </p>
+            <p className="mt-4 text-sm leading-7 text-[var(--site-muted)]">
+              The confirmation is announced politely without stealing focus.
+              Keep the visible label descriptive, preserve sufficient contrast
+              when overriding theme variables, and pair server-side errors with
+              an equally clear live message in your application.
             </p>
           </section>
         </article>

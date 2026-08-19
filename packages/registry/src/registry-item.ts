@@ -207,6 +207,64 @@ export function createMagnetPullRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createMorphButtonRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "morph-button",
+    type: "registry:ui",
+    title: "MorphButton",
+    description:
+      "A compact icon button that fluidly expands into a labeled action on hover, focus, or application state.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/morph-button/morph-button.tsx",
+        type: "registry:ui",
+        target: "@ui/morph-button.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-morph-background": "oklch(0.97 0.002 260)",
+        "suluu-morph-foreground": "oklch(0.08 0.005 260)",
+        "suluu-morph-border": "oklch(0.94 0.005 260)",
+        "suluu-morph-shadow":
+          "0 1px 2px oklch(0.2 0.02 260 / 5%), 0 5px 14px oklch(0.2 0.02 260 / 6%)",
+        "suluu-morph-accent": "oklch(0.998 0.001 260)",
+        "suluu-morph-accent-foreground": "oklch(0.08 0.005 260)",
+        "suluu-morph-accent-border": "oklch(0.93 0.005 260)",
+        "suluu-morph-accent-shadow":
+          "0 2px 3px oklch(0.2 0.02 260 / 7%), 0 9px 22px oklch(0.2 0.02 260 / 10%)",
+        "suluu-morph-ring": "oklch(0.55 0.16 255)",
+        "suluu-morph-offset": "oklch(1 0 0)",
+      },
+      dark: {
+        "suluu-morph-background": "oklch(0.2 0.012 260)",
+        "suluu-morph-foreground": "oklch(0.96 0.006 260)",
+        "suluu-morph-border": "oklch(0.26 0.014 260)",
+        "suluu-morph-shadow":
+          "0 2px 3px oklch(0 0 0 / 18%), 0 7px 18px oklch(0 0 0 / 20%)",
+        "suluu-morph-accent": "oklch(0.29 0.015 260)",
+        "suluu-morph-accent-foreground": "oklch(0.97 0.004 260)",
+        "suluu-morph-accent-border": "oklch(0.35 0.017 260)",
+        "suluu-morph-accent-shadow":
+          "0 2px 3px oklch(0 0 0 / 24%), 0 11px 26px oklch(0 0 0 / 30%)",
+        "suluu-morph-ring": "oklch(0.7 0.13 255)",
+        "suluu-morph-offset": "oklch(0.14 0.008 260)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. Provide an aria-label and icon-sized compact content; hover previews only run on fine-pointer devices.",
+    categories: ["buttons", "call-to-action", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createSegmentedControlRegistryItem(
   source: string,
 ): RegistryItem {
@@ -333,6 +391,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "magnet-pull",
     output: "apps/www/public/r/magnet-pull.json",
     source: "packages/suluu/src/magnet-pull/magnet-pull.tsx",
+  },
+  {
+    create: createMorphButtonRegistryItem,
+    exportName: "MorphButton",
+    name: "morph-button",
+    output: "apps/www/public/r/morph-button.json",
+    source: "packages/suluu/src/morph-button/morph-button.tsx",
   },
   {
     create: createNotifyMorphRegistryItem,

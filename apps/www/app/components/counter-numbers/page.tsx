@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
 import { CodeBlock } from "@/components/code-block";
+import { CounterNumbersContextDemo } from "@/components/demos/context-demos";
 import { CounterNumbersDemo } from "@/components/demos/counter-numbers-demo";
 import { ComponentPreview } from "@/components/docs/component-preview";
+import { ContextExample } from "@/components/docs/context-example";
 import { DocsPageHeader } from "@/components/docs/docs-page-header";
 import { DEFAULT_TOC_ITEMS } from "@/components/docs/docs-toc-items";
 import { InstallSection } from "@/components/docs/install-section";
@@ -111,10 +113,10 @@ export default function CounterNumbersPage() {
           <section className="scroll-mt-24" id="usage">
             <h2 className="text-2xl font-semibold tracking-tight">Usage</h2>
             <p className="mt-3 text-sm leading-6 text-[var(--site-muted)]">
-              CounterNumbers is display-only: pass it the latest number and keep
-              buttons, timers, and server updates in your application. A changed
-              place rolls once instead of counting through every value, so large
-              jumps remain quick and legible.
+              The rolling number is display-only: pass it the latest value and
+              keep buttons, timers, and server updates in your application. A
+              changed place rolls once instead of counting through every value,
+              so large jumps remain quick and legible.
             </p>
             <div className="mt-6 space-y-5">
               <CodeBlock code={registryUsage} label="Registry" />
@@ -133,6 +135,9 @@ export default function CounterNumbersPage() {
             <div className="mt-4">
               <CodeBlock code={formattingUsage} label="Formatting" />
             </div>
+            <ContextExample description="Rolling only the changed places gives a compact stats row a sense of continuity between refreshes.">
+              <CounterNumbersContextDemo />
+            </ContextExample>
           </section>
 
           <PropsTable rows={props}>

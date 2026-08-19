@@ -8,6 +8,11 @@ export type {
   MagnetIntensity,
   MagnetPullProps,
 } from "./magnet-pull/magnet-pull";
+export { MorphButton } from "./morph-button/morph-button";
+export type {
+  MorphButtonIntensity,
+  MorphButtonProps,
+} from "./morph-button/morph-button";
 export { NotifyMorph } from "./notify-morph/notify-morph";
 export type {
   MotionIntensity,

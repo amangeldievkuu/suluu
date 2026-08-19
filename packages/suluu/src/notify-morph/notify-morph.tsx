@@ -6,10 +6,12 @@ import {
   useCallback,
   useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   useState,
   type ComponentPropsWithoutRef,
   type KeyboardEvent,
+  type RefObject,
   type SubmitEvent,
 } from "react";
 
@@ -78,8 +80,51 @@ const MOTION_PRESETS: Record<MotionIntensity, MotionPreset> = {
   },
 };
 
+/** Layout constants mirroring the trigger's padding, icon, and gap classes. */
+const TRIGGER_PADDING = 32;
+const TRIGGER_ICON = 20;
+const TRIGGER_GAP = 10;
+/** Shell padding and input track that surround the submit button when open. */
+const SHELL_PADDING = 8;
+const FIELD_WIDTH = 216;
+/** Floors that keep the default label rendering exactly as it always has. */
+const MIN_TRIGGER_WIDTH = 152;
+const MIN_SUBMIT_WIDTH = 128;
+
+const useIsomorphicLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
+
 function joinClassNames(...values: (string | undefined)[]): string {
   return values.filter(Boolean).join(" ");
+}
+
+/**
+ * Natural width of the label, so the pill can grow for a custom label instead
+ * of clipping it inside a fixed-width track.
+ */
+function useMeasuredWidth(ref: RefObject<HTMLElement | null>): number {
+  const [width, setWidth] = useState(0);
+
+  useIsomorphicLayoutEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    // offsetWidth reports the untransformed box, so the press scale on the
+    // trigger cannot feed a shrinking measurement back into the layout.
+    const measure = () =>
+      setWidth((previous) =>
+        node.offsetWidth === previous ? previous : node.offsetWidth,
+      );
+
+    measure();
+    if (typeof ResizeObserver === "undefined") return;
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [ref]);
+
+  return width;
 }
 
 function defaultSuccessMessage(email: string): string {
@@ -159,6 +204,7 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
     const formRef = useRef<HTMLFormElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const triggerRef = useRef<HTMLButtonElement | null>(null);
+    const labelRef = useRef<HTMLSpanElement>(null);
     const previousExpandedRef = useRef(false);
     const restoreFocusRef = useRef(false);
     const confirmationIdRef = useRef(0);
@@ -174,6 +220,21 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
     const morphTransition = prefersReducedMotion
       ? { duration: 0 }
       : preset.spring;
+
+    // The label is the only variable part of the pill; everything else is fixed
+    // padding, so a custom label widens the track instead of being clipped.
+    const labelWidth = useMeasuredWidth(labelRef);
+    const triggerWidth = Math.max(
+      MIN_TRIGGER_WIDTH,
+      labelWidth + TRIGGER_PADDING + TRIGGER_ICON + TRIGGER_GAP,
+    );
+    const submitWidth = Math.max(
+      MIN_SUBMIT_WIDTH,
+      labelWidth + TRIGGER_PADDING,
+    );
+    const shellWidth = currentExpanded
+      ? submitWidth + FIELD_WIDTH + SHELL_PADDING
+      : triggerWidth;
 
     const setFormRef = useCallback(
       (node: HTMLFormElement | null) => {
@@ -283,7 +344,7 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
         <motion.div
           animate={{
             padding: currentExpanded ? 4 : 0,
-            width: currentExpanded ? 352 : 152,
+            width: shellWidth,
           }}
           className="relative flex h-12 max-w-[calc(100vw-2rem)] items-center justify-end overflow-hidden rounded-full bg-[var(--suluu-notify-background)] text-[var(--suluu-notify-foreground)]"
           initial={false}
@@ -340,7 +401,7 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
             animate={{
               height: currentExpanded ? 40 : 48,
               scale: currentExpanded && !prefersReducedMotion ? [0.9, 1] : 1,
-              width: currentExpanded ? 128 : 152,
+              width: currentExpanded ? submitWidth : triggerWidth,
             }}
             className={joinClassNames(
               "inline-flex max-w-full shrink-0 items-center justify-center gap-2.5 overflow-hidden rounded-full text-base font-semibold whitespace-nowrap transition-[background-color,box-shadow,color,filter] outline-none focus-visible:ring-2 focus-visible:ring-[var(--suluu-notify-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--suluu-notify-background)] disabled:pointer-events-none disabled:opacity-50",
@@ -410,7 +471,13 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
                 </motion.span>
               )}
             </AnimatePresence>
-            <span>{label}</span>
+            <span
+              className="shrink-0"
+              data-slot="notify-morph-label"
+              ref={labelRef}
+            >
+              {label}
+            </span>
           </motion.button>
         </motion.div>
         <AnimatePresence initial={false}>

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
 import { CodeBlock } from "@/components/code-block";
-import { MagnetPullDemo } from "@/components/demos/magnet-pull-demo";
+import { MagnetPullContextDemo } from "@/components/demos/context-demos";
+import { MagnetPullComparisonDemo } from "@/components/demos/magnet-pull-demo";
 import { ComponentPreview } from "@/components/docs/component-preview";
+import { ContextExample } from "@/components/docs/context-example";
 import {
   CssVariablesTable,
   type CssVariableRow,
@@ -116,7 +118,7 @@ export default function MagnetPullPage() {
       </DocsPageHeader>
 
       <ComponentPreview hint="Move your cursor near the button">
-        <MagnetPullDemo />
+        <MagnetPullComparisonDemo />
       </ComponentPreview>
 
       <div className="mt-20 grid gap-16 lg:grid-cols-[13rem_minmax(0,1fr)]">
@@ -145,6 +147,9 @@ export default function MagnetPullPage() {
             <div className="mt-4">
               <CodeBlock code={tuningUsage} label="Tuning" />
             </div>
+            <ContextExample description="Use the magnetic pull sparingly on the one action that carries a page forward.">
+              <MagnetPullContextDemo />
+            </ContextExample>
           </section>
 
           <PropsTable rows={props}>

@@ -21,7 +21,7 @@ export default function ComponentsPage() {
         <p className="mt-5 text-lg leading-8 text-[var(--site-muted)]">
           A deliberately small collection of expressive primitives. Each one is
           tested, accessible, and easy to own. Every preview below is the real
-          component — try them.
+          component, try them.
         </p>
         <p className="mt-4 text-sm text-[var(--site-muted)]">
           {CATALOG.length} components · press{" "}

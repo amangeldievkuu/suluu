@@ -135,6 +135,7 @@ describe("searchCatalog", () => {
   it("matches on the category", () => {
     expect(searchCatalog("buttons").map((entry) => entry.slug)).toEqual([
       "magnet-pull",
+      "morph-button",
     ]);
   });
 

@@ -6,7 +6,54 @@ import { describe, expect, it, vi } from "vitest";
 
 import { NotifyMorph } from "../src/notify-morph/notify-morph";
 
+/**
+ * jsdom reports no layout, so the width tests stub what the component measures:
+ * the natural width of the label.
+ */
+function stubLabelMeasurement(slot: string, width: number) {
+  class TestResizeObserver {
+    disconnect() {
+      return undefined;
+    }
+    observe() {
+      return undefined;
+    }
+    unobserve() {
+      return undefined;
+    }
+  }
+
+  vi.stubGlobal("ResizeObserver", TestResizeObserver);
+  vi.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockImplementation(
+    function (this: HTMLElement) {
+      return this.dataset.slot === slot ? width : 0;
+    },
+  );
+}
+
 describe("NotifyMorph", () => {
+  it("widens the pill for a label the default track cannot fit", async () => {
+    const user = userEvent.setup();
+    stubLabelMeasurement("notify-morph-label", 180);
+
+    render(<NotifyMorph label="Join the waitlist" />);
+    const action = screen.getByRole("button", { name: "Join the waitlist" });
+
+    // 180 label + 32 padding + 20 bell + 10 gap, instead of clipping at 152.
+    await waitFor(() => expect(action).toHaveStyle({ width: "242px" }), {
+      timeout: 3000,
+    });
+
+    await user.click(action);
+
+    // Expanded the bell is gone, so the submit button only carries the label.
+    await waitFor(() => expect(action).toHaveStyle({ width: "212px" }), {
+      timeout: 3000,
+    });
+
+    vi.unstubAllGlobals();
+  });
+
   it("starts collapsed and expands with focus on activation", async () => {
     const user = userEvent.setup();
     const onExpandedChange = vi.fn();
