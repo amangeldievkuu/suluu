@@ -32,6 +32,7 @@ describe("registry catalog", () => {
       "notify-morph",
       "search-morph",
       "segmented-control",
+      "slide-control",
       "switch-toggle",
     ]);
   });

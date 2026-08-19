@@ -11,6 +11,7 @@ export default defineConfig({
         "src/notify-morph/index.ts",
         "src/search-morph/index.ts",
         "src/segmented-control/index.ts",
+        "src/slide-control/index.ts",
         "src/switch-toggle/index.ts",
       ],
       include: ["src/**/*.tsx"],

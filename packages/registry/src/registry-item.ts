@@ -319,6 +319,58 @@ export function createSegmentedControlRegistryItem(
   return registryItemSchema.parse(item);
 }
 
+export function createSlideControlRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "slide-control",
+    type: "registry:ui",
+    title: "SlideControl",
+    description:
+      "A range slider whose fill stays locked to the thumb, then both settle onto the value.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/slide-control/slide-control.tsx",
+        type: "registry:ui",
+        target: "@ui/slide-control.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-slide-track": "oklch(0.9 0.006 260)",
+        "suluu-slide-fill": "oklch(0.58 0.19 255)",
+        "suluu-slide-thumb": "oklch(1 0 0)",
+        "suluu-slide-ring": "oklch(0.55 0.16 255)",
+        "suluu-slide-offset": "oklch(1 0 0)",
+        "suluu-slide-track-shadow": "inset 0 1px 2px oklch(0.2 0.02 260 / 12%)",
+        "suluu-slide-fill-shadow": "0 1px 2px oklch(0.5 0.18 255 / 18%)",
+        "suluu-slide-thumb-shadow":
+          "0 1px 2px oklch(0.16 0.02 260 / 16%), 0 3px 7px oklch(0.16 0.02 260 / 18%)",
+      },
+      dark: {
+        "suluu-slide-track": "oklch(0.31 0.012 260)",
+        "suluu-slide-fill": "oklch(0.7 0.15 255)",
+        "suluu-slide-thumb": "oklch(0.97 0.004 260)",
+        "suluu-slide-ring": "oklch(0.7 0.13 255)",
+        "suluu-slide-offset": "oklch(0.14 0.008 260)",
+        "suluu-slide-track-shadow": "inset 0 1px 3px oklch(0 0 0 / 35%)",
+        "suluu-slide-fill-shadow": "0 2px 8px oklch(0.64 0.15 255 / 22%)",
+        "suluu-slide-thumb-shadow":
+          "0 1px 2px oklch(0 0 0 / 28%), 0 4px 9px oklch(0 0 0 / 32%)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. Give every slider an accessible name with aria-label or aria-labelledby.",
+    categories: ["forms", "inputs", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createSwitchToggleRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -419,6 +471,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "segmented-control",
     output: "apps/www/public/r/segmented-control.json",
     source: "packages/suluu/src/segmented-control/segmented-control.tsx",
+  },
+  {
+    create: createSlideControlRegistryItem,
+    exportName: "SlideControl",
+    name: "slide-control",
+    output: "apps/www/public/r/slide-control.json",
+    source: "packages/suluu/src/slide-control/slide-control.tsx",
   },
   {
     create: createSwitchToggleRegistryItem,

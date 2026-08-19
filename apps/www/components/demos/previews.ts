@@ -8,6 +8,7 @@ import { MorphButtonDemo } from "./morph-button-demo";
 import { NotifyMorphDemo } from "./notify-morph-demo";
 import { SearchMorphDemo } from "./search-morph-demo";
 import { SegmentedControlDemo } from "./segmented-control-demo";
+import { SlideControlDemo } from "./slide-control-demo";
 import { SwitchToggleDemo } from "./switch-toggle-demo";
 import type { DemoProps } from "./types";
 
@@ -25,5 +26,6 @@ export const COMPONENT_PREVIEWS: Record<
   "notify-morph": NotifyMorphDemo,
   "search-morph": SearchMorphDemo,
   "segmented-control": SegmentedControlDemo,
+  "slide-control": SlideControlDemo,
   "switch-toggle": SwitchToggleDemo,
 };

@@ -28,5 +28,10 @@ export type {
   SegmentedControlOption,
   SegmentedControlProps,
 } from "./segmented-control/segmented-control";
+export { SlideControl } from "./slide-control/slide-control";
+export type {
+  SlideControlIntensity,
+  SlideControlProps,
+} from "./slide-control/slide-control";
 export { SwitchToggle } from "./switch-toggle/switch-toggle";
 export type { SwitchToggleProps } from "./switch-toggle/switch-toggle";

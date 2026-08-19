@@ -68,6 +68,14 @@ export const CATALOG = [
     keywords: ["segmented", "tabs", "pill", "radio", "filter", "segment"],
   },
   {
+    slug: "slide-control",
+    name: "SlideControl",
+    category: "Forms",
+    summary:
+      "A range slider whose fill stays locked to the thumb, then both settle onto the value.",
+    keywords: ["slider", "range", "volume", "price", "track", "thumb"],
+  },
+  {
     slug: "counter-numbers",
     name: "CounterNumbers",
     category: "Data Display",

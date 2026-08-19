@@ -7,6 +7,7 @@ import { MorphButton } from "suluu/morph-button";
 import { NotifyMorph } from "suluu/notify-morph";
 import { SearchMorph } from "suluu/search-morph";
 import { SegmentedControl } from "suluu/segmented-control";
+import { SlideControl } from "suluu/slide-control";
 import { SwitchToggle } from "suluu/switch-toggle";
 
 function PlusIcon() {
@@ -208,6 +209,44 @@ export function SegmentedControlContextDemo() {
             />
           ),
         )}
+      </div>
+    </div>
+  );
+}
+
+export function SlideControlContextDemo() {
+  const [budget, setBudget] = useState(2400);
+
+  return (
+    <div className="mx-auto max-w-xl rounded-2xl border bg-[var(--site-background)] p-5 shadow-sm">
+      <div className="flex items-start justify-between gap-6">
+        <div>
+          <p className="text-sm font-medium">Monthly budget</p>
+          <p className="mt-1 text-xs text-[var(--site-muted)]">
+            Caps the next billing period.
+          </p>
+        </div>
+        <p className="text-xl font-semibold tracking-[-0.03em] tabular-nums">
+          <CounterNumbers
+            formatOptions={{
+              currency: "USD",
+              maximumFractionDigits: 0,
+              style: "currency",
+            }}
+            value={budget}
+          />
+        </p>
+      </div>
+      <div className="mt-6">
+        <SlideControl
+          aria-label="Monthly budget"
+          className="w-full"
+          max={8000}
+          min={400}
+          onValueChange={setBudget}
+          step={100}
+          value={budget}
+        />
       </div>
     </div>
   );

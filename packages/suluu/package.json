@@ -55,6 +55,10 @@
       "types": "./dist/segmented-control.d.ts",
       "import": "./dist/segmented-control.js"
     },
+    "./slide-control": {
+      "types": "./dist/slide-control.d.ts",
+      "import": "./dist/slide-control.js"
+    },
     "./switch-toggle": {
       "types": "./dist/switch-toggle.d.ts",
       "import": "./dist/switch-toggle.js"
