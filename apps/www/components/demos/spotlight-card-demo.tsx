@@ -4,20 +4,27 @@ import { SpotlightCard } from "suluu/spotlight-card";
 
 import type { DemoProps } from "./types";
 
+/**
+ * A body with one moon on a tilted orbit. The moon has to sit exactly on the
+ * ellipse: off the path it reads as a blemish rather than as something in
+ * orbit. The ring is held back in opacity so the two bodies stay dominant and
+ * the mark does not close up into an eye at 20px.
+ */
 function OrbitMark() {
   return (
-    <svg aria-hidden="true" className="size-5" fill="none" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="2.25" fill="currentColor" />
+    <svg aria-hidden="true" className="size-6" fill="none" viewBox="0 0 24 24">
       <ellipse
         cx="12"
         cy="12"
-        rx="8.25"
-        ry="4.75"
+        opacity="0.55"
+        rx="9.2"
+        ry="6.9"
         stroke="currentColor"
-        strokeWidth="1.25"
-        transform="rotate(-32 12 12)"
+        strokeWidth="1.3"
+        transform="rotate(-30 12 12)"
       />
-      <circle cx="18.5" cy="8.1" r="1.15" fill="currentColor" />
+      <circle cx="12" cy="12" fill="currentColor" r="2.7" />
+      <circle cx="16.55" cy="4.8" fill="currentColor" r="1.75" />
     </svg>
   );
 }
