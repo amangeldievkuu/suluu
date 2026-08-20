@@ -9,6 +9,8 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- SpotlightCard, a quiet card surface whose soft light follows fine-pointer
+  movement on carefully damped springs.
 - SlideControl, a range slider whose fill follows the thumb with a little mass.
 - Toaster and `toast()`, a quiet toast deck that peeks four, springs the front
   three apart on hover, and scrolls the rest of the deck into view.

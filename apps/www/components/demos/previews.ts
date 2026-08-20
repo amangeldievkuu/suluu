@@ -9,6 +9,7 @@ import { NotifyMorphDemo } from "./notify-morph-demo";
 import { SearchMorphDemo } from "./search-morph-demo";
 import { SegmentedControlDemo } from "./segmented-control-demo";
 import { SlideControlDemo } from "./slide-control-demo";
+import { SpotlightCardDemo } from "./spotlight-card-demo";
 import { SwitchToggleDemo } from "./switch-toggle-demo";
 import { ToastDemo } from "./toast-demo";
 import type { DemoProps } from "./types";
@@ -28,6 +29,7 @@ export const COMPONENT_PREVIEWS: Record<
   "search-morph": SearchMorphDemo,
   "segmented-control": SegmentedControlDemo,
   "slide-control": SlideControlDemo,
+  "spotlight-card": SpotlightCardDemo,
   "switch-toggle": SwitchToggleDemo,
   toast: ToastDemo,
 };

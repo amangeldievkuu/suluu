@@ -3,6 +3,7 @@ export const NPM_COMMAND = "pnpm add suluu motion";
 
 /** Display order of the sidebar and the index page groups. */
 export const CATEGORIES = [
+  "Surfaces",
   "Buttons",
   "Forms",
   "Feedback",
@@ -110,6 +111,14 @@ export const CATALOG = [
       "currency",
       "numeric",
     ],
+  },
+  {
+    slug: "spotlight-card",
+    name: "SpotlightCard",
+    category: "Surfaces",
+    summary:
+      "A quiet card surface whose soft light follows the cursor on carefully damped springs.",
+    keywords: ["card", "glow", "spotlight", "cursor", "surface", "hover"],
   },
 ] as const satisfies readonly CatalogEntry[];
 

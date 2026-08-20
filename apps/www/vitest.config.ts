@@ -19,6 +19,7 @@ export default defineConfig({
       "suluu/search-morph": `${packageSrc}/search-morph/index.ts`,
       "suluu/segmented-control": `${packageSrc}/segmented-control/index.ts`,
       "suluu/slide-control": `${packageSrc}/slide-control/index.ts`,
+      "suluu/spotlight-card": `${packageSrc}/spotlight-card/index.ts`,
       "suluu/switch-toggle": `${packageSrc}/switch-toggle/index.ts`,
       "suluu/toast": `${packageSrc}/toast/index.ts`,
       suluu: `${packageSrc}/index.ts`,

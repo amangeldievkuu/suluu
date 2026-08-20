@@ -26,6 +26,7 @@ export default defineConfig({
     "search-morph": "src/search-morph/index.ts",
     "segmented-control": "src/segmented-control/index.ts",
     "slide-control": "src/slide-control/index.ts",
+    "spotlight-card": "src/spotlight-card/index.ts",
     "switch-toggle": "src/switch-toggle/index.ts",
     toast: "src/toast/index.ts",
   },

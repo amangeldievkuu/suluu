@@ -429,6 +429,60 @@ export function createSwitchToggleRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createSpotlightCardRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "spotlight-card",
+    type: "registry:ui",
+    title: "SpotlightCard",
+    description:
+      "A quiet card surface whose soft light follows a fine pointer on carefully damped springs.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/spotlight-card/spotlight-card.tsx",
+        type: "registry:ui",
+        target: "@ui/spotlight-card.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-spotlight-card-background": "oklch(0.97 0.004 260)",
+        "suluu-spotlight-card-foreground": "oklch(0.18 0.01 260)",
+        "suluu-spotlight-card-muted": "oklch(0.52 0.014 260)",
+        "suluu-spotlight-card-border": "oklch(0.89 0.009 260 / 86%)",
+        "suluu-spotlight-card-radius": "1.5rem",
+        "suluu-spotlight-card-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 82%), 0 1px 2px oklch(0.2 0.02 260 / 5%), 0 18px 45px oklch(0.2 0.02 260 / 8%)",
+        "suluu-spotlight-card-spotlight": "oklch(0.995 0.018 82)",
+        "suluu-spotlight-card-size": "20rem",
+        "suluu-spotlight-card-intensity": "0.3",
+      },
+      dark: {
+        "suluu-spotlight-card-background": "oklch(0.19 0.012 260)",
+        "suluu-spotlight-card-foreground": "oklch(0.96 0.006 260)",
+        "suluu-spotlight-card-muted": "oklch(0.68 0.014 260)",
+        "suluu-spotlight-card-border": "oklch(1 0 0 / 11%)",
+        "suluu-spotlight-card-radius": "1.5rem",
+        "suluu-spotlight-card-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 5%), 0 1px 2px oklch(0 0 0 / 26%), 0 20px 50px oklch(0 0 0 / 34%)",
+        "suluu-spotlight-card-spotlight": "oklch(0.82 0.06 240)",
+        "suluu-spotlight-card-size": "20rem",
+        "suluu-spotlight-card-intensity": "0.24",
+      },
+    },
+    docs: "The component requires Tailwind CSS. Pointer tracking is skipped for reduced motion, touch-first devices, and disabled cards; interactive descendants remain fully usable.",
+    categories: ["surfaces", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createToastRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -546,6 +600,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "slide-control",
     output: "apps/www/public/r/slide-control.json",
     source: "packages/suluu/src/slide-control/slide-control.tsx",
+  },
+  {
+    create: createSpotlightCardRegistryItem,
+    exportName: "SpotlightCard",
+    name: "spotlight-card",
+    output: "apps/www/public/r/spotlight-card.json",
+    source: "packages/suluu/src/spotlight-card/spotlight-card.tsx",
   },
   {
     create: createSwitchToggleRegistryItem,

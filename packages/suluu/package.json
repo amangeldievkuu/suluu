@@ -59,6 +59,10 @@
       "types": "./dist/slide-control.d.ts",
       "import": "./dist/slide-control.js"
     },
+    "./spotlight-card": {
+      "types": "./dist/spotlight-card.d.ts",
+      "import": "./dist/spotlight-card.js"
+    },
     "./switch-toggle": {
       "types": "./dist/switch-toggle.d.ts",
       "import": "./dist/switch-toggle.js"

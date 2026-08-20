@@ -19,6 +19,7 @@ const PREVIEW_HINTS: Record<ComponentSlug, string> = {
   "search-morph": "Start a search",
   "segmented-control": "Choose a range",
   "slide-control": "Drag the thumb",
+  "spotlight-card": "Follow the light",
   "switch-toggle": "Tap or drag",
   toast: "Raise a few",
 };

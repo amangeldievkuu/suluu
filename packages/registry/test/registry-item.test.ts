@@ -33,6 +33,7 @@ describe("registry catalog", () => {
       "search-morph",
       "segmented-control",
       "slide-control",
+      "spotlight-card",
       "switch-toggle",
       "toast",
     ]);
