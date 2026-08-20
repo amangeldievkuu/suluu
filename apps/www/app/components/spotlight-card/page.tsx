@@ -70,7 +70,7 @@ const props: readonly PropRow[] = [
     "motionIntensity",
     '"subtle" | "default" | "expressive"',
     '"default"',
-    "Tracking lag, settling character, and reactive light presence.",
+    "Trail, light size, peak brightness, and how long the light lingers.",
   ],
   [
     "spotlightColor",
@@ -81,7 +81,7 @@ const props: readonly PropRow[] = [
   [
     "spotlightSize",
     "number",
-    "320",
+    "theme variable",
     "Full diameter of the radial light in pixels.",
   ],
   [
@@ -101,6 +101,10 @@ const variables: readonly CssVariableRow[] = [
   ["--suluu-spotlight-card-radius", "Card corner radius."],
   ["--suluu-spotlight-card-shadow", "Resting depth beneath the surface."],
   ["--suluu-spotlight-card-spotlight", "Light and border-highlight color."],
+  [
+    "--suluu-spotlight-card-blend",
+    "Blend mode for the light. Additive in dark, plain in light.",
+  ],
   ["--suluu-spotlight-card-size", "Full diameter of the radial light."],
   ["--suluu-spotlight-card-intensity", "Reactive light opacity multiplier."],
 ];
@@ -138,9 +142,17 @@ export default function SpotlightCardPage() {
 
             <h3 className="mt-10 text-sm font-medium">Tuning the light</h3>
             <p className="mt-2 text-sm leading-6 text-[var(--site-muted)]">
-              Use motion intensity to change the light&apos;s sense of mass,
-              then tune color and size for the surrounding surface. Keep custom
-              colors low in chroma so the result still reads as reflected light.
+              Motion intensity moves three things together: how far the light
+              trails behind the pointer, how large and bright the pool is, and
+              how long it lingers after the pointer leaves.{" "}
+              <code className="text-xs">subtle</code> follows almost exactly and
+              leaves quickly; <code className="text-xs">expressive</code>{" "}
+              carries a longer trail, a wider pool, and a slower fade.
+            </p>
+            <p className="mt-3 text-sm leading-6 text-[var(--site-muted)]">
+              Then tune color and size for the surrounding surface. Keep custom
+              colors low in chroma so the result still reads as reflected light
+              rather than as a glow.
             </p>
             <div className="mt-5">
               <SpotlightCardComparisonDemo />

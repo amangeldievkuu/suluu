@@ -78,6 +78,16 @@ function renderCard(
   return { ...view, card, rect };
 }
 
+function getPool(container: HTMLElement): HTMLElement {
+  const pool = container.querySelector(
+    '[data-slot="spotlight-card-wash"] > div',
+  );
+  if (!(pool instanceof HTMLElement))
+    throw new Error("Spotlight pool did not render.");
+
+  return pool;
+}
+
 async function expectActive(card: HTMLElement, active: boolean) {
   await waitFor(() => {
     expect(card).toHaveAttribute(
@@ -131,17 +141,59 @@ describe("SpotlightCard", () => {
     });
 
     await expectActive(card, true);
-    const wash = container.querySelector(
-      '[data-slot="spotlight-card-wash"] > div',
-    );
     await waitFor(() => {
-      expect(wash).toHaveStyle({
-        backgroundImage: expect.stringContaining("80px 40px"),
-      });
+      expect(getPool(container).style.transform).toContain("80px");
     });
+    expect(getPool(container).style.transform).toContain("40px");
 
     fireEvent.pointerLeave(card, { pointerType: "mouse" });
     await expectActive(card, false);
+  });
+
+  it("moves the light with a transform instead of repainting a gradient", async () => {
+    const { card, container } = renderCard();
+    const pool = getPool(container);
+    const painted = pool.style.backgroundImage;
+
+    expect(painted).toContain("radial-gradient");
+    fireEvent.pointerEnter(card, {
+      clientX: 180,
+      clientY: 140,
+      pointerType: "mouse",
+    });
+    fireEvent.pointerMove(card, { clientX: 260, clientY: 200 });
+    await flushFrames();
+
+    // The gradient is painted once; only the transform changes per frame.
+    expect(pool.style.backgroundImage).toBe(painted);
+    expect(pool.style.transform).not.toBe("");
+  });
+
+  it("springs across on re-entry instead of teleporting the fading light", async () => {
+    const { card, container } = renderCard();
+    const pool = getPool(container);
+
+    fireEvent.pointerEnter(card, {
+      clientX: 180,
+      clientY: 140,
+      pointerType: "mouse",
+    });
+    await expectActive(card, true);
+    const entered = pool.style.transform;
+
+    fireEvent.pointerLeave(card, { pointerType: "mouse" });
+    await expectActive(card, false);
+    // Back in at the far corner while the previous glow is still visible.
+    fireEvent.pointerEnter(card, {
+      clientX: 410,
+      clientY: 250,
+      pointerType: "mouse",
+    });
+
+    expect(pool.style.transform).toBe(entered);
+    await waitFor(() => {
+      expect(pool.style.transform).not.toBe(entered);
+    });
   });
 
   it("coalesces pointer movement into one layout read per frame", async () => {
@@ -225,6 +277,11 @@ describe("SpotlightCard", () => {
 
     expect(rect).not.toHaveBeenCalled();
     expect(card).toHaveAttribute("data-spotlight-active", "false");
+    for (const slot of ["wash", "border-highlight"]) {
+      expect(
+        container.querySelector(`[data-slot="spotlight-card-${slot}"]`),
+      ).toHaveStyle({ opacity: "0" });
+    }
   });
 
   it("stops tracking immediately when reduced motion is enabled", async () => {
@@ -376,6 +433,28 @@ describe("SpotlightCard", () => {
     expect(markup).toContain('data-spotlight-active="false"');
     expect(markup).toContain('data-spotlight-interactive="false"');
     expect(markup).toContain("Plan");
+  });
+
+  it("gives each intensity its own pool size", () => {
+    const scales = (["subtle", "default", "expressive"] as const).map(
+      (motionIntensity) => {
+        const view = render(
+          <SpotlightCard motionIntensity={motionIntensity}>Plan</SpotlightCard>,
+        );
+        const card = screen
+          .getByText("Plan")
+          .closest('[data-slot="spotlight-card"]');
+        if (!(card instanceof HTMLDivElement))
+          throw new Error("Card did not render.");
+        const pool = card.style.getPropertyValue("--suluu-spotlight-card-pool");
+        view.unmount();
+
+        return pool;
+      },
+    );
+
+    expect(new Set(scales).size).toBe(3);
+    expect(scales[1]).toContain("* 1");
   });
 
   it.each(["subtle", "default", "expressive"] as const)(

@@ -456,9 +456,10 @@ export function createSpotlightCardRegistryItem(source: string): RegistryItem {
         "suluu-spotlight-card-radius": "1.5rem",
         "suluu-spotlight-card-shadow":
           "inset 0 1px 0 oklch(1 0 0 / 82%), 0 1px 2px oklch(0.2 0.02 260 / 5%), 0 18px 45px oklch(0.2 0.02 260 / 8%)",
-        "suluu-spotlight-card-spotlight": "oklch(0.995 0.018 82)",
+        "suluu-spotlight-card-spotlight": "oklch(0.94 0.055 78)",
+        "suluu-spotlight-card-blend": "normal",
         "suluu-spotlight-card-size": "20rem",
-        "suluu-spotlight-card-intensity": "0.3",
+        "suluu-spotlight-card-intensity": "0.26",
       },
       dark: {
         "suluu-spotlight-card-background": "oklch(0.19 0.012 260)",
@@ -469,8 +470,9 @@ export function createSpotlightCardRegistryItem(source: string): RegistryItem {
         "suluu-spotlight-card-shadow":
           "inset 0 1px 0 oklch(1 0 0 / 5%), 0 1px 2px oklch(0 0 0 / 26%), 0 20px 50px oklch(0 0 0 / 34%)",
         "suluu-spotlight-card-spotlight": "oklch(0.82 0.06 240)",
+        "suluu-spotlight-card-blend": "plus-lighter",
         "suluu-spotlight-card-size": "20rem",
-        "suluu-spotlight-card-intensity": "0.24",
+        "suluu-spotlight-card-intensity": "0.2",
       },
     },
     docs: "The component requires Tailwind CSS. Pointer tracking is skipped for reduced motion, touch-first devices, and disabled cards; interactive descendants remain fully usable.",
