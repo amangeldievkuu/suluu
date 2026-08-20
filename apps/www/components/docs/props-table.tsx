@@ -6,12 +6,20 @@ export type PropRow = readonly [string, string, string, string];
 interface PropsTableProps {
   children: ReactNode;
   rows: readonly PropRow[];
+  /** Anchor id, so a page with two tables keeps them addressable. */
+  id?: string;
+  title?: string;
 }
 
-export function PropsTable({ children, rows }: PropsTableProps) {
+export function PropsTable({
+  children,
+  id = "props",
+  rows,
+  title = "Props",
+}: PropsTableProps) {
   return (
-    <section className="scroll-mt-24" id="props">
-      <h2 className="text-2xl font-semibold tracking-tight">Props</h2>
+    <section className="scroll-mt-24" id={id}>
+      <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
       <p className="mt-3 text-sm leading-6 text-[var(--site-muted)]">
         {children}
       </p>

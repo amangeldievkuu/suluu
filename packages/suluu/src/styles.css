@@ -73,6 +73,24 @@
   --suluu-slide-fill-shadow: 0 1px 2px oklch(0.5 0.18 255 / 18%);
   --suluu-slide-thumb-shadow:
     0 1px 2px oklch(0.16 0.02 260 / 16%), 0 3px 7px oklch(0.16 0.02 260 / 18%);
+  --suluu-toast-surface: oklch(0.995 0.002 260 / 88%);
+  --suluu-toast-foreground: oklch(0.16 0.008 260);
+  --suluu-toast-muted: oklch(0.53 0.014 260);
+  --suluu-toast-border: oklch(0.9 0.006 260 / 80%);
+  --suluu-toast-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 70%), 0 1px 1px oklch(0.2 0.02 260 / 7%),
+    0 12px 34px oklch(0.2 0.02 260 / 14%);
+  --suluu-toast-ring: oklch(0.55 0.16 255);
+  --suluu-toast-offset: oklch(0.99 0.002 260);
+  --suluu-toast-track: oklch(0.2 0.02 260 / 10%);
+  --suluu-toast-action: oklch(0.2 0.02 260 / 7%);
+  --suluu-toast-action-foreground: oklch(0.16 0.008 260);
+  --suluu-toast-action-hover: oklch(0.2 0.02 260 / 12%);
+  --suluu-toast-neutral: oklch(0.53 0.014 260);
+  --suluu-toast-success: oklch(0.56 0.13 158);
+  --suluu-toast-error: oklch(0.56 0.19 25);
+  --suluu-toast-warning: oklch(0.62 0.14 70);
+  --suluu-toast-info: oklch(0.55 0.16 255);
 }
 
 .dark {
@@ -150,4 +168,22 @@
   --suluu-slide-fill-shadow: 0 2px 8px oklch(0.64 0.15 255 / 22%);
   --suluu-slide-thumb-shadow:
     0 1px 2px oklch(0 0 0 / 28%), 0 4px 9px oklch(0 0 0 / 32%);
+  --suluu-toast-surface: oklch(0.255 0.014 260 / 88%);
+  --suluu-toast-foreground: oklch(0.97 0.004 260);
+  --suluu-toast-muted: oklch(0.7 0.013 260);
+  --suluu-toast-border: oklch(1 0 0 / 12%);
+  --suluu-toast-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 6%), 0 1px 1px oklch(0 0 0 / 20%),
+    0 16px 40px oklch(0 0 0 / 40%);
+  --suluu-toast-ring: oklch(0.7 0.13 255);
+  --suluu-toast-offset: oklch(0.2 0.012 260);
+  --suluu-toast-track: oklch(1 0 0 / 12%);
+  --suluu-toast-action: oklch(1 0 0 / 9%);
+  --suluu-toast-action-foreground: oklch(0.97 0.004 260);
+  --suluu-toast-action-hover: oklch(1 0 0 / 15%);
+  --suluu-toast-neutral: oklch(0.7 0.013 260);
+  --suluu-toast-success: oklch(0.75 0.15 158);
+  --suluu-toast-error: oklch(0.7 0.16 25);
+  --suluu-toast-warning: oklch(0.79 0.14 78);
+  --suluu-toast-info: oklch(0.72 0.13 255);
 }

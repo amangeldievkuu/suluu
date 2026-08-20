@@ -10,6 +10,14 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 - SlideControl, a range slider whose fill follows the thumb with a little mass.
+- Toaster and `toast()`, a quiet toast deck that peeks four, springs the front
+  three apart on hover, and scrolls the rest of the deck into view.
+
+### Changed
+
+- Toast collapse gathers back into the peek on the pinned edge, with a more
+  damped spring than expand, so a tall or scrolled deck no longer jumps off the
+  corner.
 
 ## [0.1.0] - 2026-08-19
 

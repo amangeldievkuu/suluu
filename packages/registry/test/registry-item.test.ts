@@ -34,6 +34,7 @@ describe("registry catalog", () => {
       "segmented-control",
       "slide-control",
       "switch-toggle",
+      "toast",
     ]);
   });
 });

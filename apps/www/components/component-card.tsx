@@ -20,6 +20,7 @@ const PREVIEW_HINTS: Record<ComponentSlug, string> = {
   "segmented-control": "Choose a range",
   "slide-control": "Drag the thumb",
   "switch-toggle": "Tap or drag",
+  toast: "Raise a few",
 };
 
 export function ComponentCard({ entry }: ComponentCardProps) {

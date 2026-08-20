@@ -72,11 +72,7 @@ describe("groupByCategory", () => {
   it("groups in CATEGORIES order and omits empty groups", () => {
     const groups = groupByCategory();
 
-    expect(groups.map((group) => group.category)).toEqual([
-      "Buttons",
-      "Forms",
-      "Data Display",
-    ]);
+    expect(groups.map((group) => group.category)).toEqual([...CATEGORIES]);
     for (const group of groups) {
       expect(group.entries.length).toBeGreaterThan(0);
       for (const entry of group.entries) {

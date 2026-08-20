@@ -9,6 +9,7 @@ import { SearchMorph } from "suluu/search-morph";
 import { SegmentedControl } from "suluu/segmented-control";
 import { SlideControl } from "suluu/slide-control";
 import { SwitchToggle } from "suluu/switch-toggle";
+import { createToaster } from "suluu/toast";
 
 function PlusIcon() {
   return (
@@ -307,6 +308,52 @@ export function CounterNumbersContextDemo() {
         Metrics updated: {metrics.readers} readers, {metrics.saves} saves, and{" "}
         {metrics.shares} shares.
       </span>
+    </div>
+  );
+}
+
+/** Isolated from the preview above, so each box keeps its own deck. */
+const contextToaster = createToaster();
+
+export function ToastContextDemo() {
+  const [host, setHost] = useState<HTMLDivElement | null>(null);
+  const [visibility, setVisibility] = useState("private");
+
+  const change = (next: string) => {
+    const previous = visibility;
+    setVisibility(next);
+    contextToaster.toast.success(
+      next === "private" ? "Project is private" : "Project is public",
+      {
+        action: { label: "Undo", onClick: () => setVisibility(previous) },
+        description:
+          next === "private"
+            ? "Only invited people can open it."
+            : "Anyone with the link can open it.",
+      },
+    );
+  };
+
+  return (
+    <div className="relative min-h-[16rem]" ref={setHost}>
+      <div className="mx-auto max-w-xl rounded-2xl border bg-[var(--site-background)] p-5 shadow-sm">
+        <p className="text-sm font-medium">Visibility</p>
+        <p className="mt-1 text-xs text-[var(--site-muted)]">
+          Changing this takes effect immediately.
+        </p>
+        <div className="mt-5">
+          <SegmentedControl
+            aria-label="Project visibility"
+            onValueChange={change}
+            options={[
+              { value: "private", label: "Private" },
+              { value: "public", label: "Public" },
+            ]}
+            value={visibility}
+          />
+        </div>
+      </div>
+      <contextToaster.Toaster container={host} position="bottom-right" />
     </div>
   );
 }

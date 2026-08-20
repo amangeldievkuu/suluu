@@ -20,7 +20,10 @@
       "suluu/slide-control": [
         "../../packages/suluu/src/slide-control/index.ts"
       ],
-      "suluu/switch-toggle": ["../../packages/suluu/src/switch-toggle/index.ts"]
+      "suluu/switch-toggle": [
+        "../../packages/suluu/src/switch-toggle/index.ts"
+      ],
+      "suluu/toast": ["../../packages/suluu/src/toast/index.ts"]
     }
   },
   "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],

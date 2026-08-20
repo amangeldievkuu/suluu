@@ -27,6 +27,7 @@ export default defineConfig({
     "segmented-control": "src/segmented-control/index.ts",
     "slide-control": "src/slide-control/index.ts",
     "switch-toggle": "src/switch-toggle/index.ts",
+    toast: "src/toast/index.ts",
   },
   format: "esm",
   minify: false,

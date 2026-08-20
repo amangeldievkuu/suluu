@@ -2,7 +2,12 @@ export const SITE_URL = "https://suluu.dev";
 export const NPM_COMMAND = "pnpm add suluu motion";
 
 /** Display order of the sidebar and the index page groups. */
-export const CATEGORIES = ["Buttons", "Forms", "Data Display"] as const;
+export const CATEGORIES = [
+  "Buttons",
+  "Forms",
+  "Feedback",
+  "Data Display",
+] as const;
 
 export type Category = (typeof CATEGORIES)[number];
 
@@ -74,6 +79,22 @@ export const CATALOG = [
     summary:
       "A range slider whose fill follows the thumb with a little mass, then both settle onto the value.",
     keywords: ["slider", "range", "volume", "price", "track", "thumb"],
+  },
+  {
+    slug: "toast",
+    name: "Toaster",
+    category: "Feedback",
+    summary:
+      "A quiet toast deck that peeks four, springs the front three apart on hover, and scrolls the rest of the deck into view.",
+    keywords: [
+      "toast",
+      "notification",
+      "snackbar",
+      "alert",
+      "sonner",
+      "undo",
+      "stack",
+    ],
   },
   {
     slug: "counter-numbers",

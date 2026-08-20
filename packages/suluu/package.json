@@ -63,6 +63,10 @@
       "types": "./dist/switch-toggle.d.ts",
       "import": "./dist/switch-toggle.js"
     },
+    "./toast": {
+      "types": "./dist/toast.d.ts",
+      "import": "./dist/toast.js"
+    },
     "./styles.css": {
       "types": "./dist/styles.css.d.ts",
       "default": "./dist/styles.css"

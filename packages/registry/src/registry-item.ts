@@ -429,6 +429,74 @@ export function createSwitchToggleRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createToastRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "toast",
+    type: "registry:ui",
+    title: "Toaster",
+    description:
+      "A quiet toast deck that peeks four, springs the front three apart on hover, and scrolls the rest of the deck into view.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/toast/toast.tsx",
+        type: "registry:ui",
+        target: "@ui/toast.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-toast-surface": "oklch(0.995 0.002 260 / 88%)",
+        "suluu-toast-foreground": "oklch(0.16 0.008 260)",
+        "suluu-toast-muted": "oklch(0.53 0.014 260)",
+        "suluu-toast-border": "oklch(0.9 0.006 260 / 80%)",
+        "suluu-toast-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 70%), 0 1px 1px oklch(0.2 0.02 260 / 7%), 0 12px 34px oklch(0.2 0.02 260 / 14%)",
+        "suluu-toast-ring": "oklch(0.55 0.16 255)",
+        "suluu-toast-offset": "oklch(0.99 0.002 260)",
+        "suluu-toast-track": "oklch(0.2 0.02 260 / 10%)",
+        "suluu-toast-action": "oklch(0.2 0.02 260 / 7%)",
+        "suluu-toast-action-foreground": "oklch(0.16 0.008 260)",
+        "suluu-toast-action-hover": "oklch(0.2 0.02 260 / 12%)",
+        "suluu-toast-neutral": "oklch(0.53 0.014 260)",
+        "suluu-toast-success": "oklch(0.56 0.13 158)",
+        "suluu-toast-error": "oklch(0.56 0.19 25)",
+        "suluu-toast-warning": "oklch(0.62 0.14 70)",
+        "suluu-toast-info": "oklch(0.55 0.16 255)",
+      },
+      dark: {
+        "suluu-toast-surface": "oklch(0.255 0.014 260 / 88%)",
+        "suluu-toast-foreground": "oklch(0.97 0.004 260)",
+        "suluu-toast-muted": "oklch(0.7 0.013 260)",
+        "suluu-toast-border": "oklch(1 0 0 / 12%)",
+        "suluu-toast-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 6%), 0 1px 1px oklch(0 0 0 / 20%), 0 16px 40px oklch(0 0 0 / 40%)",
+        "suluu-toast-ring": "oklch(0.7 0.13 255)",
+        "suluu-toast-offset": "oklch(0.2 0.012 260)",
+        "suluu-toast-track": "oklch(1 0 0 / 12%)",
+        "suluu-toast-action": "oklch(1 0 0 / 9%)",
+        "suluu-toast-action-foreground": "oklch(0.97 0.004 260)",
+        "suluu-toast-action-hover": "oklch(1 0 0 / 15%)",
+        "suluu-toast-neutral": "oklch(0.7 0.013 260)",
+        "suluu-toast-success": "oklch(0.75 0.15 158)",
+        "suluu-toast-error": "oklch(0.7 0.16 25)",
+        "suluu-toast-warning": "oklch(0.79 0.14 78)",
+        "suluu-toast-info": "oklch(0.72 0.13 255)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. Render one <Toaster /> near the root of your app, then call toast() from anywhere. Use createToaster() when a page needs a second, isolated deck.",
+    categories: ["feedback", "overlay", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
   {
     create: createCounterNumbersRegistryItem,
@@ -485,6 +553,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "switch-toggle",
     output: "apps/www/public/r/switch-toggle.json",
     source: "packages/suluu/src/switch-toggle/switch-toggle.tsx",
+  },
+  {
+    create: createToastRegistryItem,
+    exportName: "Toaster",
+    name: "toast",
+    output: "apps/www/public/r/toast.json",
+    source: "packages/suluu/src/toast/toast.tsx",
   },
 ];
 

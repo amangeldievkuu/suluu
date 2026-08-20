@@ -13,6 +13,7 @@ export default defineConfig({
         "src/segmented-control/index.ts",
         "src/slide-control/index.ts",
         "src/switch-toggle/index.ts",
+        "src/toast/index.ts",
       ],
       include: ["src/**/*.tsx"],
       provider: "v8",

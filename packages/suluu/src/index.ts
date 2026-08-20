@@ -35,3 +35,15 @@ export type {
 } from "./slide-control/slide-control";
 export { SwitchToggle } from "./switch-toggle/switch-toggle";
 export type { SwitchToggleProps } from "./switch-toggle/switch-toggle";
+export { createToaster, toast, Toaster } from "./toast/toast";
+export type {
+  ToastAction,
+  ToasterInstance,
+  ToasterProps,
+  ToastHandle,
+  ToastIntensity,
+  ToastOptions,
+  ToastPosition,
+  ToastRecord,
+  ToastVariant,
+} from "./toast/toast";
