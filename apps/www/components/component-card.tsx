@@ -22,6 +22,7 @@ const PREVIEW_HINTS: Record<ComponentSlug, string> = {
   "slide-control": "Drag the thumb",
   "spotlight-card": "Follow the light",
   "switch-toggle": "Tap or drag",
+  "theme-toggle": "Change the theme",
   toast: "Raise a few",
 };
 

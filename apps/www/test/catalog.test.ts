@@ -132,6 +132,7 @@ describe("searchCatalog", () => {
     expect(searchCatalog("buttons").map((entry) => entry.slug)).toEqual([
       "magnet-pull",
       "morph-button",
+      "theme-toggle",
     ]);
   });
 

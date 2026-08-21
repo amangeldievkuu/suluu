@@ -15,6 +15,7 @@ export default defineConfig({
         "src/slide-control/index.ts",
         "src/spotlight-card/index.ts",
         "src/switch-toggle/index.ts",
+        "src/theme-toggle/index.ts",
         "src/toast/index.ts",
       ],
       include: ["src/**/*.tsx"],

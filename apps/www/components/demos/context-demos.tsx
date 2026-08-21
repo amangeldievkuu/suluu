@@ -12,6 +12,7 @@ import { SlideControl } from "suluu/slide-control";
 import { SwitchToggle } from "suluu/switch-toggle";
 import { createToaster } from "suluu/toast";
 
+import { ThemeToggle as SiteThemeToggle } from "../theme-toggle";
 import { AlertsIcon, InboxIcon, PlannerIcon } from "./fluid-tabs-demo";
 
 function PlusIcon() {
@@ -95,6 +96,20 @@ export function MorphButtonContextDemo() {
         }
         onClick={() => undefined}
       />
+    </div>
+  );
+}
+
+export function ThemeToggleContextDemo() {
+  return (
+    <div className="mx-auto flex max-w-xl items-center justify-between gap-6 rounded-2xl border bg-[var(--site-background)] p-4 shadow-sm sm:p-5">
+      <div>
+        <p className="text-sm font-medium">Dark appearance</p>
+        <p className="mt-1 text-xs text-[var(--site-muted)]">
+          Use a quieter palette in low-light spaces.
+        </p>
+      </div>
+      <SiteThemeToggle />
     </div>
   );
 }

@@ -379,9 +379,15 @@ describe("FluidTabs", () => {
   it("positions icon and label on a transform row instead of recentering the trigger", () => {
     renderTabs();
     const inbox = screen.getByRole("tab", { name: "Inbox" });
-    const content = inbox.querySelector('[data-slot="fluid-tabs-content"]');
-    const icon = inbox.querySelector('[data-slot="fluid-tabs-icon"]');
-    const label = inbox.querySelector('[data-slot="fluid-tabs-label"]');
+    const content = inbox.querySelector<HTMLElement>(
+      '[data-slot="fluid-tabs-content"]',
+    );
+    const icon = inbox.querySelector<HTMLElement>(
+      '[data-slot="fluid-tabs-icon"]',
+    );
+    const label = inbox.querySelector<HTMLElement>(
+      '[data-slot="fluid-tabs-label"]',
+    );
 
     // justify-center would recompute the icon from the live width, label
     // width, and gap every spring frame.

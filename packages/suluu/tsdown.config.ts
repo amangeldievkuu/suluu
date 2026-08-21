@@ -29,6 +29,7 @@ export default defineConfig({
     "slide-control": "src/slide-control/index.ts",
     "spotlight-card": "src/spotlight-card/index.ts",
     "switch-toggle": "src/switch-toggle/index.ts",
+    "theme-toggle": "src/theme-toggle/index.ts",
     toast: "src/toast/index.ts",
   },
   format: "esm",

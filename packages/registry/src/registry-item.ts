@@ -483,6 +483,58 @@ export function createSwitchToggleRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createThemeToggleRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "theme-toggle",
+    type: "registry:ui",
+    title: "ThemeToggle",
+    description:
+      "A refined light-and-dark theme button with custom sun and moon icons that crossfade on controlled springs.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/theme-toggle/theme-toggle.tsx",
+        type: "registry:ui",
+        target: "@ui/theme-toggle.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-theme-toggle-background": "oklch(0.985 0.003 260 / 88%)",
+        "suluu-theme-toggle-hover": "oklch(0.955 0.006 260)",
+        "suluu-theme-toggle-border": "oklch(0.9 0.008 260 / 88%)",
+        "suluu-theme-toggle-sun": "oklch(0.62 0.12 74)",
+        "suluu-theme-toggle-moon": "oklch(0.42 0.045 260)",
+        "suluu-theme-toggle-ring": "oklch(0.55 0.16 255)",
+        "suluu-theme-toggle-offset": "oklch(1 0 0)",
+        "suluu-theme-toggle-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 82%), 0 1px 2px oklch(0.2 0.02 260 / 7%), 0 5px 14px oklch(0.2 0.02 260 / 6%)",
+      },
+      dark: {
+        "suluu-theme-toggle-background": "oklch(0.205 0.012 260 / 88%)",
+        "suluu-theme-toggle-hover": "oklch(0.255 0.015 260)",
+        "suluu-theme-toggle-border": "oklch(1 0 0 / 12%)",
+        "suluu-theme-toggle-sun": "oklch(0.82 0.105 78)",
+        "suluu-theme-toggle-moon": "oklch(0.82 0.06 255)",
+        "suluu-theme-toggle-ring": "oklch(0.7 0.13 255)",
+        "suluu-theme-toggle-offset": "oklch(0.14 0.008 260)",
+        "suluu-theme-toggle-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 7%), 0 1px 2px oklch(0 0 0 / 24%), 0 7px 18px oklch(0 0 0 / 20%)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. `checked` represents dark mode; connect it to your theme state or provider. The default accessible name is Dark mode.",
+    categories: ["buttons", "navigation", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createSpotlightCardRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -677,6 +729,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "switch-toggle",
     output: "apps/www/public/r/switch-toggle.json",
     source: "packages/suluu/src/switch-toggle/switch-toggle.tsx",
+  },
+  {
+    create: createThemeToggleRegistryItem,
+    exportName: "ThemeToggle",
+    name: "theme-toggle",
+    output: "apps/www/public/r/theme-toggle.json",
+    source: "packages/suluu/src/theme-toggle/theme-toggle.tsx",
   },
   {
     create: createToastRegistryItem,

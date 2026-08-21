@@ -43,6 +43,14 @@ export const CATALOG = [
     keywords: ["expand", "shape", "pill", "icon", "cta", "transition"],
   },
   {
+    slug: "theme-toggle",
+    name: "ThemeToggle",
+    category: "Buttons",
+    summary:
+      "A calm theme button whose custom sun and moon crossfade on controlled springs.",
+    keywords: ["dark", "light", "appearance", "mode", "sun", "moon"],
+  },
+  {
     slug: "fluid-tabs",
     name: "FluidTabs",
     category: "Navigation",

@@ -47,6 +47,11 @@ export type {
 } from "./spotlight-card/spotlight-card";
 export { SwitchToggle } from "./switch-toggle/switch-toggle";
 export type { SwitchToggleProps } from "./switch-toggle/switch-toggle";
+export { ThemeToggle } from "./theme-toggle/theme-toggle";
+export type {
+  ThemeToggleMotionIntensity,
+  ThemeToggleProps,
+} from "./theme-toggle/theme-toggle";
 export { createToaster, toast, Toaster } from "./toast/toast";
 export type {
   ToastAction,

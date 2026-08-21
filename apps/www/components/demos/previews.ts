@@ -12,6 +12,7 @@ import { SegmentedControlDemo } from "./segmented-control-demo";
 import { SlideControlDemo } from "./slide-control-demo";
 import { SpotlightCardDemo } from "./spotlight-card-demo";
 import { SwitchToggleDemo } from "./switch-toggle-demo";
+import { ThemeToggleDemo } from "./theme-toggle-demo";
 import { ToastDemo } from "./toast-demo";
 import type { DemoProps } from "./types";
 
@@ -33,5 +34,6 @@ export const COMPONENT_PREVIEWS: Record<
   "slide-control": SlideControlDemo,
   "spotlight-card": SpotlightCardDemo,
   "switch-toggle": SwitchToggleDemo,
+  "theme-toggle": ThemeToggleDemo,
   toast: ToastDemo,
 };

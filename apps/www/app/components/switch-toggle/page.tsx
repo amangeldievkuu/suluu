@@ -105,7 +105,9 @@ export default function SwitchTogglePage() {
               <code className="text-xs">defaultChecked</code> for local state,
               or pair <code className="text-xs">checked</code> with{" "}
               <code className="text-xs">onCheckedChange</code> when your
-              application owns the setting.
+              application owns the setting. SwitchToggle renders only the
+              control; visible labels and status text belong to your surrounding
+              markup.
             </p>
             <div className="mt-6 space-y-5">
               <CodeBlock code={registryUsage} label="Registry" />

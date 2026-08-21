@@ -57,6 +57,16 @@
     0 3px 10px oklch(0.5 0.18 255 / 20%);
   --suluu-switch-thumb-shadow:
     0 1px 2px oklch(0.16 0.02 260 / 16%), 0 3px 7px oklch(0.16 0.02 260 / 18%);
+  --suluu-theme-toggle-background: oklch(0.985 0.003 260 / 88%);
+  --suluu-theme-toggle-hover: oklch(0.955 0.006 260);
+  --suluu-theme-toggle-border: oklch(0.9 0.008 260 / 88%);
+  --suluu-theme-toggle-sun: oklch(0.62 0.12 74);
+  --suluu-theme-toggle-moon: oklch(0.42 0.045 260);
+  --suluu-theme-toggle-ring: oklch(0.55 0.16 255);
+  --suluu-theme-toggle-offset: oklch(1 0 0);
+  --suluu-theme-toggle-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 82%), 0 1px 2px oklch(0.2 0.02 260 / 7%),
+    0 5px 14px oklch(0.2 0.02 260 / 6%);
   --suluu-segment-background: oklch(0.93 0.005 260);
   --suluu-segment-foreground: oklch(0.08 0.005 260);
   --suluu-segment-muted: oklch(0.52 0.014 260);
@@ -174,6 +184,16 @@
     0 3px 12px oklch(0.64 0.15 255 / 22%);
   --suluu-switch-thumb-shadow:
     0 1px 2px oklch(0 0 0 / 28%), 0 4px 9px oklch(0 0 0 / 32%);
+  --suluu-theme-toggle-background: oklch(0.205 0.012 260 / 88%);
+  --suluu-theme-toggle-hover: oklch(0.255 0.015 260);
+  --suluu-theme-toggle-border: oklch(1 0 0 / 12%);
+  --suluu-theme-toggle-sun: oklch(0.82 0.105 78);
+  --suluu-theme-toggle-moon: oklch(0.82 0.06 255);
+  --suluu-theme-toggle-ring: oklch(0.7 0.13 255);
+  --suluu-theme-toggle-offset: oklch(0.14 0.008 260);
+  --suluu-theme-toggle-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 7%), 0 1px 2px oklch(0 0 0 / 24%),
+    0 7px 18px oklch(0 0 0 / 20%);
   --suluu-segment-background: oklch(0.245 0.013 260);
   --suluu-segment-foreground: oklch(0.96 0.006 260);
   --suluu-segment-muted: oklch(0.68 0.014 260);

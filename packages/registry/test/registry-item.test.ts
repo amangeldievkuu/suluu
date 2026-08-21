@@ -36,6 +36,7 @@ describe("registry catalog", () => {
       "slide-control",
       "spotlight-card",
       "switch-toggle",
+      "theme-toggle",
       "toast",
     ]);
   });

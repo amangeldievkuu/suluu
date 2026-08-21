@@ -27,6 +27,7 @@
       "suluu/switch-toggle": [
         "../../packages/suluu/src/switch-toggle/index.ts"
       ],
+      "suluu/theme-toggle": ["../../packages/suluu/src/theme-toggle/index.ts"],
       "suluu/toast": ["../../packages/suluu/src/toast/index.ts"]
     }
   },

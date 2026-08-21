@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 
 import { ComponentCard } from "@/components/component-card";
 import { COMPONENT_PREVIEWS } from "@/components/demos/previews";
+import { SwitchToggleDemo } from "@/components/demos/switch-toggle-demo";
+import { ThemeToggleDemo } from "@/components/demos/theme-toggle-demo";
 import { CATALOG, componentHref, getEntry } from "@/lib/catalog";
 
 describe("component previews", () => {
@@ -11,6 +13,21 @@ describe("component previews", () => {
     const previewSlugs = Object.keys(COMPONENT_PREVIEWS).sort();
 
     expect(previewSlugs).toEqual(CATALOG.map((entry) => entry.slug).sort());
+  });
+
+  it("keeps toggle state labels out of the component-only previews", () => {
+    const switchPreview = render(<SwitchToggleDemo />);
+
+    expect(
+      screen.getByRole("switch", { name: "Background sounds" }),
+    ).toBeVisible();
+    expect(screen.queryByText(/^(On|Off)$/)).not.toBeInTheDocument();
+
+    switchPreview.unmount();
+    render(<ThemeToggleDemo />);
+
+    expect(screen.getByRole("button", { name: "Dark mode" })).toBeVisible();
+    expect(screen.queryByText(/^(Light|Dark)$/)).not.toBeInTheDocument();
   });
 });
 
