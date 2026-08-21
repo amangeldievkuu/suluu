@@ -9,6 +9,14 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- OtpInput, a one-native-input OTP and PIN field whose active wash, caret, and
+  digits settle with springs. Completing the code rests the wash and swells the
+  slot surfaces; clicking a slot again restores focus, and Backspace on the last
+  filled slot deletes that digit.
+- ThemeToggle, a compact appearance button whose custom sun and crescent trade
+  places through a soft crossfade, slight counter-rotation, and controlled
+  spring settlement. The surface stays quiet enough for navigation bars and
+  settings rows, and the icons remain replaceable.
 - FluidTabs, a row of circular tabs whose active item springs into a labeled
   pill while its neighbors make room. The active tab tints its icon and label
   with its own accent, and a single sheen of light travels the revealed label as
