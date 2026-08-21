@@ -67,6 +67,14 @@ export const CATALOG = [
     keywords: ["email", "subscribe", "newsletter", "bell", "input", "expand"],
   },
   {
+    slug: "otp-input",
+    name: "OtpInput",
+    category: "Forms",
+    summary:
+      "A precise one-time-code and PIN field whose active slot, digits, and caret settle with restrained motion.",
+    keywords: ["otp", "pin", "verification", "code", "password", "autofill"],
+  },
+  {
     slug: "search-morph",
     name: "SearchMorph",
     category: "Forms",

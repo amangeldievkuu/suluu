@@ -6,6 +6,7 @@ import { FluidTabs, type FluidTab } from "suluu/fluid-tabs";
 import { MagnetPull } from "suluu/magnet-pull";
 import { MorphButton } from "suluu/morph-button";
 import { NotifyMorph } from "suluu/notify-morph";
+import { OtpInput } from "suluu/otp-input";
 import { SearchMorph } from "suluu/search-morph";
 import { SegmentedControl } from "suluu/segmented-control";
 import { SlideControl } from "suluu/slide-control";
@@ -232,6 +233,44 @@ export function NotifyMorphContextDemo() {
           placeholder="you@example.com"
         />
       </div>
+    </div>
+  );
+}
+
+export function OtpInputContextDemo() {
+  const [pin, setPin] = useState("");
+  const rejected = pin === "0000";
+  const ready = pin.length === 4 && !rejected;
+
+  return (
+    <div className="mx-auto max-w-md rounded-3xl border bg-[var(--site-background)] p-5 shadow-sm sm:p-6">
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium">Confirm your PIN</p>
+          <p className="mt-1 text-xs leading-5 text-[var(--site-muted)]">
+            Enter the four digits used to secure this workspace.
+          </p>
+        </div>
+        <span
+          aria-hidden="true"
+          className="rounded-full bg-[var(--site-subtle)] px-2.5 py-1 text-[10px] font-medium tracking-wider text-[var(--site-muted)] uppercase"
+        >
+          Secure
+        </span>
+      </div>
+      <div className="mt-6">
+        <OtpInput
+          aria-label="Workspace PIN"
+          error={rejected ? "That PIN was not accepted." : undefined}
+          length={4}
+          masked
+          onValueChange={setPin}
+          value={pin}
+        />
+      </div>
+      <p aria-live="polite" className="mt-3 text-xs text-[var(--site-muted)]">
+        {ready ? "PIN ready to confirm." : "Your PIN stays masked."}
+      </p>
     </div>
   );
 }

@@ -17,6 +17,7 @@ const PREVIEW_HINTS: Record<ComponentSlug, string> = {
   "magnet-pull": "Move your cursor",
   "morph-button": "Hover or focus",
   "notify-morph": "Open the form",
+  "otp-input": "Type or paste a code",
   "search-morph": "Start a search",
   "segmented-control": "Choose a range",
   "slide-control": "Drag the thumb",

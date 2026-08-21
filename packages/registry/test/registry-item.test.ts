@@ -31,6 +31,7 @@ describe("registry catalog", () => {
       "magnet-pull",
       "morph-button",
       "notify-morph",
+      "otp-input",
       "search-morph",
       "segmented-control",
       "slide-control",

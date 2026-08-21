@@ -161,6 +161,66 @@ export function createNotifyMorphRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createOtpInputRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "otp-input",
+    type: "registry:ui",
+    title: "OtpInput",
+    description:
+      "A precise one-time-code and PIN field whose active slot, digits, and caret settle with restrained motion.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/otp-input/otp-input.tsx",
+        type: "registry:ui",
+        target: "@ui/otp-input.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-otp-background": "oklch(0.99 0.002 260)",
+        "suluu-otp-foreground": "oklch(0.16 0.008 260)",
+        "suluu-otp-muted": "oklch(0.53 0.014 260)",
+        "suluu-otp-border": "oklch(0.9 0.007 260)",
+        "suluu-otp-ring": "oklch(0.55 0.16 255)",
+        "suluu-otp-caret": "oklch(0.52 0.17 255)",
+        "suluu-otp-error": "oklch(0.56 0.19 25)",
+        "suluu-otp-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 82%), 0 1px 2px oklch(0.2 0.02 260 / 7%), 0 5px 14px oklch(0.2 0.02 260 / 5%)",
+        "suluu-otp-active-shadow":
+          "inset 0 0 0 1px oklch(0.55 0.16 255 / 9%), 0 5px 16px oklch(0.5 0.18 255 / 12%)",
+        "suluu-otp-error-shadow":
+          "inset 0 0 0 1px oklch(0.56 0.19 25 / 8%), 0 5px 16px oklch(0.52 0.17 25 / 10%)",
+      },
+      dark: {
+        "suluu-otp-background": "oklch(0.235 0.013 260)",
+        "suluu-otp-foreground": "oklch(0.97 0.004 260)",
+        "suluu-otp-muted": "oklch(0.68 0.014 260)",
+        "suluu-otp-border": "oklch(1 0 0 / 12%)",
+        "suluu-otp-ring": "oklch(0.7 0.13 255)",
+        "suluu-otp-caret": "oklch(0.74 0.12 255)",
+        "suluu-otp-error": "oklch(0.7 0.16 25)",
+        "suluu-otp-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 6%), 0 1px 2px oklch(0 0 0 / 24%), 0 7px 18px oklch(0 0 0 / 18%)",
+        "suluu-otp-active-shadow":
+          "inset 0 0 0 1px oklch(0.7 0.13 255 / 12%), 0 7px 20px oklch(0.64 0.15 255 / 16%)",
+        "suluu-otp-error-shadow":
+          "inset 0 0 0 1px oklch(0.7 0.16 25 / 10%), 0 7px 20px oklch(0.64 0.15 25 / 14%)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. It accepts numeric codes, uses one native input for autofill and forms, and includes an accessible inline error when provided.",
+    categories: ["forms", "inputs", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createSearchMorphRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -694,6 +754,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "notify-morph",
     output: "apps/www/public/r/notify-morph.json",
     source: "packages/suluu/src/notify-morph/notify-morph.tsx",
+  },
+  {
+    create: createOtpInputRegistryItem,
+    exportName: "OtpInput",
+    name: "otp-input",
+    output: "apps/www/public/r/otp-input.json",
+    source: "packages/suluu/src/otp-input/otp-input.tsx",
   },
   {
     create: createSearchMorphRegistryItem,

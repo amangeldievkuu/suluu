@@ -51,6 +51,10 @@
       "types": "./dist/notify-morph.d.ts",
       "import": "./dist/notify-morph.js"
     },
+    "./otp-input": {
+      "types": "./dist/otp-input.d.ts",
+      "import": "./dist/otp-input.js"
+    },
     "./search-morph": {
       "types": "./dist/search-morph.d.ts",
       "import": "./dist/search-morph.js"

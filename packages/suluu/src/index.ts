@@ -25,6 +25,12 @@ export type {
   MotionIntensity,
   NotifyMorphProps,
 } from "./notify-morph/notify-morph";
+export { OtpInput } from "./otp-input/otp-input";
+export type {
+  OtpInputMotionIntensity,
+  OtpInputProps,
+  OtpInputSize,
+} from "./otp-input/otp-input";
 export { SearchMorph } from "./search-morph/search-morph";
 export type {
   SearchMorphProps,

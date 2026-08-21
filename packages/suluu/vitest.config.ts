@@ -10,6 +10,7 @@ export default defineConfig({
         "src/magnet-pull/index.ts",
         "src/morph-button/index.ts",
         "src/notify-morph/index.ts",
+        "src/otp-input/index.ts",
         "src/search-morph/index.ts",
         "src/segmented-control/index.ts",
         "src/slide-control/index.ts",

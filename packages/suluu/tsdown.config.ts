@@ -24,6 +24,7 @@ export default defineConfig({
     "magnet-pull": "src/magnet-pull/index.ts",
     "morph-button": "src/morph-button/index.ts",
     "notify-morph": "src/notify-morph/index.ts",
+    "otp-input": "src/otp-input/index.ts",
     "search-morph": "src/search-morph/index.ts",
     "segmented-control": "src/segmented-control/index.ts",
     "slide-control": "src/slide-control/index.ts",
