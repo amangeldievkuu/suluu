@@ -9,6 +9,12 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- FluidTabs, a row of circular tabs whose active item springs into a labeled
+  pill while its neighbors make room. The active tab tints its icon and label
+  with its own accent, and a single sheen of light travels the revealed label as
+  it opens. It is built from a single em geometry in three sizes, follows
+  `--suluu-fluid-tabs-font-size`, and clamps the active pill so a long label
+  narrows instead of overflowing a small screen.
 - SpotlightCard, a quiet card surface whose warm light trails fine-pointer
   movement on a spring with a little mass, fades away more slowly than it
   arrives, and never cuts hard against the card edge.
@@ -18,6 +24,9 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- FluidTabs keeps the active icon on a single spring instead of recentering it
+  from the live pill width, so the glyph no longer shivers while the label
+  opens. Inactive icons use a slightly softer charcoal.
 - Toast collapse gathers back into the peek on the pinned edge, with a more
   damped spring than expand, so a tall or scrolled deck no longer jumps off the
   corner.

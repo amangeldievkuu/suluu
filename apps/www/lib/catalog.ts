@@ -6,6 +6,7 @@ export const CATEGORIES = [
   "Surfaces",
   "Buttons",
   "Forms",
+  "Navigation",
   "Feedback",
   "Data Display",
 ] as const;
@@ -40,6 +41,14 @@ export const CATALOG = [
     summary:
       "A compact icon button that springs open into a labeled action on hover, focus, or application state.",
     keywords: ["expand", "shape", "pill", "icon", "cta", "transition"],
+  },
+  {
+    slug: "fluid-tabs",
+    name: "FluidTabs",
+    category: "Navigation",
+    summary:
+      "A row of circular tabs whose active item springs open to reveal its label and accent.",
+    keywords: ["expand", "pill", "icons", "tablist", "morph", "workspace"],
   },
   {
     slug: "notify-morph",

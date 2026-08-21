@@ -10,6 +10,7 @@
       "suluu/counter-numbers": [
         "../../packages/suluu/src/counter-numbers/index.ts"
       ],
+      "suluu/fluid-tabs": ["../../packages/suluu/src/fluid-tabs/index.ts"],
       "suluu/magnet-pull": ["../../packages/suluu/src/magnet-pull/index.ts"],
       "suluu/morph-button": ["../../packages/suluu/src/morph-button/index.ts"],
       "suluu/notify-morph": ["../../packages/suluu/src/notify-morph/index.ts"],
@@ -19,6 +20,9 @@
       ],
       "suluu/slide-control": [
         "../../packages/suluu/src/slide-control/index.ts"
+      ],
+      "suluu/spotlight-card": [
+        "../../packages/suluu/src/spotlight-card/index.ts"
       ],
       "suluu/switch-toggle": [
         "../../packages/suluu/src/switch-toggle/index.ts"

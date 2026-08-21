@@ -1,4 +1,15 @@
 :root {
+  --suluu-fluid-tabs-font-size: 1rem;
+  --suluu-fluid-tabs-background: oklch(1 0 0);
+  --suluu-fluid-tabs-foreground: oklch(0.35 0.01 260);
+  --suluu-fluid-tabs-border: oklch(1 0 0 / 92%);
+  --suluu-fluid-tabs-accent: oklch(0.61 0.21 255);
+  --suluu-fluid-tabs-ring: oklch(0.55 0.16 255);
+  --suluu-fluid-tabs-offset: oklch(0.97 0.004 260);
+  --suluu-fluid-tabs-shimmer-intensity: 0.7;
+  --suluu-fluid-tabs-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 86%), 0 2px 3px oklch(0.2 0.02 260 / 6%),
+    0 12px 28px oklch(0.2 0.02 260 / 11%);
   --suluu-notify-background: oklch(0.94 0.006 260);
   --suluu-notify-foreground: oklch(0.08 0.005 260);
   --suluu-notify-muted: oklch(0.52 0.014 260);
@@ -106,6 +117,16 @@
 }
 
 .dark {
+  --suluu-fluid-tabs-background: oklch(0.245 0.013 260);
+  --suluu-fluid-tabs-foreground: oklch(0.96 0.006 260);
+  --suluu-fluid-tabs-border: oklch(1 0 0 / 10%);
+  --suluu-fluid-tabs-accent: oklch(0.72 0.15 255);
+  --suluu-fluid-tabs-ring: oklch(0.7 0.13 255);
+  --suluu-fluid-tabs-offset: oklch(0.14 0.008 260);
+  --suluu-fluid-tabs-shimmer-intensity: 0.92;
+  --suluu-fluid-tabs-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 7%), 0 2px 3px oklch(0 0 0 / 24%),
+    0 14px 32px oklch(0 0 0 / 32%);
   --suluu-notify-background: oklch(0.245 0.013 260);
   --suluu-notify-foreground: oklch(0.96 0.006 260);
   --suluu-notify-muted: oklch(0.68 0.014 260);

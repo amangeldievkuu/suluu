@@ -3,6 +3,7 @@ import type { ComponentType } from "react";
 import type { ComponentSlug } from "@/lib/catalog";
 
 import { CounterNumbersDemo } from "./counter-numbers-demo";
+import { FluidTabsDemo } from "./fluid-tabs-demo";
 import { MagnetPullDemo } from "./magnet-pull-demo";
 import { MorphButtonDemo } from "./morph-button-demo";
 import { NotifyMorphDemo } from "./notify-morph-demo";
@@ -23,6 +24,7 @@ export const COMPONENT_PREVIEWS: Record<
   ComponentType<DemoProps>
 > = {
   "counter-numbers": CounterNumbersDemo,
+  "fluid-tabs": FluidTabsDemo,
   "magnet-pull": MagnetPullDemo,
   "morph-button": MorphButtonDemo,
   "notify-morph": NotifyMorphDemo,

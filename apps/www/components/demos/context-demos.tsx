@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CounterNumbers } from "suluu/counter-numbers";
+import { FluidTabs, type FluidTab } from "suluu/fluid-tabs";
 import { MagnetPull } from "suluu/magnet-pull";
 import { MorphButton } from "suluu/morph-button";
 import { NotifyMorph } from "suluu/notify-morph";
@@ -10,6 +11,8 @@ import { SegmentedControl } from "suluu/segmented-control";
 import { SlideControl } from "suluu/slide-control";
 import { SwitchToggle } from "suluu/switch-toggle";
 import { createToaster } from "suluu/toast";
+
+import { AlertsIcon, InboxIcon, PlannerIcon } from "./fluid-tabs-demo";
 
 function PlusIcon() {
   return (
@@ -92,6 +95,105 @@ export function MorphButtonContextDemo() {
         }
         onClick={() => undefined}
       />
+    </div>
+  );
+}
+
+const COMMUNICATION_TABS: readonly FluidTab[] = [
+  {
+    accentColor: "#087cf0",
+    icon: <InboxIcon />,
+    id: "fluid-context-inbox-tab",
+    label: "Inbox",
+    panelId: "fluid-context-inbox-panel",
+    value: "inbox",
+  },
+  {
+    accentColor: "#f0b429",
+    icon: <PlannerIcon />,
+    id: "fluid-context-planner-tab",
+    label: "Planner",
+    panelId: "fluid-context-planner-panel",
+    value: "planner",
+  },
+  {
+    accentColor: "#f0443e",
+    icon: <AlertsIcon />,
+    id: "fluid-context-alerts-tab",
+    label: "Alerts",
+    panelId: "fluid-context-alerts-panel",
+    value: "alerts",
+  },
+];
+
+const COMMUNICATION_PANELS = {
+  inbox: {
+    eyebrow: "3 unread",
+    title: "The launch review is ready",
+    detail: "Mara left two notes on the final interaction pass.",
+  },
+  planner: {
+    eyebrow: "Next up",
+    title: "Motion polish · 10:30",
+    detail: "A quiet half hour reserved for the final spring tuning.",
+  },
+  alerts: {
+    eyebrow: "Just now",
+    title: "Preview deployment finished",
+    detail: "The latest workspace build is ready for review.",
+  },
+} as const;
+
+export function FluidTabsContextDemo() {
+  const [value, setValue] =
+    useState<keyof typeof COMMUNICATION_PANELS>("inbox");
+
+  return (
+    <div className="mx-auto max-w-xl rounded-3xl border bg-[var(--site-background)] p-5 shadow-sm sm:p-6">
+      <div className="flex items-center justify-between gap-4 border-b pb-5">
+        <div>
+          <p className="text-sm font-medium">Workspace</p>
+          <p className="mt-1 text-xs text-[var(--site-muted)]">
+            Everything waiting for you today.
+          </p>
+        </div>
+        <span className="size-8 rounded-full bg-[linear-gradient(145deg,oklch(0.82_0.08_255),oklch(0.68_0.14_285))] shadow-sm" />
+      </div>
+
+      <div className="flex justify-center py-7">
+        <FluidTabs
+          aria-label="Workspace sections"
+          onValueChange={(nextValue) =>
+            setValue(nextValue as keyof typeof COMMUNICATION_PANELS)
+          }
+          tabs={COMMUNICATION_TABS}
+          value={value}
+        />
+      </div>
+
+      {COMMUNICATION_TABS.map((tab) => {
+        const panel =
+          COMMUNICATION_PANELS[tab.value as keyof typeof COMMUNICATION_PANELS];
+
+        return (
+          <section
+            aria-labelledby={tab.id}
+            className="rounded-2xl bg-[var(--site-subtle)] p-4"
+            hidden={value !== tab.value}
+            id={tab.panelId}
+            key={tab.value}
+            role="tabpanel"
+          >
+            <p className="text-[10px] font-medium tracking-wider text-[var(--site-muted)] uppercase">
+              {panel.eyebrow}
+            </p>
+            <p className="mt-2 text-sm font-medium">{panel.title}</p>
+            <p className="mt-1 text-xs leading-5 text-[var(--site-muted)]">
+              {panel.detail}
+            </p>
+          </section>
+        );
+      })}
     </div>
   );
 }

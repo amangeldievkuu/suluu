@@ -43,6 +43,60 @@ export function createCounterNumbersRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createFluidTabsRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "fluid-tabs",
+    type: "registry:ui",
+    title: "FluidTabs",
+    description:
+      "A horizontal tablist whose active circle springs open to reveal its label.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/fluid-tabs/fluid-tabs.tsx",
+        type: "registry:ui",
+        target: "@ui/fluid-tabs.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-fluid-tabs-font-size": "1rem",
+        "suluu-fluid-tabs-background": "oklch(1 0 0)",
+        "suluu-fluid-tabs-foreground": "oklch(0.35 0.01 260)",
+        "suluu-fluid-tabs-border": "oklch(1 0 0 / 92%)",
+        "suluu-fluid-tabs-accent": "oklch(0.61 0.21 255)",
+        "suluu-fluid-tabs-ring": "oklch(0.55 0.16 255)",
+        "suluu-fluid-tabs-offset": "oklch(0.97 0.004 260)",
+        "suluu-fluid-tabs-shimmer-intensity": "0.7",
+        "suluu-fluid-tabs-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 86%), 0 2px 3px oklch(0.2 0.02 260 / 6%), 0 12px 28px oklch(0.2 0.02 260 / 11%)",
+      },
+      dark: {
+        "suluu-fluid-tabs-font-size": "1rem",
+        "suluu-fluid-tabs-background": "oklch(0.245 0.013 260)",
+        "suluu-fluid-tabs-foreground": "oklch(0.96 0.006 260)",
+        "suluu-fluid-tabs-border": "oklch(1 0 0 / 10%)",
+        "suluu-fluid-tabs-accent": "oklch(0.72 0.15 255)",
+        "suluu-fluid-tabs-ring": "oklch(0.7 0.13 255)",
+        "suluu-fluid-tabs-offset": "oklch(0.14 0.008 260)",
+        "suluu-fluid-tabs-shimmer-intensity": "0.92",
+        "suluu-fluid-tabs-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 7%), 0 2px 3px oklch(0 0 0 / 24%), 0 14px 32px oklch(0 0 0 / 32%)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. Give each tablist an accessible name and connect tab ids to consumer-owned tabpanels when content is present.",
+    categories: ["navigation", "tabs", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createNotifyMorphRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -560,6 +614,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "counter-numbers",
     output: "apps/www/public/r/counter-numbers.json",
     source: "packages/suluu/src/counter-numbers/counter-numbers.tsx",
+  },
+  {
+    create: createFluidTabsRegistryItem,
+    exportName: "FluidTabs",
+    name: "fluid-tabs",
+    output: "apps/www/public/r/fluid-tabs.json",
+    source: "packages/suluu/src/fluid-tabs/fluid-tabs.tsx",
   },
   {
     create: createMagnetPullRegistryItem,

@@ -19,6 +19,7 @@ export default defineConfig({
   },
   entry: {
     "counter-numbers": "src/counter-numbers/index.ts",
+    "fluid-tabs": "src/fluid-tabs/index.ts",
     index: "src/index.ts",
     "magnet-pull": "src/magnet-pull/index.ts",
     "morph-button": "src/morph-button/index.ts",

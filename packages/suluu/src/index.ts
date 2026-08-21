@@ -3,6 +3,13 @@ export type {
   CounterNumbersIntensity,
   CounterNumbersProps,
 } from "./counter-numbers/counter-numbers";
+export { FluidTabs } from "./fluid-tabs/fluid-tabs";
+export type {
+  FluidTab,
+  FluidTabsProps,
+  FluidTabsSize,
+  FluidTabsStyle,
+} from "./fluid-tabs/fluid-tabs";
 export { MagnetPull } from "./magnet-pull/magnet-pull";
 export type {
   MagnetIntensity,

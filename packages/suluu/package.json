@@ -35,6 +35,10 @@
       "types": "./dist/counter-numbers.d.ts",
       "import": "./dist/counter-numbers.js"
     },
+    "./fluid-tabs": {
+      "types": "./dist/fluid-tabs.d.ts",
+      "import": "./dist/fluid-tabs.js"
+    },
     "./magnet-pull": {
       "types": "./dist/magnet-pull.d.ts",
       "import": "./dist/magnet-pull.js"

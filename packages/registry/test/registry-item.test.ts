@@ -27,6 +27,7 @@ describe("registry catalog", () => {
   it("serves every component the package exports", () => {
     expect(REGISTRY_ITEMS.map((item) => item.name)).toEqual([
       "counter-numbers",
+      "fluid-tabs",
       "magnet-pull",
       "morph-button",
       "notify-morph",
