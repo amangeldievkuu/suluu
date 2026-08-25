@@ -11,6 +11,7 @@ export default defineConfig({
         "src/morph-button/index.ts",
         "src/notify-morph/index.ts",
         "src/otp-input/index.ts",
+        "src/rope-time-picker/index.ts",
         "src/search-morph/index.ts",
         "src/segmented-control/index.ts",
         "src/slide-control/index.ts",

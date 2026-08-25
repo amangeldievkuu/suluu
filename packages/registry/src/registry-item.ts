@@ -485,6 +485,98 @@ export function createSlideControlRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createRopeTimePickerRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "rope-time-picker",
+    type: "registry:ui",
+    title: "RopeTimePicker",
+    description:
+      "A precise analog time picker whose draggable hands bend and settle like softly weighted ropes.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/rope-time-picker/rope-time-picker.tsx",
+        type: "registry:ui",
+        target: "@ui/rope-time-picker.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-rope-time-background": "oklch(0.985 0.003 260)",
+        "suluu-rope-time-foreground": "oklch(0.19 0.012 260)",
+        "suluu-rope-time-muted": "oklch(0.58 0.014 260)",
+        "suluu-rope-time-hour": "oklch(0.66 0.11 55)",
+        "suluu-rope-time-border": "oklch(0.89 0.008 260)",
+        "suluu-rope-time-guide": "oklch(0.82 0.012 260)",
+        "suluu-rope-time-rope": "oklch(0.47 0.045 255)",
+        "suluu-rope-time-rope-highlight": "oklch(1 0 0)",
+        "suluu-rope-time-accent": "oklch(0.58 0.19 255)",
+        "suluu-rope-time-second": "oklch(0.57 0.2 28)",
+        "suluu-rope-time-control": "oklch(0.995 0.002 260)",
+        "suluu-rope-time-control-border": "oklch(0.84 0.012 260)",
+        "suluu-rope-time-center": "oklch(0.995 0.002 260 / 94%)",
+        "suluu-rope-time-center-hover": "oklch(0.96 0.007 260)",
+        "suluu-rope-time-readout": "oklch(0.97 0.004 260 / 88%)",
+        "suluu-rope-time-readout-active": "oklch(0.58 0.19 255 / 9%)",
+        "suluu-rope-time-readout-hover": "oklch(0.2 0.02 260 / 5%)",
+        "suluu-rope-time-ring": "oklch(0.55 0.16 255)",
+        "suluu-rope-time-offset": "oklch(1 0 0)",
+        "suluu-rope-time-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 84%), 0 2px 4px oklch(0.2 0.02 260 / 7%), 0 18px 46px oklch(0.2 0.02 260 / 10%)",
+        "suluu-rope-time-rope-shadow":
+          "drop-shadow(0 1px 1px oklch(0.2 0.04 255 / 18%))",
+        "suluu-rope-time-control-shadow":
+          "0 1px 2px oklch(0.16 0.02 260 / 14%), 0 4px 10px oklch(0.3 0.08 255 / 12%)",
+        "suluu-rope-time-center-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 82%), 0 2px 4px oklch(0.2 0.02 260 / 9%), 0 8px 20px oklch(0.2 0.02 260 / 9%)",
+        "suluu-rope-time-readout-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 76%), 0 4px 14px oklch(0.2 0.02 260 / 7%)",
+      },
+      dark: {
+        "suluu-rope-time-background": "oklch(0.205 0.012 260)",
+        "suluu-rope-time-foreground": "oklch(0.96 0.006 260)",
+        "suluu-rope-time-muted": "oklch(0.62 0.016 260)",
+        "suluu-rope-time-hour": "oklch(0.78 0.1 58)",
+        "suluu-rope-time-border": "oklch(1 0 0 / 12%)",
+        "suluu-rope-time-guide": "oklch(1 0 0 / 13%)",
+        "suluu-rope-time-rope": "oklch(0.7 0.065 255)",
+        "suluu-rope-time-rope-highlight": "oklch(0.98 0.008 255)",
+        "suluu-rope-time-accent": "oklch(0.72 0.15 255)",
+        "suluu-rope-time-second": "oklch(0.68 0.18 28)",
+        "suluu-rope-time-control": "oklch(0.275 0.016 260)",
+        "suluu-rope-time-control-border": "oklch(1 0 0 / 18%)",
+        "suluu-rope-time-center": "oklch(0.255 0.015 260 / 94%)",
+        "suluu-rope-time-center-hover": "oklch(0.31 0.018 260)",
+        "suluu-rope-time-readout": "oklch(0.225 0.013 260 / 90%)",
+        "suluu-rope-time-readout-active": "oklch(0.72 0.15 255 / 13%)",
+        "suluu-rope-time-readout-hover": "oklch(1 0 0 / 7%)",
+        "suluu-rope-time-ring": "oklch(0.7 0.13 255)",
+        "suluu-rope-time-offset": "oklch(0.14 0.008 260)",
+        "suluu-rope-time-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 6%), 0 2px 4px oklch(0 0 0 / 24%), 0 22px 54px oklch(0 0 0 / 34%)",
+        "suluu-rope-time-rope-shadow":
+          "drop-shadow(0 2px 2px oklch(0 0 0 / 34%))",
+        "suluu-rope-time-control-shadow":
+          "0 1px 2px oklch(0 0 0 / 28%), 0 5px 12px oklch(0 0 0 / 28%)",
+        "suluu-rope-time-center-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 7%), 0 2px 4px oklch(0 0 0 / 28%), 0 10px 24px oklch(0 0 0 / 28%)",
+        "suluu-rope-time-readout-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 6%), 0 6px 18px oklch(0 0 0 / 24%)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. It is a twelve-hour wall-clock picker; give the group an accessible name when the default Time picker label is not specific enough.",
+    categories: ["forms", "inputs", "time", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createSwitchToggleRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -761,6 +853,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "otp-input",
     output: "apps/www/public/r/otp-input.json",
     source: "packages/suluu/src/otp-input/otp-input.tsx",
+  },
+  {
+    create: createRopeTimePickerRegistryItem,
+    exportName: "RopeTimePicker",
+    name: "rope-time-picker",
+    output: "apps/www/public/r/rope-time-picker.json",
+    source: "packages/suluu/src/rope-time-picker/rope-time-picker.tsx",
   },
   {
     create: createSearchMorphRegistryItem,

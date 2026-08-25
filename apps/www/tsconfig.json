@@ -15,6 +15,9 @@
       "suluu/morph-button": ["../../packages/suluu/src/morph-button/index.ts"],
       "suluu/notify-morph": ["../../packages/suluu/src/notify-morph/index.ts"],
       "suluu/otp-input": ["../../packages/suluu/src/otp-input/index.ts"],
+      "suluu/rope-time-picker": [
+        "../../packages/suluu/src/rope-time-picker/index.ts"
+      ],
       "suluu/search-morph": ["../../packages/suluu/src/search-morph/index.ts"],
       "suluu/segmented-control": [
         "../../packages/suluu/src/segmented-control/index.ts"

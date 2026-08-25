@@ -9,6 +9,12 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- RopeTimePicker, a twelve-hour analog time input with independently draggable
+  rope hands, editable digital fields, AM/PM control, stepped snapping, and
+  restrained spring weight that becomes immediate under reduced motion. Hour
+  marks sit in a quiet orange, the cords hang with more sag, and the seconds
+  hand is a thin red needle. Time is changed by dragging those dots, not the
+  dial face.
 - OtpInput, a one-native-input OTP and PIN field whose active wash, caret, and
   digits settle with springs. Completing the code rests the wash and swells the
   slot surfaces; clicking a slot again restores focus, and Backspace on the last

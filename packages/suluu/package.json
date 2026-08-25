@@ -55,6 +55,10 @@
       "types": "./dist/otp-input.d.ts",
       "import": "./dist/otp-input.js"
     },
+    "./rope-time-picker": {
+      "types": "./dist/rope-time-picker.d.ts",
+      "import": "./dist/rope-time-picker.js"
+    },
     "./search-morph": {
       "types": "./dist/search-morph.d.ts",
       "import": "./dist/search-morph.js"

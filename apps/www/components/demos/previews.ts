@@ -8,6 +8,7 @@ import { MagnetPullDemo } from "./magnet-pull-demo";
 import { MorphButtonDemo } from "./morph-button-demo";
 import { NotifyMorphDemo } from "./notify-morph-demo";
 import { OtpInputDemo } from "./otp-input-demo";
+import { RopeTimePickerDemo } from "./rope-time-picker-demo";
 import { SearchMorphDemo } from "./search-morph-demo";
 import { SegmentedControlDemo } from "./segmented-control-demo";
 import { SlideControlDemo } from "./slide-control-demo";
@@ -31,6 +32,7 @@ export const COMPONENT_PREVIEWS: Record<
   "morph-button": MorphButtonDemo,
   "notify-morph": NotifyMorphDemo,
   "otp-input": OtpInputDemo,
+  "rope-time-picker": RopeTimePickerDemo,
   "search-morph": SearchMorphDemo,
   "segmented-control": SegmentedControlDemo,
   "slide-control": SlideControlDemo,

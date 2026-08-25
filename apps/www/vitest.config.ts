@@ -18,6 +18,7 @@ export default defineConfig({
       "suluu/morph-button": `${packageSrc}/morph-button/index.ts`,
       "suluu/notify-morph": `${packageSrc}/notify-morph/index.ts`,
       "suluu/otp-input": `${packageSrc}/otp-input/index.ts`,
+      "suluu/rope-time-picker": `${packageSrc}/rope-time-picker/index.ts`,
       "suluu/search-morph": `${packageSrc}/search-morph/index.ts`,
       "suluu/segmented-control": `${packageSrc}/segmented-control/index.ts`,
       "suluu/slide-control": `${packageSrc}/slide-control/index.ts`,

@@ -32,6 +32,7 @@ describe("registry catalog", () => {
       "morph-button",
       "notify-morph",
       "otp-input",
+      "rope-time-picker",
       "search-morph",
       "segmented-control",
       "slide-control",

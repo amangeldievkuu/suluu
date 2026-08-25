@@ -75,6 +75,14 @@ export const CATALOG = [
     keywords: ["otp", "pin", "verification", "code", "password", "autofill"],
   },
   {
+    slug: "rope-time-picker",
+    name: "RopeTimePicker",
+    category: "Forms",
+    summary:
+      "A precise analog time picker whose draggable hands bend and settle like softly weighted ropes.",
+    keywords: ["clock", "time", "alarm", "schedule", "drag", "spring", "am pm"],
+  },
+  {
     slug: "search-morph",
     name: "SearchMorph",
     category: "Forms",
