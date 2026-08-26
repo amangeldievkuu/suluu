@@ -121,11 +121,13 @@ describe("searchCatalog", () => {
     expect(searchCatalog("notify-morph")[0]?.slug).toBe("notify-morph");
   });
 
-  it("matches on a keyword that is in neither the name nor the summary", () => {
+  it("matches every entry with a keyword absent from its name and summary", () => {
     const results = searchCatalog("newsletter");
 
-    expect(results).toHaveLength(1);
-    expect(results[0]?.slug).toBe("notify-morph");
+    expect(results.map((entry) => entry.slug)).toEqual([
+      "email-morph",
+      "notify-morph",
+    ]);
   });
 
   it("matches on the category", () => {

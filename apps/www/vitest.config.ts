@@ -13,6 +13,7 @@ export default defineConfig({
       // `pnpm validate` runs `test` before `build:package`, so resolve the
       // library from source rather than from its unbuilt `dist` output.
       "suluu/counter-numbers": `${packageSrc}/counter-numbers/index.ts`,
+      "suluu/email-morph": `${packageSrc}/email-morph/index.ts`,
       "suluu/fluid-tabs": `${packageSrc}/fluid-tabs/index.ts`,
       "suluu/magnet-pull": `${packageSrc}/magnet-pull/index.ts`,
       "suluu/morph-button": `${packageSrc}/morph-button/index.ts`,

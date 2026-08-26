@@ -59,6 +59,23 @@ export const CATALOG = [
     keywords: ["expand", "pill", "icons", "tablist", "morph", "workspace"],
   },
   {
+    slug: "email-morph",
+    name: "EmailMorph",
+    category: "Forms",
+    summary:
+      "A quiet email field whose send action pinches off like a water drop on focus, then merges back when you leave.",
+    keywords: [
+      "email",
+      "subscribe",
+      "newsletter",
+      "input",
+      "liquid",
+      "split",
+      "send",
+      "drop",
+    ],
+  },
+  {
     slug: "notify-morph",
     name: "NotifyMorph",
     category: "Forms",

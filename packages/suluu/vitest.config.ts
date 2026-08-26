@@ -6,6 +6,7 @@ export default defineConfig({
       exclude: [
         "src/index.ts",
         "src/counter-numbers/index.ts",
+        "src/email-morph/index.ts",
         "src/fluid-tabs/index.ts",
         "src/magnet-pull/index.ts",
         "src/morph-button/index.ts",

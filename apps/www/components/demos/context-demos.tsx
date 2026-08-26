@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CounterNumbers } from "suluu/counter-numbers";
+import { EmailMorph } from "suluu/email-morph";
 import { FluidTabs, type FluidTab } from "suluu/fluid-tabs";
 import { MagnetPull } from "suluu/magnet-pull";
 import { MorphButton } from "suluu/morph-button";
@@ -231,6 +232,39 @@ export function NotifyMorphContextDemo() {
           label="Join the waitlist"
           onSubmit={() => undefined}
           placeholder="you@example.com"
+        />
+      </div>
+    </div>
+  );
+}
+
+export function EmailMorphContextDemo() {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  return (
+    <div className="mx-auto max-w-lg rounded-3xl border bg-[var(--site-background)] px-5 py-8 text-center shadow-sm sm:px-8 sm:py-10">
+      <p className="text-xs font-medium tracking-wider text-[var(--site-muted)] uppercase">
+        Field notes
+      </p>
+      <h4 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+        One thoughtful update each month.
+      </h4>
+      <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-[var(--site-muted)]">
+        Product details, motion studies, and the small decisions behind each
+        release.
+      </p>
+      <div className="mt-7 flex justify-center">
+        <EmailMorph
+          aria-label="Field notes email"
+          onSubmit={() => setSubscribed(true)}
+          onValueChange={(nextValue) => {
+            setEmail(nextValue);
+            if (subscribed) setSubscribed(false);
+          }}
+          placeholder="you@example.com"
+          success={subscribed}
+          value={email}
         />
       </div>
     </div>

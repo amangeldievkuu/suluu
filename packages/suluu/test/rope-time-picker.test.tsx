@@ -898,7 +898,10 @@ describe("RopeTimePicker", () => {
     ];
 
     expect(coords.length).toBeGreaterThan(70);
-    for (const [, value] of coords) {
+    for (const coordinate of coords) {
+      const value = coordinate[1];
+      if (!value) throw new Error("Expected a captured dial coordinate.");
+
       expect(value.split(".")[1]?.length ?? 0).toBeLessThanOrEqual(3);
     }
   });

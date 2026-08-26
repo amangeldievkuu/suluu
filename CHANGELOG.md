@@ -9,6 +9,12 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- EmailMorph, a required native email field that stays a single pill until it is
+  focused. The trailing cap then pinches off as a circular send action through a
+  liquid water-drop neck; clicking outside or pressing Escape draws that drop
+  back into the field. Controlled loading and success keep the action separated
+  while the custom arrow, spinner, and check continue the same quiet motion
+  language.
 - RopeTimePicker, a twelve-hour analog time input with independently draggable
   rope hands, editable digital fields, AM/PM control, stepped snapping, and
   restrained spring weight that becomes immediate under reduced motion. Hour

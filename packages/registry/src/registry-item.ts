@@ -43,6 +43,70 @@ export function createCounterNumbersRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createEmailMorphRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "email-morph",
+    type: "registry:ui",
+    title: "EmailMorph",
+    description:
+      "A quiet email field whose send action pinches off like a water drop on focus, then merges back when you leave.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/email-morph/email-morph.tsx",
+        type: "registry:ui",
+        target: "@ui/email-morph.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-email-morph-surface": "oklch(0.985 0.003 260)",
+        "suluu-email-morph-foreground": "oklch(0.16 0.008 260)",
+        "suluu-email-morph-muted": "oklch(0.55 0.014 260)",
+        "suluu-email-morph-border": "oklch(0.89 0.007 260)",
+        "suluu-email-morph-ring": "oklch(0.55 0.16 255)",
+        "suluu-email-morph-offset": "oklch(1 0 0)",
+        "suluu-email-morph-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 82%), 0 1px 2px oklch(0.2 0.02 260 / 7%), 0 7px 18px oklch(0.2 0.02 260 / 7%)",
+        "suluu-email-morph-action-shadow":
+          "0 2px 3px oklch(0.2 0.02 260 / 9%), 0 9px 22px oklch(0.2 0.02 260 / 12%)",
+        "suluu-email-morph-error": "oklch(0.56 0.19 25)",
+        "suluu-email-morph-error-shadow":
+          "inset 0 0 0 1px oklch(0.56 0.19 25 / 7%), 0 7px 20px oklch(0.52 0.17 25 / 10%)",
+        "suluu-email-morph-success": "oklch(0.55 0.14 158)",
+        "suluu-email-morph-shimmer-intensity": "0.7",
+      },
+      dark: {
+        "suluu-email-morph-surface": "oklch(0.235 0.013 260)",
+        "suluu-email-morph-foreground": "oklch(0.97 0.004 260)",
+        "suluu-email-morph-muted": "oklch(0.68 0.014 260)",
+        "suluu-email-morph-border": "oklch(1 0 0 / 12%)",
+        "suluu-email-morph-ring": "oklch(0.7 0.13 255)",
+        "suluu-email-morph-offset": "oklch(0.14 0.008 260)",
+        "suluu-email-morph-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 6%), 0 1px 2px oklch(0 0 0 / 24%), 0 9px 22px oklch(0 0 0 / 23%)",
+        "suluu-email-morph-action-shadow":
+          "0 2px 3px oklch(0 0 0 / 28%), 0 11px 26px oklch(0 0 0 / 34%)",
+        "suluu-email-morph-error": "oklch(0.7 0.16 25)",
+        "suluu-email-morph-error-shadow":
+          "inset 0 0 0 1px oklch(0.7 0.16 25 / 10%), 0 8px 22px oklch(0.64 0.15 25 / 14%)",
+        "suluu-email-morph-success": "oklch(0.75 0.15 158)",
+        "suluu-email-morph-shimmer-intensity": "0.92",
+      },
+    },
+    docs: "The component requires Tailwind CSS and renders one native required email input. Connect onSubmit to your subscription service and control loading, success, and server errors from application state.",
+    categories: ["forms", "inputs", "call-to-action", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createFluidTabsRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -818,6 +882,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "counter-numbers",
     output: "apps/www/public/r/counter-numbers.json",
     source: "packages/suluu/src/counter-numbers/counter-numbers.tsx",
+  },
+  {
+    create: createEmailMorphRegistryItem,
+    exportName: "EmailMorph",
+    name: "email-morph",
+    output: "apps/www/public/r/email-morph.json",
+    source: "packages/suluu/src/email-morph/email-morph.tsx",
   },
   {
     create: createFluidTabsRegistryItem,

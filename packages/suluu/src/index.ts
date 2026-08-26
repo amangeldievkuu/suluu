@@ -3,6 +3,13 @@ export type {
   CounterNumbersIntensity,
   CounterNumbersProps,
 } from "./counter-numbers/counter-numbers";
+export { EmailMorph } from "./email-morph/email-morph";
+export type {
+  EmailMorphActionState,
+  EmailMorphLabels,
+  EmailMorphMotionIntensity,
+  EmailMorphProps,
+} from "./email-morph/email-morph";
 export { FluidTabs } from "./fluid-tabs/fluid-tabs";
 export type {
   FluidTab,
