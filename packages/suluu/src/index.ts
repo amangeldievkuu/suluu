@@ -3,6 +3,15 @@ export type {
   CounterNumbersIntensity,
   CounterNumbersProps,
 } from "./counter-numbers/counter-numbers";
+export { DurationPill } from "./duration-pill/duration-pill";
+export type {
+  DurationPillIconState,
+  DurationPillLabels,
+  DurationPillMotionIntensity,
+  DurationPillProps,
+  DurationPillUnitLabels,
+  DurationValue,
+} from "./duration-pill/duration-pill";
 export { EmailMorph } from "./email-morph/email-morph";
 export type {
   EmailMorphActionState,

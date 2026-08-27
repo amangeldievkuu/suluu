@@ -19,6 +19,7 @@ export default defineConfig({
   },
   entry: {
     "counter-numbers": "src/counter-numbers/index.ts",
+    "duration-pill": "src/duration-pill/index.ts",
     "email-morph": "src/email-morph/index.ts",
     "fluid-tabs": "src/fluid-tabs/index.ts",
     index: "src/index.ts",

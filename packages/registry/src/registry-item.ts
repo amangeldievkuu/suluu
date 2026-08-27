@@ -43,6 +43,66 @@ export function createCounterNumbersRegistryItem(source: string): RegistryItem {
   return registryItemSchema.parse(item);
 }
 
+export function createDurationPillRegistryItem(source: string): RegistryItem {
+  const item = {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    name: "duration-pill",
+    type: "registry:ui",
+    title: "DurationPill",
+    description:
+      "A compact duration display that softly morphs into precise segmented editing.",
+    author: "Suluu contributors",
+    dependencies: ["motion@^13.1.0"],
+    files: [
+      {
+        path: "registry/duration-pill/duration-pill.tsx",
+        type: "registry:ui",
+        target: "@ui/duration-pill.tsx",
+        content: source,
+      },
+    ],
+    cssVars: {
+      light: {
+        "suluu-duration-pill-background": "oklch(0.96 0.01 285)",
+        "suluu-duration-pill-foreground": "oklch(0.16 0.01 270)",
+        "suluu-duration-pill-muted": "oklch(0.54 0.014 275)",
+        "suluu-duration-pill-field": "oklch(0.955 0.012 285)",
+        "suluu-duration-pill-field-active": "oklch(0.91 0.02 280)",
+        "suluu-duration-pill-accent": "oklch(0.94 0.016 282)",
+        "suluu-duration-pill-accent-foreground": "oklch(0.12 0.008 270)",
+        "suluu-duration-pill-ring": "oklch(0.55 0.16 255)",
+        "suluu-duration-pill-offset": "oklch(1 0 0)",
+        "suluu-duration-pill-shadow":
+          "inset 0 0 0 1px oklch(0.68 0.02 275 / 16%), inset 0 1px 0 oklch(1 0 0 / 78%), 0 2px 5px oklch(0.2 0.02 275 / 7%), 0 12px 30px oklch(0.2 0.02 275 / 9%)",
+        "suluu-duration-pill-action-shadow":
+          "inset 0 0 0 1px oklch(0.64 0.025 275 / 20%), inset 0 1px 0 oklch(1 0 0 / 72%), 0 2px 5px oklch(0.18 0.02 275 / 9%), 0 14px 32px oklch(0.18 0.02 275 / 12%)",
+      },
+      dark: {
+        "suluu-duration-pill-background": "oklch(0.27 0.015 280)",
+        "suluu-duration-pill-foreground": "oklch(0.97 0.004 260)",
+        "suluu-duration-pill-muted": "oklch(0.72 0.014 275)",
+        "suluu-duration-pill-field": "oklch(0.27 0.015 280)",
+        "suluu-duration-pill-field-active": "oklch(0.33 0.022 275)",
+        "suluu-duration-pill-accent": "oklch(0.27 0.015 280)",
+        "suluu-duration-pill-accent-foreground": "oklch(0.98 0.003 260)",
+        "suluu-duration-pill-ring": "oklch(0.7 0.13 255)",
+        "suluu-duration-pill-offset": "oklch(0.14 0.008 260)",
+        "suluu-duration-pill-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 7%), 0 2px 5px oklch(0 0 0 / 18%), 0 14px 34px oklch(0 0 0 / 22%)",
+        "suluu-duration-pill-action-shadow":
+          "inset 0 1px 0 oklch(1 0 0 / 7%), 0 2px 5px oklch(0 0 0 / 22%), 0 14px 34px oklch(0 0 0 / 28%)",
+      },
+    },
+    docs: "The component requires Tailwind CSS. Activate its pencil button to edit; Enter, confirmation, or outer blur commits the local draft, while Escape cancels it.",
+    categories: ["forms", "inputs", "animated"],
+    meta: {
+      version: "0.1.0",
+    },
+  } as const;
+
+  return registryItemSchema.parse(item);
+}
+
 export function createEmailMorphRegistryItem(source: string): RegistryItem {
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -882,6 +942,13 @@ export const REGISTRY_ITEMS: readonly RegistryItemDescriptor[] = [
     name: "counter-numbers",
     output: "apps/www/public/r/counter-numbers.json",
     source: "packages/suluu/src/counter-numbers/counter-numbers.tsx",
+  },
+  {
+    create: createDurationPillRegistryItem,
+    exportName: "DurationPill",
+    name: "duration-pill",
+    output: "apps/www/public/r/duration-pill.json",
+    source: "packages/suluu/src/duration-pill/duration-pill.tsx",
   },
   {
     create: createEmailMorphRegistryItem,

@@ -10,6 +10,9 @@
       "suluu/counter-numbers": [
         "../../packages/suluu/src/counter-numbers/index.ts"
       ],
+      "suluu/duration-pill": [
+        "../../packages/suluu/src/duration-pill/index.ts"
+      ],
       "suluu/email-morph": ["../../packages/suluu/src/email-morph/index.ts"],
       "suluu/fluid-tabs": ["../../packages/suluu/src/fluid-tabs/index.ts"],
       "suluu/magnet-pull": ["../../packages/suluu/src/magnet-pull/index.ts"],

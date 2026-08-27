@@ -35,6 +35,10 @@
       "types": "./dist/counter-numbers.d.ts",
       "import": "./dist/counter-numbers.js"
     },
+    "./duration-pill": {
+      "types": "./dist/duration-pill.d.ts",
+      "import": "./dist/duration-pill.js"
+    },
     "./email-morph": {
       "types": "./dist/email-morph.d.ts",
       "import": "./dist/email-morph.js"

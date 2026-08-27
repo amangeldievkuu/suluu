@@ -13,6 +13,7 @@ interface ComponentCardProps {
 
 const PREVIEW_HINTS: Record<ComponentSlug, string> = {
   "counter-numbers": "Change the value",
+  "duration-pill": "Edit the duration",
   "email-morph": "Focus the field",
   "fluid-tabs": "Choose a tab",
   "magnet-pull": "Move your cursor",

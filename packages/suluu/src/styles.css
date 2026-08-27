@@ -1,4 +1,21 @@
 :root {
+  --suluu-duration-pill-background: oklch(0.96 0.01 285);
+  --suluu-duration-pill-foreground: oklch(0.16 0.01 270);
+  --suluu-duration-pill-muted: oklch(0.54 0.014 275);
+  --suluu-duration-pill-field: oklch(0.955 0.012 285);
+  --suluu-duration-pill-field-active: oklch(0.91 0.02 280);
+  --suluu-duration-pill-accent: oklch(0.94 0.016 282);
+  --suluu-duration-pill-accent-foreground: oklch(0.12 0.008 270);
+  --suluu-duration-pill-ring: oklch(0.55 0.16 255);
+  --suluu-duration-pill-offset: oklch(1 0 0);
+  --suluu-duration-pill-shadow:
+    inset 0 0 0 1px oklch(0.68 0.02 275 / 16%),
+    inset 0 1px 0 oklch(1 0 0 / 78%), 0 2px 5px oklch(0.2 0.02 275 / 7%),
+    0 12px 30px oklch(0.2 0.02 275 / 9%);
+  --suluu-duration-pill-action-shadow:
+    inset 0 0 0 1px oklch(0.64 0.025 275 / 20%),
+    inset 0 1px 0 oklch(1 0 0 / 72%), 0 2px 5px oklch(0.18 0.02 275 / 9%),
+    0 14px 32px oklch(0.18 0.02 275 / 12%);
   --suluu-email-morph-surface: oklch(0.985 0.003 260);
   --suluu-email-morph-foreground: oklch(0.16 0.008 260);
   --suluu-email-morph-muted: oklch(0.55 0.014 260);
@@ -192,6 +209,21 @@
 }
 
 .dark {
+  --suluu-duration-pill-background: oklch(0.27 0.015 280);
+  --suluu-duration-pill-foreground: oklch(0.97 0.004 260);
+  --suluu-duration-pill-muted: oklch(0.72 0.014 275);
+  --suluu-duration-pill-field: oklch(0.27 0.015 280);
+  --suluu-duration-pill-field-active: oklch(0.33 0.022 275);
+  --suluu-duration-pill-accent: oklch(0.27 0.015 280);
+  --suluu-duration-pill-accent-foreground: oklch(0.98 0.003 260);
+  --suluu-duration-pill-ring: oklch(0.7 0.13 255);
+  --suluu-duration-pill-offset: oklch(0.14 0.008 260);
+  --suluu-duration-pill-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 7%), 0 2px 5px oklch(0 0 0 / 18%),
+    0 14px 34px oklch(0 0 0 / 22%);
+  --suluu-duration-pill-action-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 7%), 0 2px 5px oklch(0 0 0 / 22%),
+    0 14px 34px oklch(0 0 0 / 28%);
   --suluu-email-morph-surface: oklch(0.235 0.013 260);
   --suluu-email-morph-foreground: oklch(0.97 0.004 260);
   --suluu-email-morph-muted: oklch(0.68 0.014 260);

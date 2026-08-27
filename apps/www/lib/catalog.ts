@@ -59,6 +59,22 @@ export const CATALOG = [
     keywords: ["expand", "pill", "icons", "tablist", "morph", "workspace"],
   },
   {
+    slug: "duration-pill",
+    name: "DurationPill",
+    category: "Forms",
+    summary:
+      "A compact duration display that softly morphs into precise segmented editing.",
+    keywords: [
+      "time",
+      "hours",
+      "minutes",
+      "seconds",
+      "estimate",
+      "inline edit",
+      "stepper",
+    ],
+  },
+  {
     slug: "email-morph",
     name: "EmailMorph",
     category: "Forms",
