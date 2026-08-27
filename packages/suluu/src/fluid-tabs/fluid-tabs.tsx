@@ -93,7 +93,9 @@ const INSTANT = { duration: 0 } as const;
 const FLUID_SPRING = {
   type: "spring" as const,
   stiffness: 320,
-  damping: 27,
+  // Keep the pill soft without letting high-contrast icons visibly reverse
+  // direction as they settle into the compact center.
+  damping: 32,
   mass: 1.17,
 };
 const LABEL_ENTER_EASE = [0.22, 1, 0.36, 1] as const;
@@ -447,7 +449,10 @@ export const FluidTabs = forwardRef<HTMLDivElement, FluidTabsProps>(
             >
               <motion.span
                 animate={{ x: groupX }}
-                className="absolute inset-y-0 left-0 flex items-center"
+                // Absolute insets start at the padding edge. Pull the row
+                // through the 1px trigger border so groupX is measured from
+                // the trigger's border box and compact icons land dead-center.
+                className="absolute inset-y-0 -left-px flex items-center"
                 data-slot="fluid-tabs-content"
                 initial={false}
                 transition={prefersReducedMotion ? INSTANT : FLUID_SPRING}

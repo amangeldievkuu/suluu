@@ -394,6 +394,7 @@ describe("FluidTabs", () => {
     expect(inbox.className).not.toContain("justify-center");
     expect(inbox.style.transformOrigin).toMatch(/^(0|left)/);
     expect(content).toBeTruthy();
+    expect(content).toHaveClass("-left-px");
     expect(content).toContainElement(icon);
     expect(content).toContainElement(label);
   });
