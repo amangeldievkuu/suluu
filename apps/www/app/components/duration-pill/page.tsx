@@ -210,8 +210,12 @@ export default function DurationPillPage() {
             <p className="mt-3 text-sm leading-6 text-[var(--site-muted)]">
               Hours are non-negative while minutes and seconds stay between zero
               and 59. Direct entry remains exact within that range. Bounds apply
-              to the complete duration, and arrow stepping carries naturally
-              between segments.
+              to the complete duration, out-of-range drafts clamp when
+              committed, and arrow stepping carries naturally between segments.
+              Long hour values widen the pill while space is available. In a
+              constrained layout, the active field scrolls and compact digits
+              truncate visually without changing the committed or accessible
+              value.
             </p>
             <div className="mt-4">
               <CodeBlock code={controlledUsage} label="Controlled" />

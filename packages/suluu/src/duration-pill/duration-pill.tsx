@@ -163,6 +163,12 @@ const BASE_FIELD_CONTENT_GAP = 8;
 const BASE_SECONDS_FIELD_CONTENT_GAP = 6;
 const BASE_ICON_SIZE = 20;
 const MIN_ACTION_SIZE = 44;
+const MIN_EDITOR_FIELD_SIZE = 44;
+const COMPACT_PART_GUTTER = 10;
+const COMPACT_FORMAT_GUTTER = 16;
+const ESTIMATED_DIGIT_WIDTH = 9;
+const ESTIMATED_UNIT_CHARACTER_WIDTH = 6;
+const ESTIMATED_FORMAT_CHARACTER_WIDTH = 8;
 const SERVER_VIEWPORT_WIDTH = 1024;
 const INSTANT = { duration: 0 } as const;
 const useIsomorphicLayoutEffect =
@@ -264,9 +270,23 @@ function durationDraftFromValue(value: DurationValue): DurationDraft {
   };
 }
 
-function parseDraftUnit(draft: string, fallback: number): number {
+function parseDraftUnit(
+  draft: string,
+  fallback: number,
+  maximum: number,
+): number {
   if (draft === "") return fallback;
-  const parsed = Number(draft);
+
+  const normalized = draft.replace(/^0+(?=\d)/, "");
+  const maximumDraft = String(maximum);
+  if (
+    normalized.length > maximumDraft.length ||
+    (normalized.length === maximumDraft.length && normalized > maximumDraft)
+  ) {
+    return maximum;
+  }
+
+  const parsed = Number(normalized);
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
@@ -280,7 +300,7 @@ function durationValueFromDraft(
     draft.hours === "" || draft.hours === openingDraft.hours
       ? openingValue.hours
       : clampInteger(
-          parseDraftUnit(draft.hours, openingValue.hours),
+          parseDraftUnit(draft.hours, openingValue.hours, MAX_HOURS),
           0,
           MAX_HOURS,
         );
@@ -288,7 +308,7 @@ function durationValueFromDraft(
     draft.minutes === "" || draft.minutes === openingDraft.minutes
       ? openingValue.minutes
       : clampInteger(
-          parseDraftUnit(draft.minutes, openingValue.minutes),
+          parseDraftUnit(draft.minutes, openingValue.minutes, 59),
           0,
           59,
         );
@@ -298,7 +318,7 @@ function durationValueFromDraft(
     draft.seconds === openingDraft.seconds
       ? openingValue.seconds
       : clampInteger(
-          parseDraftUnit(draft.seconds, openingValue.seconds),
+          parseDraftUnit(draft.seconds, openingValue.seconds, 59),
           0,
           59,
         );
@@ -375,14 +395,62 @@ function subscribeToViewport(onStoreChange: () => void): () => void {
   };
 }
 
-function useAvailableWidth(): number {
+function getElementContentWidth(element: HTMLElement): number | null {
+  const styles = window.getComputedStyle(element);
+  const padding =
+    Number.parseFloat(styles.paddingLeft) +
+    Number.parseFloat(styles.paddingRight);
+  const width = element.clientWidth - (Number.isFinite(padding) ? padding : 0);
+
+  return Number.isFinite(width) && width > 0 ? width : null;
+}
+
+function useAvailableWidth(rootRef: {
+  readonly current: HTMLDivElement | null;
+}): number {
   const viewportWidth = useSyncExternalStore(
     subscribeToViewport,
     getViewportWidth,
     getServerViewportWidth,
   );
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
-  return Math.max(MIN_ACTION_SIZE, viewportWidth - VIEWPORT_GUTTER);
+  useIsomorphicLayoutEffect(() => {
+    const container = rootRef.current?.parentElement;
+    if (!container) return;
+
+    const measure = () => {
+      const nextWidth = getElementContentWidth(container);
+      setContainerWidth((previous) =>
+        previous === nextWidth ? previous : nextWidth,
+      );
+    };
+
+    measure();
+    window.addEventListener("resize", measure);
+
+    if (typeof ResizeObserver === "undefined") {
+      return () => window.removeEventListener("resize", measure);
+    }
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(container);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [rootRef]);
+
+  const viewportAvailable = Math.max(
+    MIN_ACTION_SIZE,
+    viewportWidth - VIEWPORT_GUTTER,
+  );
+
+  return Math.max(
+    MIN_ACTION_SIZE,
+    Math.min(viewportAvailable, containerWidth ?? viewportAvailable),
+  );
 }
 
 interface DurationPillGeometry {
@@ -400,16 +468,79 @@ interface DurationPillGeometry {
   unitSize: number;
 }
 
+interface CompactContentMeasurements {
+  formatted: number;
+  parts: Record<DurationUnit, number>;
+}
+
+function minimumCompactWidth(visiblePartCount: number): number {
+  return visiblePartCount >= 3
+    ? BASE_THREE_PART_COMPACT_WIDTH
+    : BASE_COMPACT_WIDTH;
+}
+
+function estimateCompactPartWidth(
+  part: VisibleDurationPart,
+  unitLabel: string,
+): number {
+  return (
+    String(part.value).length * ESTIMATED_DIGIT_WIDTH +
+    Array.from(unitLabel).length * ESTIMATED_UNIT_CHARACTER_WIDTH +
+    Math.max(3, BASE_NUMBER_SIZE * 0.16)
+  );
+}
+
+function preferredCompactFieldWidths(
+  editorUnits: readonly DurationUnit[],
+  visibleParts: readonly VisibleDurationPart[],
+  unitLabels: DurationPillUnitLabels,
+  measurements: CompactContentMeasurements,
+): number[] {
+  const visiblePartByUnit = new Map(
+    visibleParts.map((part) => [part.unit, part] as const),
+  );
+  const baseWidth = minimumCompactWidth(visibleParts.length);
+  const basePartWidth =
+    (baseWidth - BASE_ACTION_SIZE) / Math.max(1, visibleParts.length);
+
+  return editorUnits.map((unit) => {
+    const part = visiblePartByUnit.get(unit);
+    if (!part) return 0;
+
+    const contentWidth = Math.max(
+      measurements.parts[unit],
+      estimateCompactPartWidth(part, unitLabels[unit]),
+    );
+
+    return Math.max(basePartWidth, contentWidth + COMPACT_PART_GUTTER);
+  });
+}
+
 function compactBaseWidth(
   formattedValue: string,
   visiblePartCount: number,
   hasCustomFormatter: boolean,
+  preferredFieldWidths: readonly number[],
+  measuredFormattedWidth: number,
 ): number {
-  const defaultWidth =
-    visiblePartCount >= 3 ? BASE_THREE_PART_COMPACT_WIDTH : BASE_COMPACT_WIDTH;
-  if (!hasCustomFormatter) return defaultWidth;
+  const defaultWidth = minimumCompactWidth(visiblePartCount);
+  if (hasCustomFormatter) {
+    const contentWidth = Math.max(
+      measuredFormattedWidth,
+      formattedValue.length * ESTIMATED_FORMAT_CHARACTER_WIDTH,
+    );
 
-  return Math.min(360, Math.max(defaultWidth, 64 + formattedValue.length * 8));
+    return Math.max(
+      defaultWidth,
+      BASE_ACTION_SIZE + COMPACT_FORMAT_GUTTER + contentWidth,
+    );
+  }
+
+  return Math.max(
+    defaultWidth,
+    BASE_ACTION_SIZE +
+      preferredFieldWidths.reduce((total, width) => total + width, 0),
+  );
 }
 
 /** Fits editor fields into the joined compact shell without changing order. */
@@ -492,39 +623,66 @@ function segmentOffsets(widths: readonly number[], gap: number): number[] {
 function resolveDurationPillGeometry(
   availableWidth: number,
   editing: boolean,
-  formattedValue: string,
   visiblePartCount: number,
+  preferredCompactWidth: number,
   hoursLength: number,
   showSeconds: boolean,
-  hasCustomFormatter: boolean,
 ): DurationPillGeometry {
   const unitCount = showSeconds ? 3 : 2;
   const baseFieldWidth = showSeconds
     ? BASE_SECONDS_FIELD_WIDTH
     : BASE_FIELD_WIDTH;
-  const baseFieldWidths = Array.from({ length: unitCount }, (_, index) =>
-    index === 0
-      ? baseFieldWidth + Math.max(0, hoursLength - 3) * 9
-      : baseFieldWidth,
-  );
-  const baseEditorWidth =
-    baseFieldWidths.reduce((total, width) => total + width, 0) +
-    BASE_ACTION_SIZE +
-    BASE_TILE_GAP * unitCount;
-  const baseCompactWidth = compactBaseWidth(
-    formattedValue,
-    visiblePartCount,
-    hasCustomFormatter,
-  );
-  const targetBaseWidth = editing ? baseEditorWidth : baseCompactWidth;
+  const structuralEditorWidth =
+    baseFieldWidth * unitCount + BASE_ACTION_SIZE + BASE_TILE_GAP * unitCount;
+  const baseCompactWidth = minimumCompactWidth(visiblePartCount);
+  const structuralWidth = editing ? structuralEditorWidth : baseCompactWidth;
   const minimumScale = MIN_ACTION_SIZE / BASE_ACTION_SIZE;
   const scale = Math.max(
     minimumScale,
-    Math.min(1, availableWidth / targetBaseWidth),
+    Math.min(1, availableWidth / structuralWidth),
   );
-  const fieldWidths = baseFieldWidths.map((width) => width * scale);
-  const gap = BASE_TILE_GAP * scale;
   const actionSize = BASE_ACTION_SIZE * scale;
+  const gap = Math.min(
+    BASE_TILE_GAP * scale,
+    Math.max(
+      0,
+      (availableWidth - actionSize - MIN_EDITOR_FIELD_SIZE * unitCount) /
+        unitCount,
+    ),
+  );
+  const availableFieldSpace = Math.max(
+    0,
+    availableWidth - actionSize - gap * unitCount,
+  );
+  const baseFieldWidths = Array.from(
+    { length: unitCount },
+    () => baseFieldWidth * scale,
+  );
+  const baseFieldTotal = baseFieldWidths.reduce(
+    (total, width) => total + width,
+    0,
+  );
+  const fieldWidths =
+    baseFieldTotal > availableFieldSpace
+      ? compactEditorFieldWidths(availableFieldSpace, baseFieldWidths, 0)
+      : baseFieldWidths;
+  const hoursGrowth =
+    Math.max(0, hoursLength - 3) * ESTIMATED_DIGIT_WIDTH * scale;
+  if (fieldWidths.length > 0 && baseFieldTotal <= availableFieldSpace) {
+    fieldWidths[0] =
+      (fieldWidths[0] ?? 0) +
+      Math.min(hoursGrowth, availableFieldSpace - baseFieldTotal);
+  }
+  const editorWidth = Math.min(
+    availableWidth,
+    fieldWidths.reduce((total, width) => total + width, 0) +
+      actionSize +
+      gap * unitCount,
+  );
+  const compactWidth = Math.min(
+    availableWidth,
+    Math.max(baseCompactWidth * scale, preferredCompactWidth * scale),
+  );
   const baseFieldContentGap = showSeconds
     ? BASE_SECONDS_FIELD_CONTENT_GAP
     : BASE_FIELD_CONTENT_GAP;
@@ -534,11 +692,8 @@ function resolveDurationPillGeometry(
 
   return {
     actionSize,
-    compactWidth: baseCompactWidth * scale,
-    editorWidth:
-      fieldWidths.reduce((total, width) => total + width, 0) +
-      actionSize +
-      gap * unitCount,
+    compactWidth,
+    editorWidth,
     fieldContentGap: Math.max(6, baseFieldContentGap * scale),
     fieldWidths,
     gap,
@@ -614,6 +769,9 @@ function DefaultActionIcon({
 }
 
 interface DefaultDisplayProps {
+  measurementRefs?: Partial<
+    Record<DurationUnit, (node: HTMLSpanElement | null) => void>
+  >;
   numberSize: number;
   showSeconds: boolean;
   unitLabels: DurationPillUnitLabels;
@@ -622,6 +780,7 @@ interface DefaultDisplayProps {
 }
 
 interface DurationValuePartProps {
+  measurementRef?: (node: HTMLSpanElement | null) => void;
   numberSize: number;
   part: VisibleDurationPart;
   unitLabel: string;
@@ -629,6 +788,7 @@ interface DurationValuePartProps {
 }
 
 function DurationValuePart({
+  measurementRef,
   numberSize,
   part,
   unitLabel,
@@ -636,17 +796,22 @@ function DurationValuePart({
 }: DurationValuePartProps) {
   return (
     <span
-      className="inline-flex items-baseline"
+      className="inline-flex max-w-full min-w-0 items-baseline"
+      data-slot="duration-pill-value-part"
+      data-unit={part.unit}
+      ref={measurementRef}
       style={{ gap: Math.max(3, numberSize * 0.16) }}
     >
       <span
-        className="leading-none font-semibold tracking-[-0.035em] tabular-nums"
+        className="min-w-0 overflow-hidden leading-none font-semibold tracking-[-0.035em] text-ellipsis whitespace-nowrap tabular-nums"
+        data-slot="duration-pill-value-number"
         style={{ fontSize: numberSize }}
       >
         {part.value}
       </span>
       <span
-        className="leading-none font-semibold tracking-[-0.025em] text-[var(--suluu-duration-pill-muted)]"
+        className="shrink-0 leading-none font-semibold tracking-[-0.025em] text-[var(--suluu-duration-pill-muted)]"
+        data-slot="duration-pill-value-unit"
         style={{ fontSize: unitSize }}
       >
         {unitLabel}
@@ -656,6 +821,7 @@ function DurationValuePart({
 }
 
 function DefaultDisplay({
+  measurementRefs,
   numberSize,
   showSeconds,
   unitLabels,
@@ -664,7 +830,7 @@ function DefaultDisplay({
 }: DefaultDisplayProps) {
   return (
     <span
-      className="inline-flex min-w-0 items-baseline whitespace-nowrap"
+      className="inline-flex w-full min-w-0 items-baseline whitespace-nowrap"
       style={{ gap: Math.max(9, numberSize * 0.55) }}
     >
       {visibleDurationParts(value, showSeconds).map((part) => (
@@ -674,9 +840,28 @@ function DefaultDisplay({
           part={part}
           unitLabel={unitLabels[part.unit]}
           unitSize={unitSize}
+          {...(measurementRefs?.[part.unit]
+            ? { measurementRef: measurementRefs[part.unit] }
+            : {})}
         />
       ))}
     </span>
+  );
+}
+
+function measureDurationValuePart(node: HTMLSpanElement): number {
+  const number = node.querySelector<HTMLElement>(
+    '[data-slot="duration-pill-value-number"]',
+  );
+  const unit = node.querySelector<HTMLElement>(
+    '[data-slot="duration-pill-value-unit"]',
+  );
+  const gap = Number.parseFloat(node.style.gap);
+
+  return (
+    (number?.scrollWidth ?? 0) +
+    (unit?.offsetWidth ?? 0) +
+    (Number.isFinite(gap) ? gap : 0)
   );
 }
 
@@ -837,9 +1022,18 @@ export const DurationPill = forwardRef<HTMLDivElement, DurationPillProps>(
     const [draft, setDraft] = useState<DurationDraft>(() =>
       durationDraftFromValue(constrainDurationValue(defaultValue, bounds)),
     );
+    const [compactMeasurements, setCompactMeasurements] =
+      useState<CompactContentMeasurements>({
+        formatted: 0,
+        parts: { hours: 0, minutes: 0, seconds: 0 },
+      });
     const rootRef = useRef<HTMLDivElement | null>(null);
     const actionButtonRef = useRef<HTMLButtonElement | null>(null);
     const hoursInputRef = useRef<HTMLInputElement | null>(null);
+    const compactPartMeasurementNodesRef = useRef(
+      new Map<DurationUnit, HTMLSpanElement>(),
+    );
+    const formattedMeasurementNodeRef = useRef<HTMLSpanElement | null>(null);
     const openingValueRef = useRef<DurationValue>(
       constrainDurationValue(defaultValue, bounds),
     );
@@ -847,8 +1041,25 @@ export const DurationPill = forwardRef<HTMLDivElement, DurationPillProps>(
     const editingRef = useRef(false);
     const openingFocusRef = useRef(false);
     const restoreFocusRef = useRef(false);
+    const setCompactPartMeasurementRef = useCallback(
+      (unit: DurationUnit, node: HTMLSpanElement | null) => {
+        if (node) compactPartMeasurementNodesRef.current.set(unit, node);
+        else compactPartMeasurementNodesRef.current.delete(unit);
+      },
+      [],
+    );
+    const compactPartMeasurementRefs = useMemo<
+      Record<DurationUnit, (node: HTMLSpanElement | null) => void>
+    >(
+      () => ({
+        hours: (node) => setCompactPartMeasurementRef("hours", node),
+        minutes: (node) => setCompactPartMeasurementRef("minutes", node),
+        seconds: (node) => setCompactPartMeasurementRef("seconds", node),
+      }),
+      [setCompactPartMeasurementRef],
+    );
     const prefersReducedMotion = useReducedMotion() ?? false;
-    const availableWidth = useAvailableWidth();
+    const availableWidth = useAvailableWidth(rootRef);
     const preset = DURATION_PILL_MOTION_PRESETS[motionIntensity];
     const currentLabels = {
       ...DEFAULT_DURATION_PILL_LABELS,
@@ -867,24 +1078,42 @@ export const DurationPill = forwardRef<HTMLDivElement, DurationPillProps>(
     const formattedValue = formatValue
       ? formatValue(currentValue)
       : formatDurationValue(currentValue, showSeconds);
-    const visibleParts = visibleDurationParts(currentValue, showSeconds);
+    const visibleParts = useMemo(
+      () => visibleDurationParts(currentValue, showSeconds),
+      [currentValue, showSeconds],
+    );
+    const editorUnits: DurationUnit[] = showSeconds
+      ? ["hours", "minutes", "seconds"]
+      : ["hours", "minutes"];
+    const hasCustomFormatter = formatValue !== undefined;
+    const compactPreferredFieldWidths = preferredCompactFieldWidths(
+      editorUnits,
+      visibleParts,
+      currentUnitLabels,
+      compactMeasurements,
+    );
+    const preferredCompactWidth = compactBaseWidth(
+      formattedValue,
+      visibleParts.length,
+      hasCustomFormatter,
+      compactPreferredFieldWidths,
+      compactMeasurements.formatted,
+    );
     const displayGeometry = resolveDurationPillGeometry(
       availableWidth,
       false,
-      formattedValue,
       visibleParts.length,
+      preferredCompactWidth,
       draft.hours.length,
       showSeconds,
-      formatValue !== undefined,
     );
     const editorGeometry = resolveDurationPillGeometry(
       availableWidth,
       true,
-      formattedValue,
       visibleParts.length,
+      preferredCompactWidth,
       draft.hours.length,
       showSeconds,
-      formatValue !== undefined,
     );
     const geometry = editing ? editorGeometry : displayGeometry;
     const targetWidth = editing
@@ -935,6 +1164,89 @@ export const DurationPill = forwardRef<HTMLDivElement, DurationPillProps>(
               ease: "easeOut" as const,
             },
           };
+
+    useIsomorphicLayoutEffect(() => {
+      if (editing) return;
+
+      const measuredNodes = hasCustomFormatter
+        ? [formattedMeasurementNodeRef.current].filter(
+            (node): node is HTMLSpanElement => node !== null,
+          )
+        : visibleParts
+            .map((part) =>
+              compactPartMeasurementNodesRef.current.get(part.unit),
+            )
+            .filter((node): node is HTMLSpanElement => node !== undefined);
+      if (measuredNodes.length === 0) return;
+
+      const measure = () => {
+        const measurementScale = Math.max(displayGeometry.scale, 0.001);
+        const nextParts: Record<DurationUnit, number> = {
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+        };
+
+        if (!hasCustomFormatter) {
+          for (const part of visibleParts) {
+            const node = compactPartMeasurementNodesRef.current.get(part.unit);
+            if (node) {
+              nextParts[part.unit] =
+                measureDurationValuePart(node) / measurementScale;
+            }
+          }
+        }
+
+        const nextFormatted = hasCustomFormatter
+          ? (formattedMeasurementNodeRef.current?.scrollWidth ?? 0) /
+            measurementScale
+          : 0;
+
+        setCompactMeasurements((previous) => {
+          const unchanged =
+            previous.formatted === nextFormatted &&
+            previous.parts.hours === nextParts.hours &&
+            previous.parts.minutes === nextParts.minutes &&
+            previous.parts.seconds === nextParts.seconds;
+
+          return unchanged
+            ? previous
+            : { formatted: nextFormatted, parts: nextParts };
+        });
+      };
+
+      measure();
+      const observer =
+        typeof ResizeObserver === "function"
+          ? new ResizeObserver(measure)
+          : null;
+      for (const node of measuredNodes) {
+        observer?.observe(node);
+        for (const child of node.children) observer?.observe(child);
+      }
+
+      const fontSet = (document as unknown as { fonts?: FontFaceSet }).fonts;
+      let active = true;
+      void fontSet?.ready.then(() => {
+        if (active) measure();
+      });
+
+      return () => {
+        active = false;
+        observer?.disconnect();
+      };
+    }, [
+      currentKey,
+      currentUnitLabels.hours,
+      currentUnitLabels.minutes,
+      currentUnitLabels.seconds,
+      displayGeometry.scale,
+      editing,
+      formattedValue,
+      hasCustomFormatter,
+      showSeconds,
+      visibleParts,
+    ]);
 
     const setRootRef = useCallback(
       (node: HTMLDivElement | null) => {
@@ -1145,9 +1457,6 @@ export const DurationPill = forwardRef<HTMLDivElement, DurationPillProps>(
       }
     }
 
-    const editorUnits: DurationUnit[] = showSeconds
-      ? ["hours", "minutes", "seconds"]
-      : ["hours", "minutes"];
     const visiblePartByUnit = new Map(
       visibleParts.map((part) => [part.unit, part] as const),
     );
@@ -1161,13 +1470,11 @@ export const DurationPill = forwardRef<HTMLDivElement, DurationPillProps>(
       minutes: 59,
       seconds: 59,
     };
-    const compactSourceFieldWidths = editorGeometry.fieldWidths.map(
-      (width, index) => {
-        const unit = editorUnits[index];
-        if (formatValue || (unit && visiblePartByUnit.has(unit))) return width;
-        return 0;
-      },
-    );
+    const compactSourceFieldWidths = hasCustomFormatter
+      ? editorGeometry.fieldWidths
+      : compactPreferredFieldWidths.map(
+          (width) => width * displayGeometry.scale,
+        );
     const compactFieldWidths = compactEditorFieldWidths(
       displayGeometry.compactWidth,
       compactSourceFieldWidths,
@@ -1359,6 +1666,7 @@ export const DurationPill = forwardRef<HTMLDivElement, DurationPillProps>(
                         transition={displayContentTransition}
                       >
                         <DurationValuePart
+                          measurementRef={compactPartMeasurementRefs[mode]}
                           numberSize={displayGeometry.numberSize}
                           part={compactPart}
                           unitLabel={currentUnitLabels[mode]}
@@ -1509,12 +1817,14 @@ export const DurationPill = forwardRef<HTMLDivElement, DurationPillProps>(
                 {formatValue ? (
                   <span
                     className="block truncate leading-none font-semibold tracking-[-0.035em] whitespace-nowrap tabular-nums"
+                    ref={formattedMeasurementNodeRef}
                     style={{ fontSize: displayGeometry.numberSize }}
                   >
                     {formattedValue}
                   </span>
                 ) : (
                   <DefaultDisplay
+                    measurementRefs={compactPartMeasurementRefs}
                     numberSize={displayGeometry.numberSize}
                     showSeconds={showSeconds}
                     unitLabels={currentUnitLabels}

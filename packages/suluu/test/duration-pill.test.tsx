@@ -80,6 +80,62 @@ describe("DurationPill", () => {
     expect(display).toHaveStyle({ height: "48px" });
   });
 
+  it("grows the compact shell to keep large hour values legible", async () => {
+    const largeValue = duration(55_434_232, 34);
+    const { container } = render(<DurationPill defaultValue={largeValue} />);
+    const track = container.querySelector('[data-slot="duration-pill-track"]');
+    const hoursSurface = container.querySelector(
+      '[data-duration-pill-surface="hours"]',
+    );
+    const hoursNumber = container.querySelector(
+      '[data-slot="duration-pill-value-part"][data-unit="hours"] [data-slot="duration-pill-value-number"]',
+    );
+
+    await waitFor(() =>
+      expect(
+        Number.parseFloat((track as HTMLElement).style.width),
+      ).toBeGreaterThan(184),
+    );
+    expect(
+      Number.parseFloat((hoursSurface as HTMLElement).style.width),
+    ).toBeGreaterThan(100);
+    expect(hoursNumber).toHaveTextContent("55434232");
+    expect(hoursNumber).toHaveClass("text-ellipsis", "overflow-hidden");
+    expect(
+      screen.getByRole("button", {
+        name: "Edit duration: 55434232 Hr 34 Min",
+      }),
+    ).toBeVisible();
+  });
+
+  it("uses intrinsic content measurements for custom unit labels", async () => {
+    vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockImplementation(
+      function (this: HTMLElement) {
+        return this.dataset.slot === "duration-pill-value-number" ? 18 : 0;
+      },
+    );
+    vi.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockImplementation(
+      function (this: HTMLElement) {
+        if (this.dataset.slot !== "duration-pill-value-unit") return 0;
+        return this.textContent === "WWW" ? 110 : 28;
+      },
+    );
+
+    const { container } = render(
+      <DurationPill
+        defaultValue={duration(2, 30)}
+        unitLabels={{ hours: "WWW" }}
+      />,
+    );
+    const track = container.querySelector('[data-slot="duration-pill-track"]');
+
+    await waitFor(() =>
+      expect(
+        Number.parseFloat((track as HTMLElement).style.width),
+      ).toBeGreaterThan(240),
+    );
+  });
+
   it("opens into compact field tiles and a matching confirm action", async () => {
     const user = userEvent.setup();
     const { container } = render(
@@ -148,6 +204,77 @@ describe("DurationPill", () => {
       expect(input).toHaveClass("flex-1", "min-w-0");
       expect(input.style.width).toBe("");
     });
+  });
+
+  it("keeps an arbitrarily long hour draft editable within the viewport", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    const oversizedDraft = "9".repeat(80);
+    vi.spyOn(document.documentElement, "clientWidth", "get").mockReturnValue(
+      320,
+    );
+    vi.spyOn(window, "innerWidth", "get").mockReturnValue(320);
+
+    const { container } = render(
+      <DurationPill
+        defaultValue={duration(1, 34, 12)}
+        max={duration(4, 0)}
+        onValueChange={onValueChange}
+        showSeconds
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: /Edit duration/ }));
+    const hours = screen.getByRole("spinbutton", { name: "Hours" });
+    const track = container.querySelector('[data-slot="duration-pill-track"]');
+    const confirm = container.querySelector(
+      '[data-slot="duration-pill-confirm"]',
+    );
+    fireEvent.change(hours, { target: { value: oversizedDraft } });
+
+    expect(hours).toHaveValue(oversizedDraft);
+    expect(hours).toHaveAttribute("aria-invalid", "true");
+    expect(hours).toHaveClass("min-w-0", "flex-1");
+    await waitFor(() => expect(track).toHaveStyle({ width: "288px" }));
+    expect(
+      Number.parseFloat((confirm as HTMLElement).style.width),
+    ).toBeGreaterThanOrEqual(44);
+    expect(screen.getByText("Hr.")).toBeVisible();
+
+    await user.click(screen.getByRole("button", { name: "Confirm duration" }));
+
+    expect(onValueChange).toHaveBeenCalledExactlyOnceWith(duration(4, 0));
+  });
+
+  it("caps compact content to its containing width without hiding the unit or action", async () => {
+    vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockImplementation(
+      function (this: HTMLElement) {
+        return this.dataset.testid === "duration-host" ? 220 : 0;
+      },
+    );
+    const maximumValue = durationValueFromSeconds(Number.MAX_SAFE_INTEGER);
+    const { container } = render(
+      <div data-testid="duration-host">
+        <DurationPill defaultValue={maximumValue} showSeconds />
+      </div>,
+    );
+    const track = container.querySelector('[data-slot="duration-pill-track"]');
+    const action = container.querySelector('[data-slot="duration-pill-edit"]');
+    const hoursNumber = container.querySelector(
+      '[data-slot="duration-pill-value-part"][data-unit="hours"] [data-slot="duration-pill-value-number"]',
+    );
+
+    await waitFor(() => expect(track).toHaveStyle({ width: "220px" }));
+    expect(
+      Number.parseFloat((action as HTMLElement).style.width),
+    ).toBeGreaterThanOrEqual(44);
+    expect(hoursNumber).toHaveClass("text-ellipsis", "min-w-0");
+    expect(screen.getByText("Hr.")).toBeVisible();
+    expect(
+      screen.getByRole("button", {
+        name: `Edit duration: ${formatDurationValue(maximumValue, true)}`,
+      }),
+    ).toBeVisible();
   });
 
   it("starts every editor tile in its own section of the compact pill", () => {
