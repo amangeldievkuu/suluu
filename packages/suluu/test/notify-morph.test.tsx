@@ -367,6 +367,7 @@ describe("NotifyMorph", () => {
     );
     screen.getByRole("textbox").focus();
     await user.tab();
+    await new Promise((resolve) => window.setTimeout(resolve, 50));
 
     expect(screen.getByRole("button", { name: "Notify Me" })).toHaveFocus();
     expect(onExpandedChange).not.toHaveBeenCalled();

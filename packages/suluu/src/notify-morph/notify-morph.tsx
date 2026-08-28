@@ -260,13 +260,12 @@ export const NotifyMorph = forwardRef<HTMLFormElement, NotifyMorphProps>(
       [currentExpanded, isExpandedControlled, onExpandedChange],
     );
 
-    useEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       const wasExpanded = previousExpandedRef.current;
       previousExpandedRef.current = currentExpanded;
 
       if (currentExpanded && !wasExpanded) {
-        const timeout = window.setTimeout(() => inputRef.current?.focus(), 40);
-        return () => window.clearTimeout(timeout);
+        inputRef.current?.focus();
       } else if (!currentExpanded && wasExpanded && restoreFocusRef.current) {
         triggerRef.current?.focus();
         restoreFocusRef.current = false;
