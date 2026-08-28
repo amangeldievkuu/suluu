@@ -18,9 +18,51 @@ function run(command: string, args: string[], cwd: string): Promise<void> {
   });
 }
 
+async function packageVersion(packageJsonPath: string): Promise<string> {
+  const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8")) as {
+    version?: unknown;
+  };
+  if (typeof packageJson.version !== "string") {
+    throw new Error(`Could not read a version from ${packageJsonPath}.`);
+  }
+
+  return packageJson.version;
+}
+
 const fixtureRoot = await mkdtemp(join(tmpdir(), "suluu-registry-"));
 
 try {
+  const [
+    motionVersion,
+    reactVersion,
+    reactDomVersion,
+    reactTypesVersion,
+    reactDomTypesVersion,
+    typescriptVersion,
+  ] = await Promise.all([
+    packageVersion(
+      resolve(
+        workspaceRoot,
+        "packages/registry/node_modules/motion-v12/package.json",
+      ),
+    ),
+    packageVersion(resolve(workspaceRoot, "node_modules/react/package.json")),
+    packageVersion(
+      resolve(workspaceRoot, "node_modules/react-dom/package.json"),
+    ),
+    packageVersion(
+      resolve(workspaceRoot, "node_modules/@types/react/package.json"),
+    ),
+    packageVersion(
+      resolve(workspaceRoot, "node_modules/@types/react-dom/package.json"),
+    ),
+    packageVersion(
+      resolve(
+        workspaceRoot,
+        "packages/registry/node_modules/typescript-v5/package.json",
+      ),
+    ),
+  ]);
   await generateRegistry();
   const registryJson = new Map(
     await Promise.all(
@@ -57,14 +99,14 @@ try {
         private: true,
         packageManager: "pnpm@10.33.0",
         dependencies: {
-          motion: "12.23.26",
-          react: "^19.0.0",
-          "react-dom": "^19.0.0",
+          motion: motionVersion,
+          react: reactVersion,
+          "react-dom": reactDomVersion,
         },
         devDependencies: {
-          "@types/react": "^19.0.0",
-          "@types/react-dom": "^19.0.0",
-          typescript: "5.9.3",
+          "@types/react": reactTypesVersion,
+          "@types/react-dom": reactDomTypesVersion,
+          typescript: typescriptVersion,
         },
       },
       null,
@@ -124,7 +166,12 @@ try {
   );
   await run(
     "pnpm",
-    ["install", "--offline", "--ignore-scripts", "--frozen-lockfile=false"],
+    [
+      "install",
+      "--prefer-offline",
+      "--ignore-scripts",
+      "--frozen-lockfile=false",
+    ],
     fixtureRoot,
   );
   const motionBeforeInstall = (
@@ -180,7 +227,7 @@ try {
     ) as { version?: unknown }
   ).version;
   if (
-    motionBeforeInstall !== "12.23.26" ||
+    motionBeforeInstall !== motionVersion ||
     motionAfterInstall !== motionBeforeInstall
   ) {
     throw new Error(
