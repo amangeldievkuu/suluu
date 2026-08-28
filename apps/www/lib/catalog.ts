@@ -1,4 +1,4 @@
-export const SITE_URL = "https://suluu.dev";
+export const SITE_URL = "https://suluu.site";
 export const NPM_COMMAND = "pnpm add suluu motion";
 
 /** Display order of the sidebar and the index page groups. */

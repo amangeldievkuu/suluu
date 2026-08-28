@@ -59,10 +59,10 @@ describe("lookups", () => {
   it("builds hrefs and install commands from the slug", () => {
     expect(componentHref("magnet-pull")).toBe("/components/magnet-pull");
     expect(registryUrl("magnet-pull")).toBe(
-      "https://suluu.dev/r/magnet-pull.json",
+      "https://suluu.site/r/magnet-pull.json",
     );
     expect(registryCommand("magnet-pull")).toBe(
-      "npx shadcn@latest add https://suluu.dev/r/magnet-pull.json",
+      "npx shadcn@latest add https://suluu.site/r/magnet-pull.json",
     );
     expect(NPM_COMMAND).toBe("pnpm add suluu motion");
   });

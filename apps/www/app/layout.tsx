@@ -6,6 +6,7 @@ import { SearchProvider } from "@/components/search-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SITE_URL } from "@/lib/catalog";
 
 import "./globals.css";
 
@@ -13,7 +14,7 @@ const siteDescription =
   "Minimal animated React components, designed for copy-and-own workflows.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://suluu.dev"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Suluu — Animated React components",
     template: "%s — Suluu",

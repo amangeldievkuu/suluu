@@ -10,7 +10,7 @@ The shadcn-compatible registry is the primary way to use Suluu. It installs only
 the component you choose:
 
 ```bash
-npx shadcn@latest add https://suluu.dev/r/notify-morph.json
+npx shadcn@latest add https://suluu.site/r/notify-morph.json
 ```
 
 ```tsx
