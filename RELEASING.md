@@ -9,8 +9,9 @@ Do not publish from a developer workstation.
 Configure `main` to require pull requests and these CI checks:
 
 - Quality
-- Unit and accessibility tests (Node 20.9.0)
-- Unit and accessibility tests (Node 22)
+- Unit and accessibility tests (Node 22.22.2)
+- Unit and accessibility tests (Node 24.15.0)
+- Unit and accessibility tests (Node 26)
 - Package and registry consumers
 - Documentation build
 - Browser interactions (chromium)

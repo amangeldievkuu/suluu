@@ -7,7 +7,7 @@ to developers who will own the resulting component source.
 
 Requirements:
 
-- Node.js 20.9 or newer
+- Node.js 22.22.2+, 24.15.0+, or 26+
 - pnpm 10.33.0 through Corepack
 
 ```bash

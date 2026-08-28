@@ -55,7 +55,8 @@ import { NotifyMorph } from "suluu/notify-morph";
 ## Compatibility and verification
 
 Suluu 0.2 supports React 19, Tailwind CSS 4, and Motion 12.23.26 through 13.x.
-The package is ESM-only. Development and builds require Node.js 20.9 or newer.
+The package is ESM-only. Development and builds require Node.js 22.22.2+,
+24.15.0+, or 26+.
 
 Every change is checked with strict TypeScript, ESLint, package and registry
 consumer installs, jsdom accessibility tests, production documentation builds,

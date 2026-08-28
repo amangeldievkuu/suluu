@@ -1,6 +1,7 @@
 node_modules/
 .pnpm-store/
 .next/
+apps/www/next-env.d.ts
 dist/
 coverage/
 playwright-report/
