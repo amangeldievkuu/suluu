@@ -64,7 +64,7 @@ try {
         devDependencies: {
           "@types/react": "^19.0.0",
           "@types/react-dom": "^19.0.0",
-          typescript: "^5.0.0",
+          typescript: "5.9.3",
         },
       },
       null,

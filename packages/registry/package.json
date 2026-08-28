@@ -19,6 +19,7 @@
     "@vitest/coverage-v8": "latest",
     "tsx": "latest",
     "typescript": "^6.0.0",
+    "typescript-v5": "npm:typescript@5.9.3",
     "vitest": "latest"
   }
 }

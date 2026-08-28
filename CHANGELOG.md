@@ -54,6 +54,9 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   releases as well as Motion 13.x, with consumer smoke tests for both majors.
 - Supported development runtimes now match the current test toolchain: Node
   22.22.2+, 24.15.0+, and 26+, with each supported line covered in CI.
+- CI and release jobs use the Node 24-backed pnpm setup action, and registry
+  consumer checks preload their pinned TypeScript 5 compiler for clean offline
+  installs.
 - FluidTabs keeps the active icon on a single spring instead of recentering it
   from the live pill width, so the glyph no longer shivers while the label
   opens. Inactive icons use a slightly softer charcoal.
