@@ -6,7 +6,9 @@ import { describe, expect, it } from "vitest";
 
 import { generateRegistry, workspaceRoot } from "../src/generate";
 import {
+  MOTION_DEPENDENCY,
   REGISTRY_ITEMS,
+  REGISTRY_VERSION,
   serializeRegistryItem,
   type RegistryItemDescriptor,
 } from "../src/registry-item";
@@ -53,7 +55,8 @@ describe.each(REGISTRY_ITEMS)("$name registry item", (item) => {
 
     expect(registryItemSchema.safeParse(registryItem).success).toBe(true);
     expect(registryItem.type).toBe("registry:ui");
-    expect(registryItem.dependencies).toEqual(["motion@^13.1.0"]);
+    expect(registryItem.dependencies).toEqual([MOTION_DEPENDENCY]);
+    expect(registryItem.meta?.version).toBe(REGISTRY_VERSION);
     const file = registryItem.files?.[0];
     expect(registryItem.files).toHaveLength(1);
     expect(file?.target).toBe(`@ui/${item.name}.tsx`);

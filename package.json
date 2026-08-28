@@ -1,6 +1,6 @@
 {
   "name": "suluu-workspace",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Animated React components, available through a shadcn-compatible registry and npm.",
   "license": "MIT",
@@ -15,13 +15,18 @@
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r --if-present typecheck",
     "test": "pnpm -r --if-present test",
+    "test:e2e": "pnpm build:docs && pnpm --filter @suluu/www test:e2e",
+    "test:visual": "pnpm build:docs && pnpm --filter @suluu/www test:visual",
     "build:package": "pnpm --filter suluu build",
     "registry:generate": "pnpm --filter @suluu/registry generate",
     "registry:check": "pnpm --filter @suluu/registry check",
     "test:install": "pnpm --filter @suluu/registry test:install && pnpm --filter suluu test:install",
     "build:docs": "pnpm build:package && pnpm registry:generate && pnpm --filter @suluu/www build",
     "build": "pnpm build:package && pnpm registry:generate && pnpm --filter @suluu/www build",
-    "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build:package && pnpm registry:check && pnpm test:install && pnpm build:docs"
+    "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build:package && pnpm registry:check && pnpm test:install && pnpm build:docs",
+    "release:check": "pnpm --filter suluu release:check",
+    "release:notes": "pnpm --filter suluu release:notes",
+    "validate:release": "pnpm validate && pnpm --filter @suluu/www test:e2e"
   },
   "devDependencies": {
     "@arethetypeswrong/core": "latest",

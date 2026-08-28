@@ -5,7 +5,7 @@
   "author": "Suluu contributors",
   "description": "A compact duration display that softly morphs into precise segmented editing.",
   "dependencies": [
-    "motion@^13.1.0"
+    "motion@^12.23.26 || ^13.0.0"
   ],
   "files": [
     {
@@ -44,7 +44,7 @@
     }
   },
   "meta": {
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "docs": "The component requires Tailwind CSS. Activate its pencil button to edit; Enter, confirmation, or outer blur commits the local draft, while Escape cancels it.",
   "categories": [

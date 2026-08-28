@@ -5,7 +5,7 @@
   "author": "Suluu contributors",
   "description": "A compact icon button that fluidly expands into a labeled action on hover, focus, or application state.",
   "dependencies": [
-    "motion@^13.1.0"
+    "motion@^12.23.26 || ^13.0.0"
   ],
   "files": [
     {
@@ -42,7 +42,7 @@
     }
   },
   "meta": {
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "docs": "The component requires Tailwind CSS. Provide an aria-label and icon-sized compact content; hover previews only run on fine-pointer devices.",
   "categories": [

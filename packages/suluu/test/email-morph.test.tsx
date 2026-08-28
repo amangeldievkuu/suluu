@@ -200,7 +200,7 @@ describe("EmailMorph", () => {
       const user = userEvent.setup();
       const onSubmit = vi.fn();
       render(<EmailMorph defaultValue={email} onSubmit={onSubmit} />);
-      const input = screen.getByRole("textbox");
+      const input = screen.getByRole<HTMLInputElement>("textbox");
       const reportValidity = vi.spyOn(input, "reportValidity");
 
       await user.click(input);

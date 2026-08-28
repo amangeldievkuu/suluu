@@ -18,7 +18,7 @@ export default function HomePage() {
       <section className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl items-center gap-16 px-6 py-24 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
         <div className="max-w-2xl">
           <p className="mb-7 inline-flex rounded-full border px-3 py-1 text-xs font-medium tracking-wide text-[var(--site-muted)]">
-            Open source · v0.1.0
+            Open source · v0.2.0
           </p>
           <h1 className="text-5xl leading-[1.02] font-semibold tracking-[-0.045em] text-balance sm:text-6xl lg:text-7xl">
             Motion with a quiet point of view.

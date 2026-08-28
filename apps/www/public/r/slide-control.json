@@ -5,7 +5,7 @@
   "author": "Suluu contributors",
   "description": "A range slider whose fill follows the thumb with a little mass, then both settle onto the value.",
   "dependencies": [
-    "motion@^13.1.0"
+    "motion@^12.23.26 || ^13.0.0"
   ],
   "files": [
     {
@@ -38,7 +38,7 @@
     }
   },
   "meta": {
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "docs": "The component requires Tailwind CSS. Give every slider an accessible name with aria-label or aria-labelledby.",
   "categories": [

@@ -5,7 +5,7 @@
   "author": "Suluu contributors",
   "description": "A quiet email field whose send action pinches off like a water drop on focus, then merges back when you leave.",
   "dependencies": [
-    "motion@^13.1.0"
+    "motion@^12.23.26 || ^13.0.0"
   ],
   "files": [
     {
@@ -46,7 +46,7 @@
     }
   },
   "meta": {
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "docs": "The component requires Tailwind CSS and renders one native required email input. Connect onSubmit to your subscription service and control loading, success, and server errors from application state.",
   "categories": [

@@ -5,7 +5,7 @@
   "author": "Suluu contributors",
   "description": "A quiet toast deck that peeks four, springs the front three apart on hover, and scrolls the rest of the deck into view.",
   "dependencies": [
-    "motion@^13.1.0"
+    "motion@^12.23.26 || ^13.0.0"
   ],
   "files": [
     {
@@ -54,7 +54,7 @@
     }
   },
   "meta": {
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "docs": "The component requires Tailwind CSS. Render one <Toaster /> near the root of your app, then call toast() from anywhere. Use createToaster() when a page needs a second, isolated deck.",
   "categories": [

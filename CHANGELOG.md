@@ -7,8 +7,14 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-08-28
+
 ### Added
 
+- Cross-browser interaction coverage in Chromium, Firefox, and WebKit, plus
+  reduced-motion visual baselines for every component in light and dark themes.
+- Guarded release validation for package metadata, generated registry versions,
+  consumer installs, changelog notes, and npm provenance publishing.
 - EmailMorph, a required native email field that stays a single pill until it is
   focused. The trailing cap then pinches off as a circular send action through a
   liquid water-drop neck; clicking outside or pressing Escape draws that drop
@@ -44,6 +50,8 @@ Suluu adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- The npm package and registry installs support Motion 12.23.26 and newer 12.x
+  releases as well as Motion 13.x, with consumer smoke tests for both majors.
 - FluidTabs keeps the active icon on a single spring instead of recentering it
   from the live pill width, so the glyph no longer shivers while the label
   opens. Inactive icons use a slightly softer charcoal.

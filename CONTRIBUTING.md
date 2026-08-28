@@ -28,7 +28,21 @@ pnpm validate
 Pull requests should include tests for behavior changes and documentation for
 public API changes. Avoid unrelated formatting or refactors in the same change.
 
-## Changesets and releases
+CI reports quality, unit/accessibility, package/registry, documentation,
+cross-browser interaction, and visual-regression failures separately. For a
+motion or layout change, update visual baselines only after inspecting the
+rendered diff:
 
-Version 0.1 uses manual releases. Maintainers coordinate version changes and npm
-publishing; contributors do not need to add release automation.
+```bash
+pnpm test:e2e
+pnpm test:visual
+pnpm --filter @suluu/www exec playwright test e2e/visual.spec.ts \
+  --project=chromium --update-snapshots
+```
+
+## Releases
+
+Maintainers publish only through the protected GitHub Actions workflow; local
+`npm publish` is not part of the release process. Contributors do not need to
+prepare credentials or create tags. See [RELEASING.md](./RELEASING.md) for the
+versioning, validation, approval, and first-publish bootstrap procedure.

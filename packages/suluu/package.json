@@ -1,6 +1,6 @@
 {
   "name": "suluu",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Minimal animated React components for polished product interfaces.",
   "homepage": "https://suluu.site",
   "repository": {
@@ -101,12 +101,14 @@
     }
   },
   "peerDependencies": {
-    "motion": ">=13.0.0 <14.0.0",
+    "motion": "^12.23.26 || ^13.0.0",
     "react": ">=19.0.0 <20.0.0",
     "react-dom": ">=19.0.0 <20.0.0"
   },
   "scripts": {
     "build": "tsdown",
+    "release:check": "node --import tsx test/release-check.ts",
+    "release:notes": "node --import tsx test/release-notes.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --coverage",
     "test:install": "node --import tsx test/package-install.ts"

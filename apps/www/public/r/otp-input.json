@@ -5,7 +5,7 @@
   "author": "Suluu contributors",
   "description": "A precise one-time-code and PIN field whose active slot, digits, and caret settle with restrained motion.",
   "dependencies": [
-    "motion@^13.1.0"
+    "motion@^12.23.26 || ^13.0.0"
   ],
   "files": [
     {
@@ -42,7 +42,7 @@
     }
   },
   "meta": {
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "docs": "The component requires Tailwind CSS. It accepts numeric codes, uses one native input for autofill and forms, and includes an accessible inline error when provided.",
   "categories": [

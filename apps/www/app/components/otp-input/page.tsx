@@ -121,8 +121,8 @@ export default function OtpInputPage() {
       <DocsPageHeader slug="otp-input">
         A calm verification field built around one real input. A soft wash
         travels to the active slot, the caret breathes and advances with the
-        same spring, and a completed code lets that wash rest until you press
-        a slot again to edit.
+        same spring, and a completed code lets that wash rest until you press a
+        slot again to edit.
       </DocsPageHeader>
 
       <ComponentPreview hint="Type digits or paste a complete code">

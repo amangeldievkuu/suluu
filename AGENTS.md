@@ -1,6 +1,7 @@
 # AGENTS.md
 
-This file defines the core rules, philosophy, and constraints for anyone (human or AI) contributing to **Suluu**.
+This file defines the core rules, philosophy, and constraints for anyone (human
+or AI) contributing to **Suluu**.
 
 Suluu is a curated library of **beautiful, fluid, animated React components**.  
 Every component must feel intentional, refined, and worth copying.
@@ -9,7 +10,8 @@ Every component must feel intentional, refined, and worth copying.
 
 ## 1. Core Philosophy
 
-Only build components where **animation is a meaningful part of the experience**, not decoration.
+Only build components where **animation is a meaningful part of the
+experience**, not decoration.
 
 ### Components must feel:
 
@@ -19,19 +21,22 @@ Only build components where **animation is a meaningful part of the experience**
 - **Slightly unexpected** — has a memorable personality
 - **Useful** — solves a real UI need in products
 
-If a component can exist without its animation and still feel complete, it probably does not belong in Suluu.
+If a component can exist without its animation and still feel complete, it
+probably does not belong in Suluu.
 
 ---
 
 ## 2. What Suluu Is (and Is Not)
 
 ### Suluu is:
+
 - A curated set of high-quality animated primitives and micro-interactions
 - Motion-first
 - Copy-paste friendly (shadcn-compatible)
 - Minimal and elegant in visual design
 
 ### Suluu is not:
+
 - A full design system
 - A replacement for shadcn/ui or Radix
 - A collection of basic components with weak hover effects
@@ -48,15 +53,18 @@ Quality and restraint are more important than quantity.
 - Always respect `prefers-reduced-motion`
 - Avoid excessive movement — animation should enhance, not distract
 - Micro-interactions should feel responsive and tactile
-- Layout animations and shared element transitions are encouraged when they improve clarity
+- Layout animations and shared element transitions are encouraged when they
+  improve clarity
 
 ### Good examples of meaningful animation:
+
 - A switch thumb that settles with a soft spring
 - Digits that roll like a refined odometer
 - A button that is magnetically attracted to the cursor
 - A surface that morphs fluidly between states
 
 ### Bad examples:
+
 - Simple `scale(1.05)` on hover
 - Opacity fades with no personality
 - Animations that feel disconnected from user action
@@ -66,12 +74,15 @@ Quality and restraint are more important than quantity.
 ## 4. Icon Rules
 
 ### Default icons must be custom SVGs
+
 - Create icons as **inline custom SVGs**
-- Do **not** add icon library dependencies (no `lucide-react`, `heroicons`, etc.)
+- Do **not** add icon library dependencies (no `lucide-react`, `heroicons`,
+  etc.)
 - Keep SVGs optimized, minimal, and animation-friendly
 - Structure SVGs so individual parts can be animated when needed
 
 ### End users must remain free
+
 - Always allow icon customization
 - Prefer patterns like:
   - `icon` prop
@@ -86,6 +97,7 @@ The goal is: **beautiful defaults, zero lock-in**.
 ## 5. Component Design Rules
 
 ### API Design
+
 - Keep public APIs small and focused
 - Prefer clear, predictable prop names
 - Support both controlled and uncontrolled patterns when state is involved
@@ -93,12 +105,15 @@ The goal is: **beautiful defaults, zero lock-in**.
 - Use TypeScript strictly
 
 ### Styling
+
 - Use Tailwind CSS v4
 - Prefer CSS variables for theming
 - Components should be visually neutral by default when they are primitives
-- Avoid shipping heavy pre-styled surfaces unless the component’s purpose is the surface itself
+- Avoid shipping heavy pre-styled surfaces unless the component’s purpose is the
+  surface itself
 
 ### Composition
+
 - Prefer composable primitives over monolithic components
 - Make it easy to restyle and extend
 
@@ -107,6 +122,7 @@ The goal is: **beautiful defaults, zero lock-in**.
 ## 6. Accessibility Requirements
 
 Every component must:
+
 - Be keyboard accessible
 - Have correct ARIA attributes when needed
 - Manage focus properly
@@ -123,7 +139,8 @@ Accessibility is not optional.
 - Prefer simplicity over cleverness
 - Avoid over-engineering
 - Keep files focused on a single responsibility
-- Animate with intention — remove any motion that does not improve the experience
+- Animate with intention — remove any motion that does not improve the
+  experience
 - Leave the code in a state that another developer can easily understand
 
 This project prioritizes **long-term quality** over speed.
@@ -133,6 +150,7 @@ This project prioritizes **long-term quality** over speed.
 ## 8. Documentation Expectations
 
 Every component should include:
+
 - Clear purpose description
 - Live interactive examples
 - Installation methods (registry first, npm second)
@@ -160,6 +178,7 @@ If the answer to any of these is “no”, do not add it.
 
 ## 10. Final Principle
 
-Suluu should feel like a small collection of components that someone is proud to use — not a large library that someone has to manage.
+Suluu should feel like a small collection of components that someone is proud to
+use — not a large library that someone has to manage.
 
 **Fewer components. Higher quality. More intention.**

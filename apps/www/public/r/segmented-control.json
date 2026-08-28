@@ -5,7 +5,7 @@
   "author": "Suluu contributors",
   "description": "A single-choice group whose soft pill slides under the selected option.",
   "dependencies": [
-    "motion@^13.1.0"
+    "motion@^12.23.26 || ^13.0.0"
   ],
   "files": [
     {
@@ -38,7 +38,7 @@
     }
   },
   "meta": {
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "docs": "The component requires Tailwind CSS. Give every group an accessible name with aria-label or aria-labelledby.",
   "categories": [

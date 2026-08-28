@@ -5,7 +5,7 @@
   "author": "Suluu contributors",
   "description": "A quiet card surface whose soft light follows a fine pointer on carefully damped springs.",
   "dependencies": [
-    "motion@^13.1.0"
+    "motion@^12.23.26 || ^13.0.0"
   ],
   "files": [
     {
@@ -42,7 +42,7 @@
     }
   },
   "meta": {
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "docs": "The component requires Tailwind CSS. Pointer tracking is skipped for reduced motion, touch-first devices, and disabled cards; interactive descendants remain fully usable.",
   "categories": [

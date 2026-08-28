@@ -1,0 +1,269 @@
+name: Publish release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: SemVer version already committed to package metadata
+        required: true
+        type: string
+      ref:
+        description: Commit or ref to release; it must be contained in main
+        required: true
+        default: main
+        type: string
+      bootstrap:
+        description:
+          Use the one-time NPM_BOOTSTRAP_TOKEN for the first publish only
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: publish-suluu
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify release candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    outputs:
+      sha: ${{ steps.candidate.outputs.sha }}
+
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.ref }}
+
+      - name: Require a commit contained in main
+        id: candidate
+        run: |
+          git fetch origin main
+          candidate_sha="$(git rev-parse HEAD)"
+          git merge-base --is-ancestor "$candidate_sha" origin/main
+          echo "sha=$candidate_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify versioned metadata
+        env:
+          VERSION: ${{ inputs.version }}
+        run: pnpm release:check -- "$VERSION"
+
+      - name: Validate workspace
+        run: pnpm validate
+
+  browser:
+    name: Browser release gate
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout verified commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install browsers
+        run: pnpm --filter @suluu/www exec playwright install --with-deps
+
+      - name: Build documentation and registry host
+        run: pnpm build:docs
+
+      - name: Run Chromium, Firefox, and WebKit interactions
+        run: pnpm --filter @suluu/www test:e2e
+
+      - name: Upload browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-browser-diagnostics
+          path: |
+            apps/www/playwright-report
+            apps/www/test-results
+          if-no-files-found: ignore
+          retention-days: 14
+
+  visual:
+    name: Visual release gate
+    needs: verify
+    runs-on: macos-26
+    timeout-minutes: 30
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout verified commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm --filter @suluu/www exec playwright install chromium
+
+      - name: Build documentation and registry host
+        run: pnpm build:docs
+
+      - name: Compare component previews with baselines
+        run: pnpm --filter @suluu/www test:visual
+
+      - name: Upload visual diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-visual-diagnostics
+          path: |
+            apps/www/playwright-report
+            apps/www/test-results
+          if-no-files-found: ignore
+          retention-days: 14
+
+  publish:
+    name: Publish npm package and GitHub release
+    needs: [verify, browser, visual]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: npm
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout verified commit
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.verify.outputs.sha }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js for trusted publishing
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+          registry-url: https://registry.npmjs.org
+
+      - name: Require an npm client with trusted publishing support
+        run: |
+          npm_version="$(npm --version)"
+          node -e 'const [major, minor] = process.argv[1].split(".").map(Number); if (major < 11 || (major === 11 && minor < 5)) process.exit(1)' "$npm_version"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify versioned metadata again
+        env:
+          VERSION: ${{ inputs.version }}
+        run: pnpm release:check -- "$VERSION"
+
+      - name: Build and pack the npm artifact
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          pnpm build:package
+          mkdir release-artifacts
+          pnpm --dir packages/suluu pack --pack-destination ../../release-artifacts
+          test -f "release-artifacts/suluu-$VERSION.tgz"
+          shasum -a 256 "release-artifacts/suluu-$VERSION.tgz" > "release-artifacts/suluu-$VERSION.tgz.sha256"
+
+      - name: Publish with provenance
+        env:
+          BOOTSTRAP: ${{ inputs.bootstrap }}
+          CANDIDATE_SHA: ${{ needs.verify.outputs.sha }}
+          NODE_AUTH_TOKEN:
+            ${{ inputs.bootstrap && secrets.NPM_BOOTSTRAP_TOKEN || '' }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          if npm view "suluu@$VERSION" version >/dev/null 2>&1; then
+            published_sha="$(npm view "suluu@$VERSION" gitHead)"
+            test "$published_sha" = "$CANDIDATE_SHA"
+            echo "suluu@$VERSION is already published from this commit."
+          else
+            if [[ "$BOOTSTRAP" == "true" && -z "$NODE_AUTH_TOKEN" ]]; then
+              echo "NPM_BOOTSTRAP_TOKEN is required for the first publish." >&2
+              exit 1
+            fi
+            npm publish "release-artifacts/suluu-$VERSION.tgz" --access public --provenance
+          fi
+
+      - name: Create release notes
+        env:
+          VERSION: ${{ inputs.version }}
+        run:
+          pnpm release:notes -- "$VERSION" > release-artifacts/release-notes.md
+
+      - name: Create the GitHub release
+        env:
+          CANDIDATE_SHA: ${{ needs.verify.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            release_sha="$(git rev-list -n 1 "v$VERSION")"
+            test "$release_sha" = "$CANDIDATE_SHA"
+            echo "GitHub release v$VERSION already exists."
+          else
+            gh release create "v$VERSION" \
+              "release-artifacts/suluu-$VERSION.tgz" \
+              "release-artifacts/suluu-$VERSION.tgz.sha256" \
+              --target "$CANDIDATE_SHA" \
+              --title "Suluu v$VERSION" \
+              --notes-file release-artifacts/release-notes.md
+          fi
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: suluu-${{ inputs.version }}
+          path: release-artifacts
+          retention-days: 30
+
+      - name: Remind maintainers to remove bootstrap credentials
+        if: ${{ inputs.bootstrap }}
+        run:
+          echo "::warning::Delete NPM_BOOTSTRAP_TOKEN now that trusted
+          publishing can be configured for future releases."

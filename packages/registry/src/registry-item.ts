@@ -2,6 +2,9 @@ import { registryItemSchema } from "shadcn/schema";
 
 type RegistryItem = ReturnType<typeof registryItemSchema.parse>;
 
+export const MOTION_DEPENDENCY = "motion@^12.23.26 || ^13.0.0";
+export const REGISTRY_VERSION = "0.2.0";
+
 export interface RegistryItemDescriptor {
   /** Builds the validated registry item from the canonical component source. */
   create: (source: string) => RegistryItem;
@@ -24,7 +27,7 @@ export function createCounterNumbersRegistryItem(source: string): RegistryItem {
     description:
       "An Intl-aware numeric display whose changed digit places roll and settle on springs.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/counter-numbers/counter-numbers.tsx",
@@ -36,7 +39,7 @@ export function createCounterNumbersRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. It inherits surrounding typography and color; pass aria-live only when value changes should be announced.",
     categories: ["data display", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -52,7 +55,7 @@ export function createDurationPillRegistryItem(source: string): RegistryItem {
     description:
       "A compact duration display that softly morphs into precise segmented editing.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/duration-pill/duration-pill.tsx",
@@ -96,7 +99,7 @@ export function createDurationPillRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. Activate its pencil button to edit; Enter, confirmation, or outer blur commits the local draft, while Escape cancels it.",
     categories: ["forms", "inputs", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -112,7 +115,7 @@ export function createEmailMorphRegistryItem(source: string): RegistryItem {
     description:
       "A quiet email field whose send action pinches off like a water drop on focus, then merges back when you leave.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/email-morph/email-morph.tsx",
@@ -160,7 +163,7 @@ export function createEmailMorphRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS and renders one native required email input. Connect onSubmit to your subscription service and control loading, success, and server errors from application state.",
     categories: ["forms", "inputs", "call-to-action", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -176,7 +179,7 @@ export function createFluidTabsRegistryItem(source: string): RegistryItem {
     description:
       "A horizontal tablist whose active circle springs open to reveal its label.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/fluid-tabs/fluid-tabs.tsx",
@@ -214,7 +217,7 @@ export function createFluidTabsRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. Give each tablist an accessible name and connect tab ids to consumer-owned tabpanels when content is present.",
     categories: ["navigation", "tabs", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -230,7 +233,7 @@ export function createNotifyMorphRegistryItem(source: string): RegistryItem {
     description:
       "An accessible email notification form that fluidly morphs from a compact bell CTA.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/notify-morph/notify-morph.tsx",
@@ -278,7 +281,7 @@ export function createNotifyMorphRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS and renders a native email form. Connect onSubmit to your subscription service.",
     categories: ["forms", "call-to-action", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -294,7 +297,7 @@ export function createOtpInputRegistryItem(source: string): RegistryItem {
     description:
       "A precise one-time-code and PIN field whose active slot, digits, and caret settle with restrained motion.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/otp-input/otp-input.tsx",
@@ -338,7 +341,7 @@ export function createOtpInputRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. It accepts numeric codes, uses one native input for autofill and forms, and includes an accessible inline error when provided.",
     categories: ["forms", "inputs", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -354,7 +357,7 @@ export function createSearchMorphRegistryItem(source: string): RegistryItem {
     description:
       "A compact search pill that fluidly opens into an accessible search field.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/search-morph/search-morph.tsx",
@@ -390,7 +393,7 @@ export function createSearchMorphRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. Connect onSubmit to your search handler. The field does not render results.",
     categories: ["forms", "inputs", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -406,7 +409,7 @@ export function createMagnetPullRegistryItem(source: string): RegistryItem {
     description:
       "A button that leans toward the cursor on a spring, with its label travelling further than its surface.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/magnet-pull/magnet-pull.tsx",
@@ -438,7 +441,7 @@ export function createMagnetPullRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. Magnetism is skipped for reduced motion and for devices without a fine hover-capable pointer.",
     categories: ["buttons", "call-to-action", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -454,7 +457,7 @@ export function createMorphButtonRegistryItem(source: string): RegistryItem {
     description:
       "A compact icon button that fluidly expands into a labeled action on hover, focus, or application state.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/morph-button/morph-button.tsx",
@@ -496,7 +499,7 @@ export function createMorphButtonRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. Provide an aria-label and icon-sized compact content; hover previews only run on fine-pointer devices.",
     categories: ["buttons", "call-to-action", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -514,7 +517,7 @@ export function createSegmentedControlRegistryItem(
     description:
       "A single-choice group whose soft pill slides under the selected option.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/segmented-control/segmented-control.tsx",
@@ -550,7 +553,7 @@ export function createSegmentedControlRegistryItem(
     docs: "The component requires Tailwind CSS. Give every group an accessible name with aria-label or aria-labelledby.",
     categories: ["forms", "inputs", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -566,7 +569,7 @@ export function createSlideControlRegistryItem(source: string): RegistryItem {
     description:
       "A range slider whose fill follows the thumb with a little mass, then both settle onto the value.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/slide-control/slide-control.tsx",
@@ -602,7 +605,7 @@ export function createSlideControlRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. Give every slider an accessible name with aria-label or aria-labelledby.",
     categories: ["forms", "inputs", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -618,7 +621,7 @@ export function createRopeTimePickerRegistryItem(source: string): RegistryItem {
     description:
       "A precise analog time picker whose draggable hands bend and settle like softly weighted ropes.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/rope-time-picker/rope-time-picker.tsx",
@@ -694,7 +697,7 @@ export function createRopeTimePickerRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. It is a twelve-hour wall-clock picker; give the group an accessible name when the default Time picker label is not specific enough.",
     categories: ["forms", "inputs", "time", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -710,7 +713,7 @@ export function createSwitchToggleRegistryItem(source: string): RegistryItem {
     description:
       "A tactile switch with a softly sprung thumb and a fluid minus-to-check icon morph.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/switch-toggle/switch-toggle.tsx",
@@ -752,7 +755,7 @@ export function createSwitchToggleRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. Give every switch an accessible name with aria-label or aria-labelledby.",
     categories: ["forms", "inputs", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -768,7 +771,7 @@ export function createThemeToggleRegistryItem(source: string): RegistryItem {
     description:
       "A refined light-and-dark theme button with custom sun and moon icons that crossfade on controlled springs.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/theme-toggle/theme-toggle.tsx",
@@ -804,7 +807,7 @@ export function createThemeToggleRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. `checked` represents dark mode; connect it to your theme state or provider. The default accessible name is Dark mode.",
     categories: ["buttons", "navigation", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -820,7 +823,7 @@ export function createSpotlightCardRegistryItem(source: string): RegistryItem {
     description:
       "A quiet card surface whose soft light follows a fine pointer on carefully damped springs.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/spotlight-card/spotlight-card.tsx",
@@ -860,7 +863,7 @@ export function createSpotlightCardRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. Pointer tracking is skipped for reduced motion, touch-first devices, and disabled cards; interactive descendants remain fully usable.",
     categories: ["surfaces", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 
@@ -876,7 +879,7 @@ export function createToastRegistryItem(source: string): RegistryItem {
     description:
       "A quiet toast deck that peeks four, springs the front three apart on hover, and scrolls the rest of the deck into view.",
     author: "Suluu contributors",
-    dependencies: ["motion@^13.1.0"],
+    dependencies: [MOTION_DEPENDENCY],
     files: [
       {
         path: "registry/toast/toast.tsx",
@@ -928,7 +931,7 @@ export function createToastRegistryItem(source: string): RegistryItem {
     docs: "The component requires Tailwind CSS. Render one <Toaster /> near the root of your app, then call toast() from anywhere. Use createToaster() when a page needs a second, isolated deck.",
     categories: ["feedback", "overlay", "animated"],
     meta: {
-      version: "0.1.0",
+      version: REGISTRY_VERSION,
     },
   } as const;
 

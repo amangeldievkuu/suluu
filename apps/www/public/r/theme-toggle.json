@@ -5,7 +5,7 @@
   "author": "Suluu contributors",
   "description": "A refined light-and-dark theme button with custom sun and moon icons that crossfade on controlled springs.",
   "dependencies": [
-    "motion@^13.1.0"
+    "motion@^12.23.26 || ^13.0.0"
   ],
   "files": [
     {
@@ -38,7 +38,7 @@
     }
   },
   "meta": {
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "docs": "The component requires Tailwind CSS. `checked` represents dark mode; connect it to your theme state or provider. The default accessible name is Dark mode.",
   "categories": [

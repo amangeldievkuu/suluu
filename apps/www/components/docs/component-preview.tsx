@@ -11,7 +11,11 @@ export function ComponentPreview({
   hint = "Interactive",
 }: ComponentPreviewProps) {
   return (
-    <section aria-labelledby="preview-title" className="mt-16">
+    <section
+      aria-labelledby="preview-title"
+      className="mt-16"
+      data-slot="component-preview"
+    >
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-sm font-medium" id="preview-title">
           Preview
@@ -24,7 +28,10 @@ export function ComponentPreview({
           {hint}
         </span>
       </div>
-      <div className="relative isolate flex min-h-[26rem] items-center justify-center overflow-hidden rounded-[2rem] border bg-white p-8 shadow-[inset_0_1px_0_oklch(1_0_0/0.7)] sm:p-12 dark:bg-[oklch(0.12_0.008_260)] dark:shadow-[inset_0_1px_0_oklch(1_0_0/0.04)]">
+      <div
+        className="relative isolate flex min-h-[26rem] items-center justify-center overflow-hidden rounded-[2rem] border bg-white p-8 shadow-[inset_0_1px_0_oklch(1_0_0/0.7)] sm:p-12 dark:bg-[oklch(0.12_0.008_260)] dark:shadow-[inset_0_1px_0_oklch(1_0_0/0.04)]"
+        data-slot="component-preview-stage"
+      >
         <div
           aria-hidden="true"
           className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_46%,var(--site-subtle),transparent_66%)] opacity-80"

@@ -57,7 +57,7 @@ try {
         private: true,
         packageManager: "pnpm@10.33.0",
         dependencies: {
-          motion: "^13.1.0",
+          motion: "12.23.26",
           react: "^19.0.0",
           "react-dom": "^19.0.0",
         },
@@ -127,6 +127,14 @@ try {
     ["install", "--offline", "--ignore-scripts", "--frozen-lockfile=false"],
     fixtureRoot,
   );
+  const motionBeforeInstall = (
+    JSON.parse(
+      await readFile(
+        join(fixtureRoot, "node_modules/motion/package.json"),
+        "utf8",
+      ),
+    ) as { version?: unknown }
+  ).version;
 
   try {
     await run(
@@ -161,6 +169,23 @@ try {
     if (!installed.includes(`export const ${item.exportName}`)) {
       throw new Error(`shadcn did not install the ${item.exportName} source.`);
     }
+  }
+
+  const motionAfterInstall = (
+    JSON.parse(
+      await readFile(
+        join(fixtureRoot, "node_modules/motion/package.json"),
+        "utf8",
+      ),
+    ) as { version?: unknown }
+  ).version;
+  if (
+    motionBeforeInstall !== "12.23.26" ||
+    motionAfterInstall !== motionBeforeInstall
+  ) {
+    throw new Error(
+      `Registry install changed compatible Motion 12 from ${String(motionBeforeInstall)} to ${String(motionAfterInstall)}.`,
+    );
   }
 
   await run(
